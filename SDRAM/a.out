@@ -1,0 +1,87 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1110-g18392a46)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 9;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2009.vpi";
+S_0000025376f32a10 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0000025376f32ba0 .scope module, "sdram_tb" "sdram_tb" 3 4;
+ .timescale -9 -9;
+o0000025376f67fb8 .functor BUFZ 14, C4<zzzzzzzzzzzzzz>; HiZ drive
+v0000025376faac80_0 .net "SDRAM_Addr", 13 0, o0000025376f67fb8;  0 drivers
+o0000025376f67fe8 .functor BUFZ 2, C4<zz>; HiZ drive
+v0000025376faad20_0 .net "SDRAM_BankAddr", 1 0, o0000025376f67fe8;  0 drivers
+o0000025376f68018 .functor BUFZ 1, C4<z>; HiZ drive
+v0000025376faadc0_0 .net "SDRAM_CHIP_Sel", 0 0, o0000025376f68018;  0 drivers
+o0000025376f68048 .functor BUFZ 1, C4<z>; HiZ drive
+v0000025376faae60_0 .net "SDRAM_WE", 0 0, o0000025376f68048;  0 drivers
+o0000025376f68078 .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
+v0000025376faaf00_0 .net "SDRAM_data", 15 0, o0000025376f68078;  0 drivers
+v0000025376f646e0_0 .var "clk", 0 0;
+o0000025376f680d8 .functor BUFZ 1, C4<z>; HiZ drive
+v0000025376f64780_0 .net "clk_EN", 0 0, o0000025376f680d8;  0 drivers
+v0000025376f64820_0 .var "rst", 0 0;
+S_0000025376f32d30 .scope module, "sdram_1" "sdram" 3 20, 4 2 0, S_0000025376f32ba0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "rst";
+    .port_info 2 /OUTPUT 1 "clk_EN";
+    .port_info 3 /OUTPUT 14 "SDRAM_Addr";
+    .port_info 4 /OUTPUT 2 "SDRAM_BankAddr";
+    .port_info 5 /OUTPUT 1 "SDRAM_WE";
+    .port_info 6 /OUTPUT 1 "SDRAM_CHIP_Sel";
+    .port_info 7 /INOUT 16 "SDRAM_data";
+v0000025376f663a0_0 .net "SDRAM_Addr", 13 0, o0000025376f67fb8;  alias, 0 drivers
+v0000025376faa820_0 .net "SDRAM_BankAddr", 1 0, o0000025376f67fe8;  alias, 0 drivers
+v0000025376faa8c0_0 .net "SDRAM_CHIP_Sel", 0 0, o0000025376f68018;  alias, 0 drivers
+v0000025376faa960_0 .net "SDRAM_WE", 0 0, o0000025376f68048;  alias, 0 drivers
+v0000025376faaa00_0 .net "SDRAM_data", 15 0, o0000025376f68078;  alias, 0 drivers
+v0000025376faaaa0_0 .net "clk", 0 0, v0000025376f646e0_0;  1 drivers
+v0000025376faab40_0 .net "clk_EN", 0 0, o0000025376f680d8;  alias, 0 drivers
+v0000025376faabe0_0 .net "rst", 0 0, v0000025376f64820_0;  1 drivers
+    .scope S_0000025376f32ba0;
+T_0 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000025376f646e0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000025376f64820_0, 0, 1;
+    %end;
+    .thread T_0, $init;
+    .scope S_0000025376f32ba0;
+T_1 ;
+    %delay 5, 0;
+    %load/vec4 v0000025376f646e0_0;
+    %nor/r;
+    %store/vec4 v0000025376f646e0_0, 0, 1;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_0000025376f32ba0;
+T_2 ;
+    %delay 5, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0000025376f64820_0, 0, 1;
+    %delay 5, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0000025376f64820_0, 0, 1;
+    %vpi_call/w 3 38 "$dumpfile", "sdram_wave.vcd" {0 0 0};
+    %vpi_call/w 3 39 "$dumpvars" {0 0 0};
+    %end;
+    .thread T_2;
+    .scope S_0000025376f32ba0;
+T_3 ;
+    %delay 5000000, 0;
+    %vpi_call/w 3 44 "$finish" {0 0 0};
+    %end;
+    .thread T_3;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "-";
+    "sdram_tb.sv";
+    "./sdram.sv";
