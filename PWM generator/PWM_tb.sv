@@ -15,4 +15,21 @@ PWM pwm(
     .PWM_OUT(PWM_OUT)
 );
 
+always #5 clk =!clk;
+
+initial begin
+    clk = 0;
+    #5 rst = 1;
+    #5 rst = 0;
+
+    $dumpfile("PWM.vcd");
+    $dumpvars;
+end
+
+
+initial begin
+    #5000000 $finish;
+end
+
+
 endmodule
