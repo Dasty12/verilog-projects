@@ -5,7 +5,7 @@ module PWM_tb;
 
 reg clk;
 reg rst;
-reg [13:0] CMPA;
+reg [5:0] CMPA;
 wire PWM_OUT;
 
 PWM pwm(
@@ -21,6 +21,7 @@ initial begin
     clk = 0;
     #5 rst = 1;
     #5 rst = 0;
+    CMPA = 20;
 
     $dumpfile("PWM.vcd");
     $dumpvars;
