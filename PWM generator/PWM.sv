@@ -1,8 +1,8 @@
-module PWM #(parameter KPERIOD = 50, parameter KCLKDIV = 1000)
+module PWM #(parameter KPERIOD = 50, parameter KCLKDIV = 10)
 (
     input clk,
     input rst,
-    input [$clog2(KPERIOD)-1:0]CMPA,    //period register
+    input [$clog2(KPERIOD)-1:0] CMPA,    //period register
     output PWM_OUT
 );
 
@@ -14,8 +14,9 @@ reg PWM_OUT_l;              //PWM OUT LOCAL
 
 always @(posedge clk) begin
     if(rst) begin
-        clk_pwm <= 0;
+        clk_pwm <= 1;
         clk_pwm_cnt <= 0;
+        
     end
     else begin
         if(clk_pwm_cnt < KCLKDIV)begin
@@ -31,6 +32,7 @@ end
 always @(posedge clk_pwm) begin
     if(rst) begin
         TBCTR <= 0;
+        PWM_OUT_l <= 0;
     end
     else begin
         if(TBCTR < KPERIOD) begin
