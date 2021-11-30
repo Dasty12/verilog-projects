@@ -16,8 +16,7 @@ PWM #(.KPERIOD(KPERIOD_PWM),.KCLKDIV(10))
     .clk(clk),
     .rst(rst),
     .CMPA(CMPA),
-    .PWM_OUT(PWM_OUT)
-    );
+    .PWM_OUT(PWM_OUT));
 
 
 always @(posedge clk) begin
