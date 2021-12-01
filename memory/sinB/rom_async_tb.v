@@ -4,7 +4,7 @@ module rom_async_tb;
 
 parameter ROM_DEPTH = 64;
 parameter ROM_WIDTH = 8;
-parameter ROM_FILE ="sin_table_64x8.mem";
+parameter ROM_FILE ="sine_table_64x8.mem";
 parameter ADDRW = $clog2(4*ROM_DEPTH);
 parameter CNT_div = 10;
 
@@ -28,7 +28,6 @@ rom_async#(
     .DEPTH(ROM_DEPTH),
     .INIT_F(ROM_FILE)
 ) sine_rom(
-    .clk(clk),
     .addr(tab_id),
     .data(tab_data)
 );

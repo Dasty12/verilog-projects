@@ -1,33 +1,21 @@
-`include "mem.v"
-module rom_async #(
+module rom_async#(
     parameter WIDTH = 8,
     parameter DEPTH = 256,
-    parameter INIT_F="",
-    localparam ADDRW =$clog2(DEPTH)
+    parameter INIT_F = "",
+    localparam ADDRW = $clog2(DEPTH)
 ) (
-    input wire logic clk,
-    input wire logic [ADDRW-1:0]addr,
-    output  [WIDTH-1:0]data
+    input [ADDRW-1:0] addr,
+    output [WIDTH-1:0] data
 );
+    
+reg [WIDTH-1:0] memory_r[DEPTH];
 
-logic [WIDTH - 1:0] memory [DEPTH];
-reg[7:0] mem_r[64];
-reg[7:0] mem_rr;
-reg[7:0] fifo;
-
-//mem mem_inst(clk,mem_r);
-
-//assign data = mem_r[addr];
-always @(posedge clk) begin
-    fifo <= mem_r[addr];
-end
-integer fd;
-integer index = 0;
 initial begin
- $readmemh("sine_table_64x8.mem", mem_r);
-
+    if(INIT_F != 0)begin
+        $display("Creating rom_async from init file '%s'.", INIT_F);
+        $readmemh(INIT_F, memory_r);
+    end 
 end
-
-assign data = fifo;
+assign data = memory_r[addr];
 
 endmodule
