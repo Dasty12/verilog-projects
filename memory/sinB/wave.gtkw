@@ -1,0 +1,26 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Wed Dec 01 14:45:53 2021
+[*]
+[dumpfile] "C:\SPB_Data\projects\memory\sinB\rom_async_tb_waves.vcd"
+[dumpfile_mtime] "Wed Dec 01 14:44:09 2021"
+[dumpfile_size] 6582
+[savefile] "C:\SPB_Data\projects\memory\sinB\wave.gtkw"
+[timestart] 80530
+[size] 1540 600
+[pos] -1 -1
+*-14.000000 144010 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] rom_async_tb.
+[sst_width] 197
+[signals_width] 102
+[sst_expanded] 1
+[sst_vpaned_height] 153
+@8022
+rom_async_tb.sine_rom.data[7:0]
+@20000
+-
+-
+-
+-
+[pattern_trace] 1
+[pattern_trace] 0
