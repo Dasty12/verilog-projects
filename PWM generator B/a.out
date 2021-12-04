@@ -1,0 +1,59 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1110-g18392a46)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2009.vpi";
+S_000001ec49fd6460 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_000001ec49fd65f0 .scope module, "PWM_controller" "PWM_controller" 3 3;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "i_ce";
+    .port_info 2 /INPUT 16 "data_in";
+    .port_info 3 /OUTPUT 1 "OUT";
+P_000001ec49f8bd70 .param/l "ROM_WIDTH" 0 3 4, +C4<00000000000000000000000000001000>;
+o000001ec49fd7008 .functor BUFZ 1, C4<z>; HiZ drive
+v000001ec4a0198e0_0 .net "OUT", 0 0, o000001ec49fd7008;  0 drivers
+o000001ec49fd7038 .functor BUFZ 1, C4<z>; HiZ drive
+v000001ec4a019980_0 .net "clk", 0 0, o000001ec49fd7038;  0 drivers
+o000001ec49fd70f8 .functor BUFZ 16, C4<zzzzzzzzzzzzzzzz>; HiZ drive
+v000001ec4a019a20_0 .net "data_in", 15 0, o000001ec49fd70f8;  0 drivers
+v000001ec4a019ac0_0 .var "data_r", 15 0;
+o000001ec49fd7128 .functor BUFZ 1, C4<z>; HiZ drive
+v000001ec4a019b60_0 .net "i_ce", 0 0, o000001ec49fd7128;  0 drivers
+E_000001ec49f8b130 .event posedge, v000001ec4a019b60_0;
+S_000001ec49fd6780 .scope module, "pwm_inst" "PWM" 3 18, 4 1 0, S_000001ec49fd65f0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 16 "CMPA";
+    .port_info 2 /OUTPUT 1 "OUT";
+P_000001ec49f8eee0 .param/l "DATA_WIDTH" 0 4 2, +C4<00000000000000000000000000001000>;
+P_000001ec49f8ef18 .param/l "KCNT_MAX" 0 4 10, +C4<00000000000000000000000000000000000000000000000000000000110001000>;
+P_000001ec49f8ef50 .param/l "KMAX_VALUE" 0 4 9, +C4<000000000000000000000000011111111>;
+v000001ec49fa3280_0 .net "CMPA", 15 0, v000001ec4a019ac0_0;  1 drivers
+v000001ec49fa2e50_0 .net "OUT", 0 0, o000001ec49fd7008;  alias, 0 drivers
+v000001ec4a019840_0 .net "clk", 0 0, o000001ec49fd7038;  alias, 0 drivers
+    .scope S_000001ec49fd6780;
+T_0 ;
+    %vpi_call/w 4 13 "$display", " maximum je %d", P_000001ec49f8ef18 {0 0 0};
+    %end;
+    .thread T_0;
+    .scope S_000001ec49fd65f0;
+T_1 ;
+    %wait E_000001ec49f8b130;
+    %load/vec4 v000001ec4a019a20_0;
+    %assign/vec4 v000001ec4a019ac0_0, 0;
+    %jmp T_1;
+    .thread T_1;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "-";
+    "PWM_controller.v";
+    "./PWM.v";

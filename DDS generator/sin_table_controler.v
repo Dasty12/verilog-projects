@@ -10,7 +10,7 @@ module sin_table_controler #(
 );
 
 parameter ROM_DEPTH = 64;
-parameter kCOUNT = 39;   // 100MHz/256kHz
+parameter kCOUNT = 3900;   // 100MHz/256kHz
 
 reg[$clog2(4*ROM_DEPTH)-1:0] id = 0;
 //wire [2*ROM_WIDTH-1:0] data;
