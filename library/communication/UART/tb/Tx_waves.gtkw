@@ -1,0 +1,39 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Thu Dec 09 18:44:24 2021
+[*]
+[dumpfile] "C:\msys64\home\David\projekty\verilog-projects\library\communication\UART\tb\uart_rx_waves.vcd"
+[dumpfile_mtime] "Thu Dec 09 18:43:04 2021"
+[dumpfile_size] 22492001
+[savefile] "C:\msys64\home\David\projekty\verilog-projects\library\communication\UART\tb\Tx_waves.gtkw"
+[timestart] 0
+[size] 1859 600
+[pos] -1 -1
+*-20.000000 859000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] UartTx_tb.
+[sst_width] 211
+[signals_width] 335
+[sst_expanded] 1
+[sst_vpaned_height] 154
+@28
+UartTx_tb.clk
+@25
+UartTx_tb.DUT_in_DataByte[7:0]
+@28
+UartTx_tb.DUT.r_out_fComplete
+UartTx_tb.DUT.out_fComplete
+UartTx_tb.DUT.state[1:0]
+UartTx_tb.DUT.in_Start
+UartTx_tb.DataByte_cnt
+@24
+UartTx_tb.DUT.baud_cnt[13:0]
+@28
+UartTx_tb.DUT.state[1:0]
+@22
+UartTx_tb.DUT.r_data_cnt[3:0]
+@28
+UartTx_tb.DUT.out_DataBit
+UartTx_tb.DUT.in_DataByte[7:0]
+UartTx_tb.DUT.r_out_fComplete
+[pattern_trace] 1
+[pattern_trace] 0
