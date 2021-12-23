@@ -1,0 +1,65 @@
+
+
+/*
+    -nDQM -- these pins are connected to byte enables
+
+*/
+
+module EMIF_top (
+    input inclk0,           // 25 Mhz vstupni frekvence z desky
+    input EMIF_nCS3,        /*Active-low chip enable pins for asynchronous devices */
+    input EMIF_nCS4,
+    input EMIF_nWE,         /*Active-low write enable*/
+    input EMIF_nOE,         /*Active-low pin enable for asynchronous devices*/
+    input [1:0]  EMIF_nDQM, /*Active-low byte enables*/
+    input [21:0] EMIF_A,    /*adresy*/
+    input [1:0]  EMIF_BA,   /*bank address*/
+    inout [15:0] EMIF_D,    /*data*/
+    output EMIF_nWAIT       /*Wait input with programmable polarity*/
+);
+    
+reg [15:0] ram [16];
+reg [23:0]realAddress;
+reg [3:0] maskAddress_8;
+reg [23:0] maskAddress;
+
+
+reg [15:0] r_EMIF_D; 
+
+initial begin
+    ram[0] = 55;
+end
+
+always @(posedge inclk0) begin
+    if(EMIF_nCS3 == 0)begin
+    //{{
+        maskAddress <= {{20{1'b0}},EMIF_A[2:0],EMIF_BA[1]};
+        maskAddress_8 <= {EMIF_A[2:0],EMIF_BA[1]};
+        realAddress <= {EMIF_BA[0],EMIF_A,EMIF_BA[1]};
+
+        if(maskAddress == realAddress)begin
+            if(EMIF_nOE == 0) begin /*read from FPGA*/
+                r_EMIF_D <= ram[maskAddress_8];
+            end else if(EMIF_nWE == 0) begin /*write to FPGA*/    
+                ram[maskAddress_8] <= EMIF_D;
+            end else begin
+                r_EMIF_D <= 16'bZ;
+            end 
+
+        end else begin
+            r_EMIF_D <= 16'bZ;
+        end
+
+
+
+    //}}
+    end else begin  
+        r_EMIF_D <= 16'bZ;  
+    end
+    
+end
+
+
+assign EMIF_D  = r_EMIF_D;
+
+endmodule

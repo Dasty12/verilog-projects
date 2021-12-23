@@ -13,7 +13,7 @@ reg data_tx_tb_CNT = 0;
 
 //IO port pro UartTop    
 reg clk = 0;
-reg [7:0] DUT_in_data;
+//reg [7:0] DUT_in_data;
 
 reg DUT_in_valid;
 
@@ -34,7 +34,7 @@ wire DUT_out_Rx_ORE;
 
 UartTop DUT(.clk(clk),
             //TRANSMITER 
-            .in_data(DUT_in_data),
+    //        .in_data(DUT_in_data),
             .in_w_data(l_data_tx_tb), 
             .in_valid(DUT_in_valid), 
             .out_BUSY(DUT_out_BUSY), 
