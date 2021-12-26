@@ -34,14 +34,12 @@ wire DUT_out_Rx_ORE;
 
 UartTop DUT(.clk(clk),
             //TRANSMITER 
-    //        .in_data(DUT_in_data),
             .in_w_data(l_data_tx_tb), 
             .in_valid(DUT_in_valid), 
             .out_BUSY(DUT_out_BUSY), 
             .out_signal(DUT_out_signal),
             //RECEIVER 
             .in_signal(DUT_in_signal), 
-          //  .out_valid(DUT_out_valid), 
             .out_word(DUT_out_word),
             .out_RXNE(io_RXNE_tb),
             .in_RXNE_clear(DUT_in_RXNE_clear),

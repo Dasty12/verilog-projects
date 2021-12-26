@@ -22,6 +22,9 @@ module UartTop (
 reg [7:0] r_Tx_DataByte; 
 reg [7:0] r_Rx_DataByte = 0; 
 reg r_BUSY = 1; 
+reg r_Tx_start = 1;
+reg r_Tx_busy = 0;
+
 wire TxComplete;
 localparam KBAUD = 14'd10416; 
 
@@ -31,36 +34,42 @@ reg r_RXNE_clear_old;
 wire w_RXNE_clear_rise;
 reg r_Rx_done;
 reg r_out_Rx_ORE = 0;
+reg [7:0] r_Rx_data;
 
 UartRx #(.KBAUD(KBAUD)) uartRx(.clk(clk), 
                                .in_data(in_signal), 
-                               .out_data(out_word), 
+                               .out_data(r_Rx_data), //out_word
                                .Rx_done(r_Rx_done), 
                                .busy(Rx_busy));
 
 UartTx #(.KBAUD(KBAUD)) uartTx(.clk(clk),
                                .in_DataByte(r_Tx_DataByte), 
-                               .in_Start(out_BUSY), 
+                               .in_Start(Tx_start), 
                                .out_DataBit(out_signal), 
                                .out_fComplete(TxComplete));   
 
 always @(posedge clk) begin
     if((TxComplete) && (in_valid))begin
         r_Tx_DataByte <= in_w_data;
-        r_BUSY <= 0;
+        r_Tx_start <= 0;
+        r_Tx_busy  <= 1;
+    end else if(TxComplete) begin
+        r_Tx_start <= 1;
+        r_Tx_busy  <= 0;
     end else begin
-        r_BUSY <= 1; 
+        r_Tx_start <= 1;
+        r_Tx_busy  <= 1; 
     end
 
 
     if(r_Rx_done) begin
-        if(r_RXNE == 1) begin
+      /*  if(r_RXNE == 1) begin
             r_out_Rx_ORE <= 1;
         end else begin
             r_out_Rx_ORE <= 0;
-        end
+        end*/
         r_RXNE <= 1;
-        r_Rx_DataByte <= out_word;
+        r_Rx_DataByte <= r_Rx_data;
     end else if(w_RXNE_clear_rise) begin
         r_RXNE <= 0;
     end
@@ -70,7 +79,9 @@ end
 
 
 assign out_RXNE = r_RXNE;
-assign out_BUSY = r_BUSY;
+assign Tx_start = r_Tx_start;
 assign w_RXNE_clear_rise = in_RXNE_clear & (~r_RXNE_clear_old);
 assign out_Rx_ORE = r_out_Rx_ORE;
+assign out_BUSY = r_Tx_busy;
+assign out_word = r_Rx_DataByte;
 endmodule

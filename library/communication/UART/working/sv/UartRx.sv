@@ -47,7 +47,7 @@ always @(posedge clk) begin
                     state <= s_START;
                 end
                 r_data_cnt <= 0;
-                 Rx_done_nTmp <= 0;
+                Rx_done_nTmp <= 0;
                 
             end s_START:begin
                 baud_cnt <= KBAUD - 1;
@@ -62,7 +62,6 @@ always @(posedge clk) begin
                 end
                 r_data_cnt <= r_data_cnt + 1;
             end s_STOP: begin
-                //baud_cnt <= KBAUD - 1;
                 state <= s_IDLE;
                 r_out_data <= UR_data;
                 Rx_done_nTmp <= 1;

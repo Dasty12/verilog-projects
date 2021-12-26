@@ -15,7 +15,7 @@ reg [1:0] state = s_START;
 reg [$clog2(KBAUD)-1:0]baud_cnt = 0;
 
 reg [7:0] Data;
-reg[3:0] r_data_cnt = 0;
+reg [3:0] r_data_cnt = 0;
 
 reg r_out_dataBit;
 reg r_out_fComplete;
