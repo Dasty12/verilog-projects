@@ -20,13 +20,15 @@ reg [3:0] r_data_cnt = 0;
 reg r_out_dataBit;
 reg r_out_fComplete;
 
+
+
 always @(posedge clk) begin
 
     if(baud_cnt == 0) begin
 
         case (state)
             s_START:begin
-                if(in_Start == 0) begin           // && r_out_fComplete - tohle zalezi na nadrazeny casti, nesmi drzet start na 1
+                if((in_Start == 0)&&(r_out_fComplete == 1)) begin           // && r_out_fComplete - tohle zalezi na nadrazeny casti, nesmi drzet start na 1
                     Data <= in_DataByte;
                     state <= s_DATA;
                     baud_cnt <= KBAUD - 1;

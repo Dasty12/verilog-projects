@@ -58,7 +58,6 @@ always @(posedge clk) begin
                 UR_data[r_data_cnt] <= in_data; 
                 if(r_data_cnt == 7) begin
                     state <= s_STOP;
-                    
                 end
                 r_data_cnt <= r_data_cnt + 1;
             end s_STOP: begin

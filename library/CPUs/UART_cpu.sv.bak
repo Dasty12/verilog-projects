@@ -2,8 +2,8 @@ module UART_cpu (
     input clk,
     input Rx,
     input USER_btn,
-    output Tx,
-    output [7:0] LEDS
+    output Tx
+
 );
 
 reg c0;
@@ -32,12 +32,10 @@ reg UserBtn_fil_old;
 wire UserBtn_rise;
 reg transmit = 0;
 reg transmit_old = 0;
-wire transmit_rise;
+wire transmit_rise = 0;
 reg busy_old = 0;
-wire busy_falling_edge;
+wire busy_falling_edge = 0;
 reg receive = 0;
-reg receive_old = 0;
-wire receive_rise;
 
 
 reg [4:0] smitt_butt_field;  
@@ -108,7 +106,7 @@ always @(posedge clk) begin
 end
 
 
-always @(posedge clk) begin
+always @(posedge c0) begin
 
     if(transmit && (BUSY == 0) && (transmit_rise || busy_falling_edge)) begin
         if(transmit_cnt < kTransmit_cnt) begin
@@ -120,8 +118,7 @@ always @(posedge clk) begin
             end
         end else begin
             transmit <= 0; 
-            transmit_cnt <= 0;
-            dataTx <= 10;   
+         //   dataTx <= 10;   
         end
         valid <= 1;
     end else begin
@@ -129,9 +126,9 @@ always @(posedge clk) begin
     end
 
 
-
-    if(receive_rise && (transmit == 0)) begin
-        if(receive_cnt == 2) begin
+    if(receive) begin
+        receive <= 0;
+        if(dataRx_old == 10) begin
             transmit <= 1;
             kTransmit_cnt <= receive_cnt;
             receive_cnt <= 0;
@@ -153,24 +150,17 @@ always @(posedge clk) begin
         RXNE_clear <= 1;
     end else begin
         RXNE_clear <= 0;
-        receive <= 0;
     end
 
     out_RXNE_old <= out_RXNE;
     dataTx_old <= dataTx;
     transmit_old <= transmit;
     busy_old <= BUSY;
-    receive_old <= receive;
-
     
 end
 
-assign receive_rise = receive & (!receive_old);
 assign transmit_rise = transmit & (!transmit_old);
 assign busy_falling_edge = (!BUSY) & busy_old;
 assign UserBtn_rise = UserBtn_fil & !UserBtn_fil_old;
-
-
-assign LEDS = adresa;
 
 endmodule

@@ -13,10 +13,10 @@ initial r_c0 = 0;
 
 
 always @(posedge inclk0) begin
-    r_c0 <= !r_c0;
+  //  r_c0 <= !r_c0;
 end
 
-assign c0 = r_c0;
+assign c0 = inclk0;
 
 
 

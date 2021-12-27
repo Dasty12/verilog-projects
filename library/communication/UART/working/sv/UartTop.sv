@@ -24,8 +24,12 @@ reg [7:0] r_Rx_DataByte = 0;
 reg r_BUSY = 1; 
 reg r_Tx_start = 1;
 reg r_Tx_busy = 0;
+reg in_valid_old = 0;
 
 wire TxComplete;
+reg TxComplete_old;
+wire TxCompleteRise;
+
 localparam KBAUD = 14'd10416; 
 
 wire Rx_busy;
@@ -53,10 +57,10 @@ always @(posedge clk) begin
         r_Tx_DataByte <= in_w_data;
         r_Tx_start <= 0;
         r_Tx_busy  <= 1;
-    end else if(TxComplete) begin
+    end else if(TxComplete && (in_valid_old == 0)) begin//end else if(TxComplete) begin
         r_Tx_start <= 1;
         r_Tx_busy  <= 0;
-    end else begin
+      end else begin
         r_Tx_start <= 1;
         r_Tx_busy  <= 1; 
     end
@@ -75,9 +79,11 @@ always @(posedge clk) begin
     end
 
     r_RXNE_clear_old <= in_RXNE_clear;  
+    TxComplete_old <= TxComplete;
+    in_valid_old <= in_valid;
 end
 
-
+assign TxCompleteRise = TxComplete & (!TxComplete_old);
 assign out_RXNE = r_RXNE;
 assign Tx_start = r_Tx_start;
 assign w_RXNE_clear_rise = in_RXNE_clear & (~r_RXNE_clear_old);
