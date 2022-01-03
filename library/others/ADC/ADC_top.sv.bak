@@ -1,0 +1,5 @@
+module ADC_top (
+    input clk
+);
+    
+endmodule
