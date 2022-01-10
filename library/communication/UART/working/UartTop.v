@@ -3,8 +3,8 @@
 
 module UartTop (
     input clk,
-    //tyto signaly jsou pouze pro transmitra
-    input [7:0] in_data, /*pokud je valid =1, tak jsou to nova data pro transmitera*/   
+    //tyto signaly jsou pouze pro transmitera
+    input [7:0] in_data, /*pokud je valid = 1, tak jsou to nova data pro transmitera*/   
     input in_valid,      /*je pozadavek na prenos dat*/
     output out_BUSY,     /*znaci,ze dochazi k prenosu*/
     output out_signal,   /*signal odesilany pres UART pryc*/   
