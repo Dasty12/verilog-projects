@@ -5,8 +5,8 @@ module UartDecoder (
 	
 	//
     input i_stb,
-    output o_stb,
-	output [33:0] reg o_word
+    output reg o_stb,
+	output reg [33:0]  o_word
 );
 
 reg i_data_valid_old;
@@ -70,8 +70,8 @@ end
 initial o_word[31:0] = 0;
 always @(posedge i_clk) begin
 
-    if(i_data_valid_rise)
-    {
+    if(i_data_valid_rise) begin
+    
     //new command arrived
         if(o_bits[4:2] == 3'b100) begin  
             array_count <= 0;
@@ -82,7 +82,7 @@ always @(posedge i_clk) begin
             r_word[31:0] <= 0;
         end else if(o_bits != 5'h1f) begin
            array_count <= array_count + 1;
-           o_bits_FIFO[array_count] <= o_bits;
+          // o_bits_FIFO[array_count] <= o_bits;
            r_word[31:0] <= {r_word[27:0],o_bits[3:0]};
            cmd_loaded <= 1'b0;
            
@@ -91,11 +91,11 @@ always @(posedge i_clk) begin
             array_count <= 0;
             cmd_loaded <= 1'b0;
         end
-    }
+    end
 
 end
 
-always @(posedge clk) begin
+always @(posedge i_clk) begin
     o_stb <= (i_stb)&&(cmd_loaded)&&(o_bits[4]);
 end
 

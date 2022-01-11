@@ -3,7 +3,7 @@ module UartDecoder (
     input [7:0] i_data_in,
     input i_data_valid,
 	
-	//
+	//==WISHBONE MASTER ==//
     input i_stb,
     output o_stb,
 	output [33:0] reg o_word
