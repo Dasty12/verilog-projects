@@ -18,14 +18,16 @@ VL_MODULE(VUartDecoder___024root) {
     VL_IN8(i_stb,0,0);
     VL_OUT8(o_stb,0,0);
     CData/*0:0*/ UartDecoder__DOT__i_data_valid_old;
-    CData/*0:0*/ UartDecoder__DOT__i_data_valid_rise;
+    CData/*0:0*/ UartDecoder__DOT__r_i_data_valid_rise;
     CData/*4:0*/ UartDecoder__DOT__o_bits;
+    CData/*0:0*/ UartDecoder__DOT__i_stb_old;
     CData/*2:0*/ UartDecoder__DOT__array_count;
     CData/*2:0*/ UartDecoder__DOT__command;
     CData/*0:0*/ UartDecoder__DOT__cmd_loaded;
     CData/*0:0*/ __Vclklast__TOP__i_clk;
     VL_OUT64(o_word,33,0);
     QData/*33:0*/ UartDecoder__DOT__r_word;
+    QData/*33:0*/ UartDecoder__DOT__testovaci;
     VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
 
     // INTERNAL VARIABLES

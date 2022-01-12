@@ -18,7 +18,10 @@ VL_INLINE_OPT void VUartDecoder___024root___sequent__TOP__2(VUartDecoder___024ro
     // Body
     __Vdly__UartDecoder__DOT__r_word = vlSelf->UartDecoder__DOT__r_word;
     vlSelf->UartDecoder__DOT__i_data_valid_old = vlSelf->i_data_valid;
-    if (vlSelf->UartDecoder__DOT__i_data_valid_rise) {
+    if (vlSelf->i_stb) {
+        vlSelf->UartDecoder__DOT__i_stb_old = 1U;
+        vlSelf->UartDecoder__DOT__r_i_data_valid_rise 
+            = vlSelf->i_stb;
         if ((4U == (7U & ((IData)(vlSelf->UartDecoder__DOT__o_bits) 
                           >> 2U)))) {
             vlSelf->UartDecoder__DOT__command = (7U 
@@ -41,12 +44,22 @@ VL_INLINE_OPT void VUartDecoder___024root___sequent__TOP__2(VUartDecoder___024ro
         } else {
             vlSelf->UartDecoder__DOT__array_count = 0U;
         }
+    } else {
+        vlSelf->UartDecoder__DOT__i_stb_old = 0U;
+        vlSelf->UartDecoder__DOT__r_i_data_valid_rise 
+            = vlSelf->i_stb;
+    }
+    if (vlSelf->o_stb) {
+        vlSelf->UartDecoder__DOT__testovaci = vlSelf->o_word;
+    }
+    if (vlSelf->i_stb) {
+        vlSelf->o_word = vlSelf->UartDecoder__DOT__r_word;
     }
     vlSelf->o_stb = (((IData)(vlSelf->i_stb) & (IData)(vlSelf->UartDecoder__DOT__cmd_loaded)) 
                      & ((IData)(vlSelf->UartDecoder__DOT__o_bits) 
                         >> 4U));
     vlSelf->UartDecoder__DOT__r_word = __Vdly__UartDecoder__DOT__r_word;
-    if (vlSelf->UartDecoder__DOT__i_data_valid_rise) {
+    if (vlSelf->i_stb) {
         vlSelf->UartDecoder__DOT__cmd_loaded = (4U 
                                                 == 
                                                 (7U 
@@ -58,15 +71,6 @@ VL_INLINE_OPT void VUartDecoder___024root___sequent__TOP__2(VUartDecoder___024ro
         [__Vtableidx1];
 }
 
-VL_INLINE_OPT void VUartDecoder___024root___settle__TOP__3(VUartDecoder___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    VUartDecoder__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VUartDecoder___024root___settle__TOP__3\n"); );
-    // Body
-    vlSelf->UartDecoder__DOT__i_data_valid_rise = ((IData)(vlSelf->i_data_valid) 
-                                                   & (~ (IData)(vlSelf->UartDecoder__DOT__i_data_valid_old)));
-}
-
 void VUartDecoder___024root___eval(VUartDecoder___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     VUartDecoder__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -76,7 +80,6 @@ void VUartDecoder___024root___eval(VUartDecoder___024root* vlSelf) {
         VUartDecoder___024root___sequent__TOP__2(vlSelf);
         vlSelf->__Vm_traceActivity[1U] = 1U;
     }
-    VUartDecoder___024root___settle__TOP__3(vlSelf);
     // Final
     vlSelf->__Vclklast__TOP__i_clk = vlSelf->i_clk;
 }

@@ -25,19 +25,23 @@ void VUartDecoder___024root__trace_chg_sub_0(VUartDecoder___024root* vlSelf, Ver
     // Body
     if (VL_UNLIKELY(vlSelf->__Vm_traceActivity[1U])) {
         tracep->chgBit(oldp+0,(vlSelf->UartDecoder__DOT__i_data_valid_old));
-        tracep->chgCData(oldp+1,(vlSelf->UartDecoder__DOT__o_bits),5);
-        tracep->chgQData(oldp+2,(vlSelf->UartDecoder__DOT__r_word),34);
-        tracep->chgCData(oldp+4,(vlSelf->UartDecoder__DOT__array_count),3);
-        tracep->chgCData(oldp+5,(vlSelf->UartDecoder__DOT__command),3);
-        tracep->chgBit(oldp+6,(vlSelf->UartDecoder__DOT__cmd_loaded));
+        tracep->chgBit(oldp+1,(vlSelf->UartDecoder__DOT__r_i_data_valid_rise));
+        tracep->chgCData(oldp+2,(vlSelf->UartDecoder__DOT__o_bits),5);
+        tracep->chgBit(oldp+3,(vlSelf->UartDecoder__DOT__i_stb_old));
+        tracep->chgQData(oldp+4,(vlSelf->UartDecoder__DOT__r_word),34);
+        tracep->chgCData(oldp+6,(vlSelf->UartDecoder__DOT__array_count),3);
+        tracep->chgCData(oldp+7,(vlSelf->UartDecoder__DOT__command),3);
+        tracep->chgBit(oldp+8,(vlSelf->UartDecoder__DOT__cmd_loaded));
+        tracep->chgQData(oldp+9,(vlSelf->UartDecoder__DOT__testovaci),34);
     }
-    tracep->chgBit(oldp+7,(vlSelf->i_clk));
-    tracep->chgCData(oldp+8,(vlSelf->i_data_in),8);
-    tracep->chgBit(oldp+9,(vlSelf->i_data_valid));
-    tracep->chgBit(oldp+10,(vlSelf->i_stb));
-    tracep->chgBit(oldp+11,(vlSelf->o_stb));
-    tracep->chgQData(oldp+12,(vlSelf->o_word),34);
-    tracep->chgBit(oldp+14,(vlSelf->UartDecoder__DOT__i_data_valid_rise));
+    tracep->chgBit(oldp+11,(vlSelf->i_clk));
+    tracep->chgCData(oldp+12,(vlSelf->i_data_in),8);
+    tracep->chgBit(oldp+13,(vlSelf->i_data_valid));
+    tracep->chgBit(oldp+14,(vlSelf->i_stb));
+    tracep->chgBit(oldp+15,(vlSelf->o_stb));
+    tracep->chgQData(oldp+16,(vlSelf->o_word),34);
+    tracep->chgBit(oldp+18,(((IData)(vlSelf->i_data_valid) 
+                             & (~ (IData)(vlSelf->UartDecoder__DOT__i_data_valid_old)))));
 }
 
 void VUartDecoder___024root__trace_cleanup(void* voidSelf, VerilatedVcd* /*unused*/) {

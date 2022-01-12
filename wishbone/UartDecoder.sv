@@ -4,14 +4,16 @@ module UartDecoder (
     input i_data_valid,
 	
 	//
-    input i_stb,
+    input i_stb, // True if something is valid on input
     output reg o_stb,
 	output reg [33:0]  o_word
 );
 
 reg i_data_valid_old;
 wire i_data_valid_rise;
+reg r_i_data_valid_rise;
 reg [4:0]o_bits;
+reg i_stb_old;
 
 
 //reg [3:0] o_bits_FIFO[8];
@@ -70,7 +72,8 @@ end
 initial o_word[31:0] = 0;
 always @(posedge i_clk) begin
 
-    if(i_data_valid_rise) begin
+    if(i_stb) begin
+		r_i_data_valid_rise <= 1;
     
     //new command arrived
         if(o_bits[4:2] == 3'b100) begin  
@@ -80,9 +83,9 @@ always @(posedge i_clk) begin
             cmd_loaded <= 1'b1;
             r_word[33:32] <= o_bits[1:0];
             r_word[31:0] <= 0;
+			
         end else if(o_bits != 5'h1f) begin
            array_count <= array_count + 1;
-          // o_bits_FIFO[array_count] <= o_bits;
            r_word[31:0] <= {r_word[27:0],o_bits[3:0]};
            cmd_loaded <= 1'b0;
            
@@ -91,12 +94,30 @@ always @(posedge i_clk) begin
             array_count <= 0;
             cmd_loaded <= 1'b0;
         end
-    end
+    end else begin
+		r_i_data_valid_rise <= 0;
+	end
 
 end
 
 always @(posedge i_clk) begin
-    o_stb <= (i_stb)&&(cmd_loaded)&&(o_bits[4]);
+    o_stb <= (i_stb) && (cmd_loaded) && (o_bits[4]);
+end
+
+always @(posedge i_clk)begin
+	if(i_stb) begin
+		o_word <= r_word;
+	end
+	
+end
+reg[33:0]testovaci = 0;
+always @(posedge i_clk) begin
+	
+	if(o_stb)
+			testovaci <= o_word;
+	
+	
+	i_stb_old <= i_stb;
 end
 
 
