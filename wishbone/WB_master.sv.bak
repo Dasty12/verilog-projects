@@ -52,8 +52,7 @@ module WB_master (
 
 // Local declarations
 // {{{
-reg newaddr = 1'b0;
-reg inc;
+reg newaddr, inc;
 wire i_cmd_addr, i_cmd_wr, i_cmd_rd, i_cmd_bus;
 
 //}}}
@@ -118,7 +117,7 @@ always @(posedge i_clk) begin
 
         inc <= !i_cmd_word[0];
     end else if((o_wb_stb)&&(!i_wb_stall)) begin
-        o_wb_addr <= o_wb_addr + {{29{1'b0}},inc};
+        o_wb_addr <= o_wb_addr + {{(29){1'b0}},inc};
     end
 
     newaddr <= ((!i_reset) && (i_cmd_addr) && (!o_cmd_busy));
@@ -158,7 +157,7 @@ always @(posedge i_clk) begin
         //echo any new addres back up the command chain
 
         o_rsp_stb <= newaddr;
-        o_rsp_word <= {`RSP_SUB_ADDR, {(30 - 30){1'b0}}, o_wb_addr, 1'b0, inc};    
+        o_rsp_word <= {`RSP_SUB_ADDR, {(30 - ADDRESS_WIDTH){1'b0}}, o_wb_addr, 1'b0, inc};    
     end
 end
 

@@ -9,19 +9,22 @@ reg[7:0] UART_WORD_TX;
 
 wire uart_Rx_stb;
 wire uart_busy;
-wire uart_Tx_valid;
-
-
+wire uart_out_RXNE;
+wire uart_out_Rx_ORE;
+reg in_RXNE_clear;
 
 
 UartTop uartTop(.clk(i_clk_12Mhz),
-                .in_data(UART_WORD_RX),
+                .in_w_data(UART_WORD_RX),
                 .in_valid(uart_stb),
                 .out_BUSY(uart_busy),
                 .out_signal(IO_UART_TX),
+
                 .in_signal(IO_UART_RX),
-                .out_valid(uart_Tx_valid),
-                .out_word(UART_WORD_TX));
+                .in_RXNE_clear(in_RXNE_clear),
+                .out_word(UART_WORD_TX),
+                .out_RXNE(uart_out_RXNE),
+                .out_Rx_ORE(uart_out_Rx_ORE));
 
 
 wire [7:0]UART_DECODER_i_data_in;

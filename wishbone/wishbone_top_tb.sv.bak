@@ -1,0 +1,81 @@
+`timescale 1ns/1ns
+
+
+module wishbone_top_tb;
+    
+reg clk = 0;
+
+wire IO_UART_RX;
+wire IO_UART_TX;
+
+
+wire test_fComplete;
+reg [7:0] test_DataByte = 8'b0;
+wire test_dataBit;
+reg test_Start = 1'b0;
+
+
+reg [21:0] wait_counter = 0;
+reg [21:0] kwait_counter = 20000;
+
+
+reg[7:0] ram[8] = {5,4,3,2,1,2,5,8};
+reg[2:0] ram_counter = 0;
+
+
+wishbone_top DUT(.i_clk_12Mhz(clk),
+                 .IO_UART_RX(IO_UART_RX),
+                 .IO_UART_TX(IO_UART_TX));
+
+
+UartTx UART_test(.clk(clk),
+                 .in_DataByte(test_DataByte),
+                 .in_Start(test_Start),
+                 .out_DataBit(IO_UART_RX),
+                 .out_fComplete(test_fComplete));
+
+
+
+always @(posedge clk) begin
+
+    test_Start <= 0;
+
+    if(test_fComplete) begin
+       if(wait_counter < (kwait_counter - 1)) begin
+           wait_counter <= wait_counter + 1;
+           test_DataByte <= ram[ram_counter];
+       end else begin
+           wait_counter <= 0;
+           if(ram_counter < 8) begin
+               ram_counter <= ram_counter + 1;
+
+           end else begin
+               ram_counter <= 0;
+           end
+
+            test_Start <= 1;
+
+       end
+    end
+
+
+
+end
+
+
+
+
+
+always #5 clk = !clk;
+
+initial begin
+    $dumpfile("wishboneWaves.vcd"); 
+    $dumpvars;
+end
+
+
+initial begin
+    #5000000 $finish;
+end
+
+endmodule
