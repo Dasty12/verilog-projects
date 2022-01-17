@@ -4,6 +4,7 @@
 module wishbone_top_tb;
     
 reg clk = 0;
+reg i_reset = 0; 
 
 wire IO_UART_RX;
 wire IO_UART_TX;
@@ -25,8 +26,9 @@ reg [21:0] kwait_counter = 20000;
 reg[9:0] afterStart_cnt = 1000;
 
 
-reg[7:0] ram[8] = {5,4,3,2,1,2,5,8};
+reg[7:0] ram[6] = {8'h41, 8'h33 ,8'h34 ,8'h31 ,8'h30 ,8'h52};
 reg[2:0] ram_counter = 0;
+
 
 
 
@@ -51,6 +53,10 @@ UartTop UART_test(.clk(clk),
                   .out_Rx_ORE(test_out_Rx_ORE));
 
 
+
+
+
+
 always @(posedge clk) begin
     if(afterStart_cnt > 0) 
         afterStart_cnt <= afterStart_cnt - 1;
@@ -67,7 +73,7 @@ always @(posedge clk) begin
             test_DataByte <= ram[ram_counter];
         end else begin
             wait_counter <= 0;
-           if(ram_counter < 8) begin
+           if(ram_counter < (6-1)) begin
                 ram_counter <= ram_counter + 1;
 
             end else begin
