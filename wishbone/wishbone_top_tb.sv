@@ -26,11 +26,8 @@ reg [21:0] kwait_counter = 20000;
 reg[9:0] afterStart_cnt = 1000;
 
 
-reg[7:0] ram[6] = {8'h41, 8'h33 ,8'h34 ,8'h31 ,8'h30 ,8'h52};
-reg[2:0] ram_counter = 0;
-
-
-
+reg[7:0] ram [] = {8'h0, 8'h41, 8'h33, 8'h34, 8'h31, 8'h30, 8'h57, 8'h35, 8'h0, 8'h41, 8'h33, 8'h34, 8'h31, 8'h30, 8'h52};
+reg[10:0] ram_counter = 0;
 
 
 
@@ -53,10 +50,6 @@ UartTop UART_test(.clk(clk),
                   .out_Rx_ORE(test_out_Rx_ORE));
 
 
-
-
-
-
 always @(posedge clk) begin
     if(afterStart_cnt > 0) 
         afterStart_cnt <= afterStart_cnt - 1;
@@ -73,24 +66,19 @@ always @(posedge clk) begin
             test_DataByte <= ram[ram_counter];
         end else begin
             wait_counter <= 0;
-           if(ram_counter < (6-1)) begin
+           if(ram_counter < (ram.size - 1)) begin
                 ram_counter <= ram_counter + 1;
 
             end else begin
                 ram_counter <= 0;
             end
-
             test_in_valid <= 1;
-
        end
     end
-
 
     if(afterStart_cnt == 1)
         test_in_valid <= 1;
 end
-
-
 
 
 

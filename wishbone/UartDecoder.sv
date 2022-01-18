@@ -38,38 +38,40 @@ end
 
 
 always @(posedge i_clk) begin
-    case(i_data_in[6:0])
-        7'h30: o_bits <= 5'h00;
-        7'h31: o_bits <= 5'h01;
-        7'h32: o_bits <= 5'h02;
-        7'h33: o_bits <= 5'h03;
-        7'h34: o_bits <= 5'h04;
-        7'h35: o_bits <= 5'h05;
-        7'h36: o_bits <= 5'h06;
-        7'h37: o_bits <= 5'h07;
-        7'h38: o_bits <= 5'h08;
-        7'h39: o_bits <= 5'h09;
+    if(i_stb) begin
+        case(i_data_in[6:0])
+            7'h30: o_bits <= 5'h00;
+            7'h31: o_bits <= 5'h01;
+            7'h32: o_bits <= 5'h02;
+            7'h33: o_bits <= 5'h03;
+            7'h34: o_bits <= 5'h04;
+            7'h35: o_bits <= 5'h05;
+            7'h36: o_bits <= 5'h06;
+            7'h37: o_bits <= 5'h07;
+            7'h38: o_bits <= 5'h08;
+            7'h39: o_bits <= 5'h09;
 
-        7'h61: o_bits <= 5'h0a;
-        7'h62: o_bits <= 5'h0b;
-        7'h63: o_bits <= 5'h0c;
-        7'h64: o_bits <= 5'h0d;
-        7'h65: o_bits <= 5'h0e;
-        7'h66: o_bits <= 5'h0f;
+            7'h61: o_bits <= 5'h0a;
+            7'h62: o_bits <= 5'h0b;
+            7'h63: o_bits <= 5'h0c;
+            7'h64: o_bits <= 5'h0d;
+            7'h65: o_bits <= 5'h0e;
+            7'h66: o_bits <= 5'h0f;
 
-        //other characters set out of band information (o_bits[4])
-        //instrukce 
-        7'h52: o_bits <= 5'h10;     // 'R', or read command
-        7'h57: o_bits <= 5'h11;     // 'W', or write command
-        7'h41: o_bits <= 5'h12;     // 'A', set address
-        7'h53: o_bits <= 5'h13;     // 'S', "special".. reserved for later
-        7'h45: o_bits <= 5'h14;     // 'E' značí konec slova napr. A20W1E [tohle ale nepatri do - b100]
-        7'h54: o_bits <= 5'h16;     // 'T', --set for from only
+            //other characters set out of band information (o_bits[4])
+            //instrukce 
+            7'h52: o_bits <= 5'h10;     // 'R', or read command
+            7'h57: o_bits <= 5'h11;     // 'W', or write command
+            7'h41: o_bits <= 5'h12;     // 'A', set address
+            7'h53: o_bits <= 5'h13;     // 'S', "special".. reserved for later
+            7'h45: o_bits <= 5'h14;     // 'E' značí konec slova napr. A20W1E [tohle ale nepatri do - b100]
+            7'h54: o_bits <= 5'h16;     // 'T', --set for from only
 
-        default://an "other" character, to be subsequently ignored.
-                // Also used as an end of word character, if received
-            o_bits <= 5'h1f;    
-    endcase
+            default://an "other" character, to be subsequently ignored.
+                    // Also used as an end of word character, if received
+                o_bits <= 5'h1f;    
+        endcase
+    end
 end
 
 
@@ -98,22 +100,26 @@ always @(posedge i_clk) begin
         end else begin
             /*chyba tohle se nema stat*/
             array_count <= 0;
-            cmd_loaded <= 1'b0;
+            cmd_loaded <= 1'b1;
+            r_word[33:0] <= 0;
+            o_bits_old <= o_bits;
+
         end
+
     end else begin
 		r_i_data_valid_rise <= 0;
 	end
 end
 
 always @(posedge i_clk) begin
-    o_stb <= (i_stb) && (cmd_loaded) && (o_bits[4]);
+    o_stb <= (i_stb) && (cmd_loaded) && (o_bits_old[4]);
 end
 
 always @(posedge i_clk) begin
 	if(i_stb) begin
         if(o_bits[4:2] == 3'b100) begin
-            o_word_new <= r_word;
-		    o_word <= o_word_new;
+         //   o_word_new <= r_word;
+		    o_word <= r_word;
         end
 	end
 end
