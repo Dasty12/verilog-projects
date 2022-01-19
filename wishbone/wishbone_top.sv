@@ -1,7 +1,8 @@
 module wishbone_top (
     input i_clk_12Mhz,
     input  IO_UART_RX,
-    output IO_UART_TX
+    output IO_UART_TX,
+    output [7:0] o_LEDS
 );
 
 reg[7:0] UART_WORD_RX;
@@ -125,8 +126,8 @@ WB_slave wb_slave(.i_clk(i_clk_12Mhz),
          .o_wb_stall(i_wb_stall),
          .o_wb_ack(i_wb_ack),
          .o_wb_err(i_wb_err),
-         .o_wb_data(i_wb_data));
-
+         .o_wb_data(i_wb_data),
+         .o_LEDS(o_LEDS));
 
 
 

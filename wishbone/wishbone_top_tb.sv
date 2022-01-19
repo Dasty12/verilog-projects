@@ -19,6 +19,7 @@ wire out_RXNE;
 wire test_out_Rx_ORE;
 reg test_in_valid;
 wire test_out_BUSY;
+wire [7:0] o_LEDS;
 
 reg [21:0] wait_counter = 0;
 reg [21:0] kwait_counter = 20000;
@@ -26,14 +27,16 @@ reg [21:0] kwait_counter = 20000;
 reg[9:0] afterStart_cnt = 1000;
 
 
-reg[7:0] ram [] = {8'h0, 8'h41, 8'h33, 8'h34, 8'h31, 8'h30, 8'h57, 8'h35, 8'h0, 8'h41, 8'h33, 8'h34, 8'h31, 8'h30, 8'h52};
+//reg[7:0] ram [] = {8'h0, 8'h41, 8'h33, 8'h34, 8'h31, 8'h30, 8'h57, 8'h35, 8'h53, 8'h41, 8'h33, 8'h34, 8'h31, 8'h30, 8'h52};
+reg[7:0] ram [] ={8'h0,8'h53, 8'h41, 8'h34, 8'h57, 8'h36,8'h53};
 reg[10:0] ram_counter = 0;
 
 
 
 wishbone_top DUT(.i_clk_12Mhz(clk),
                  .IO_UART_RX(IO_UART_RX),
-                 .IO_UART_TX(IO_UART_TX));
+                 .IO_UART_TX(IO_UART_TX),
+                 .o_LEDS(o_LEDS));
 
 
 

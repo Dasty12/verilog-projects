@@ -14,15 +14,12 @@ wire i_data_valid_rise;
 reg r_i_data_valid_rise;
 reg [4:0] o_bits;
 reg [4:0] o_bits_old = 0; 
-reg i_stb_old;
+reg i_stb_old = 0;
 
 
-//reg [3:0] o_bits_FIFO[8];
-//reg [33:0] o_word;
 reg [33:0] r_word = 0;
-reg[2:0] array_count;
 reg [2:0] command = 0;
-reg cmd_loaded;
+reg cmd_loaded = 0;
 
 reg [33:0] o_word_new;
 
@@ -38,7 +35,7 @@ end
 
 
 always @(posedge i_clk) begin
-    if(i_stb) begin
+   // if(i_stb) begin
         case(i_data_in[6:0])
             7'h30: o_bits <= 5'h00;
             7'h31: o_bits <= 5'h01;
@@ -71,7 +68,7 @@ always @(posedge i_clk) begin
                     // Also used as an end of word character, if received
                 o_bits <= 5'h1f;    
         endcase
-    end
+  //  end
 end
 
 
@@ -84,7 +81,6 @@ always @(posedge i_clk) begin
     
         //new command arrived
         if(o_bits[4:2] == 3'b100) begin  
-            array_count <= 0;
             command <= o_bits[2:0];
            
             cmd_loaded <= 1'b1;
@@ -93,13 +89,11 @@ always @(posedge i_clk) begin
             o_bits_old <= o_bits;
 			
         end else if(o_bits != 5'h1f) begin
-            array_count <= array_count + 1;
-            r_word[31:0] <= {r_word[27:0],o_bits[3:0]};
+            r_word[31:0] <= {r_word[27:0], o_bits[3:0]};
             cmd_loaded <= 1'b0;
            
         end else begin
-            /*chyba tohle se nema stat*/
-            array_count <= 0;
+            /*chyba, tohle se nema stát*/
             cmd_loaded <= 1'b1;
             r_word[33:0] <= 0;
             o_bits_old <= o_bits;
@@ -111,8 +105,12 @@ always @(posedge i_clk) begin
 	end
 end
 
+
+
+
+
 always @(posedge i_clk) begin
-    o_stb <= (i_stb) && (cmd_loaded) && (o_bits_old[4]);
+    o_stb <= (i_stb_old) && (cmd_loaded) && (o_bits[4]);
 end
 
 always @(posedge i_clk) begin

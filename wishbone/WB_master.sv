@@ -53,7 +53,7 @@ module WB_master (
 // Local declarations
 // {{{
 reg newaddr = 1'b0;
-reg inc;
+reg inc = 0;
 wire i_cmd_addr, i_cmd_wr, i_cmd_rd, i_cmd_bus;
 
 reg bude_inc = 1'b1;
@@ -122,7 +122,7 @@ always @(posedge i_clk) begin
             bude_inc <= 1'b1;       
         end
 */
-        inc <= !i_cmd_word[0];
+     //   inc <= !i_cmd_word[0];
     end else if((o_wb_stb) && (!i_wb_stall)) begin
         o_wb_addr <= o_wb_addr + {{29{1'b0}}, inc};
     end
