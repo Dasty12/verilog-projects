@@ -114,20 +114,19 @@ WB_master wb_master(.i_clk(i_clk_12Mhz),
 
 
 //WB master
-
 WB_slave wb_slave(.i_clk(i_clk_12Mhz),
-         .i_wb_cyc(o_wb_cyc),
-         .i_wb_stb(o_wb_stb),
-         .i_wb_we(o_wb_we),
-         .i_wb_addr(o_wb_addr),
-         .i_wb_data(o_wb_data),
-         .i_wb_sel(o_wb_sel),
+                  .i_wb_cyc(o_wb_cyc),
+                  .i_wb_stb(o_wb_stb),
+                  .i_wb_we(o_wb_we),
+                  .i_wb_addr(o_wb_addr),
+				  .i_wb_data(o_wb_data),
+                  .i_wb_sel(o_wb_sel),
          
-         .o_wb_stall(i_wb_stall),
-         .o_wb_ack(i_wb_ack),
-         .o_wb_err(i_wb_err),
-         .o_wb_data(i_wb_data),
-         .o_LEDS(o_LEDS));
+                  .o_wb_stall(i_wb_stall),
+                  .o_wb_ack(i_wb_ack),
+                  .o_wb_err(i_wb_err),
+                  .o_wb_data(i_wb_data),
+                  .o_LEDS(o_LEDS));
 
 
 //decode information from slave to multiple 8-bit words
@@ -135,10 +134,12 @@ wire o_dw_busy;
 
 UartCoder uartCoder(.i_clk(i_clk_12Mhz),
 					.i_reset(i_reset),
-					.i_stb(i_wb_ack),
+					.i_stb(o_rsp_stb),
 					.o_dw_busy(o_dw_busy),
-					.i_word(i_wb_data),
-					.out_char(UART_WORD_TX));
+					.i_word(o_rsp_word),
+					.out_char(UART_WORD_TX),
+					.i_TxBusy(uart_busy),
+					.o_TxStart(uart_stb));
 
 
 

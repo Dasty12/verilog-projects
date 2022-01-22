@@ -30,7 +30,7 @@ module WB_master (
     //return command channel
     //{{{
     output reg         o_rsp_stb,   /**/
-    output reg [33:0]  o_rsp_word,
+    output reg [33:0]  o_rsp_word,	/*upravena data ze slave(i_wb_dat)*/
     //}}}
     // Wishbone output 
     //{{{
@@ -46,7 +46,7 @@ module WB_master (
     input wire         i_wb_stall,      /**/
     input wire         i_wb_ack,        /*acknowledgement from the slave*/
     input wire         i_wb_err,
-    input wire [31:0]  i_wb_data
+    input wire [31:0]  i_wb_data		/*data ze slave*/
 );
     
 
@@ -131,7 +131,7 @@ always @(posedge i_clk) begin
 end
 
 always @(posedge i_clk) begin
-    if((!o_wb_stb)||(!i_wb_stall))//pokud neni request
+    if((!o_wb_stb) || (!i_wb_stall))//pokud neni request
         o_wb_data <= i_cmd_word[31:0];
 end
 
@@ -140,7 +140,9 @@ assign o_wb_sel = 4'hf;
 
 initial o_rsp_stb = 1'b1;
 initial o_rsp_word = `RSP_RESET;
+reg test_tady = 1'b0;
 always @(posedge i_clk) begin
+	test_tady <= 1'b0;
     if(i_reset) begin
         o_rsp_stb  <= 1'b1;
         o_rsp_word <= `RSP_BUS_ERROR;
@@ -149,14 +151,13 @@ always @(posedge i_clk) begin
         o_rsp_word <= `RSP_BUS_ERROR;
     end else if(o_wb_cyc) begin
         o_rsp_stb <= (i_wb_ack);
+		test_tady <= 1'b1;
 
         if(o_wb_we) begin
             o_rsp_word <= `RSP_WRITE_AKCNOWLEDGEMENT;
         end else begin
             o_rsp_word <= {`RSP_SUB_DATA, i_wb_data };
         end 
-        
-    
     end else begin
 
         //jinak jsem v IDLE rezimu
