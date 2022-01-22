@@ -130,7 +130,7 @@ WB_slave wb_slave(.i_clk(i_clk_12Mhz),
          .o_LEDS(o_LEDS));
 
 
-//decode information from slave to multiple 8-bit words
+
 wire o_dw_busy;
 
 UartCoder uartCoder(.i_clk(i_clk_12Mhz),

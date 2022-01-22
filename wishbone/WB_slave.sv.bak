@@ -40,8 +40,8 @@ always @(posedge i_clk) begin
         LEDS <= i_wb_data[7:0];
         plati <= 1;
     end else begin
-       LEDS <= 8'b11111111;
-//	   LEDS <= i_wb_data[7:0];
+       // LEDS <= 8'b11111111;
+	   LEDS <= i_wb_data[7:0]
 	   
     end
    /* case(i_wb_addr[29:0])
