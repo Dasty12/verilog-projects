@@ -35,8 +35,8 @@ wire [7:0]UART_DECODER_i_data_in;
 reg UART_DECODER_i_data_valid;  //muzu  ponechat necinne
 reg UART_DECODER_i_stb = 0;
 reg UART_DECODER_i_stb_old = 0;
-reg UART_DECODER_o_stb;
-reg [33:0]UART_DECODER_o_word;
+reg Decoder_o_stb;
+reg [33:0]Decoder_o_word;
 wire UART_DECODER_i_stb_rise;
 
 assign UART_DECODER_i_data_in  = UART_WORD_RX;
@@ -46,7 +46,7 @@ UartDecoder uartDecoder(.i_clk(i_clk_12Mhz),
                         .i_data_valid(UART_DECODER_i_data_valid),
                         .i_stb(UART_DECODER_i_stb_rise),
                         .o_stb(UART_DECODER_o_stb),
-                        .o_word(UART_DECODER_o_word));
+                        .o_word(Decoder_o_word));
 
 
 always @(posedge i_clk_12Mhz) begin
@@ -86,12 +86,14 @@ wire i_wb_stall;
 wire i_wb_ack;
 wire i_wb_err;
 wire [31:0] i_wb_data;
+
+wire [7:0] o_LEDS_dummy;
  
 WB_master wb_master(.i_clk(i_clk_12Mhz),
                     .i_reset(i_reset),
                     //prikazy pro receivera
-                    .i_cmd_stb(UART_DECODER_o_stb),
-                    .i_cmd_word(UART_DECODER_o_word),
+                    .i_cmd_stb(Decoder_o_stb),
+                    .i_cmd_word(Decoder_o_word),
                     .o_cmd_busy(o_cmd_busy),
                     // Return command channel
                     .o_rsp_stb(o_rsp_stb),
@@ -119,14 +121,14 @@ WB_slave wb_slave(.i_clk(i_clk_12Mhz),
                   .i_wb_stb(o_wb_stb),
                   .i_wb_we(o_wb_we),
                   .i_wb_addr(o_wb_addr),
-				  .i_wb_data(o_wb_data),
+				      .i_wb_data(o_wb_data),
                   .i_wb_sel(o_wb_sel),
          
                   .o_wb_stall(i_wb_stall),
                   .o_wb_ack(i_wb_ack),
                   .o_wb_err(i_wb_err),
                   .o_wb_data(i_wb_data),
-                  .o_LEDS(o_LEDS));
+                  .o_LEDS(o_LEDS_dummy));
 
 
 //decode information from slave to multiple 8-bit words
@@ -137,9 +139,10 @@ UartCoder uartCoder(.i_clk(i_clk_12Mhz),
 					.i_stb(o_rsp_stb),
 					.o_dw_busy(o_dw_busy),
 					.i_word(o_rsp_word),
-					.out_char(UART_WORD_TX)
+					.out_char(UART_WORD_TX),
 					.i_TxBusy(uart_busy),
-					.o_TxStart(uart_stb));
+					.o_TxStart(uart_stb),
+					.o_LEDS(o_LEDS));
 
 
 

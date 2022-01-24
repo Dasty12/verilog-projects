@@ -13,13 +13,16 @@ reg i_data_valid_old;
 wire i_data_valid_rise;
 reg r_i_data_valid_rise;
 reg [4:0] o_bits;
-reg [4:0] o_bits_old = 0; 
 reg i_stb_old = 0;
 
 
 reg [33:0] r_word = 0;
 reg [2:0] command = 0;
 reg cmd_loaded = 0;
+
+
+
+reg [7:0] i_data_old_in;
 
 reg [33:0] o_word_new;
 
@@ -30,13 +33,18 @@ initial cmd_loaded = 1'b0;
 
 always @(posedge i_clk) begin
     
-    i_data_valid_old <= i_data_valid;
+    i_data_old_in <= i_data_in;
 end
 
 
 always @(posedge i_clk) begin
+
+
+end
+
+always @(posedge i_clk) begin
    // if(i_stb) begin
-        case(i_data_in[6:0])
+        case(i_data_old_in[6:0])
             7'h30: o_bits <= 5'h00;
             7'h31: o_bits <= 5'h01;
             7'h32: o_bits <= 5'h02;
@@ -77,16 +85,13 @@ initial o_word[31:0] = 0;
 always @(posedge i_clk) begin
 
     if(i_stb) begin
-		r_i_data_valid_rise <= 1;
-    
         //new command arrived
         if(o_bits[4:2] == 3'b100) begin  
             command <= o_bits[2:0];
            
             cmd_loaded <= 1'b1;
-            r_word[33:32] <= o_bits[1:0];   //o_bits[1:0]
+            r_word[33:32] <= o_bits[1:0];  
             r_word[31:0] <= 0;
-            o_bits_old <= o_bits;
 			
         end else if(o_bits != 5'h1f) begin
             r_word[31:0] <= {r_word[27:0], o_bits[3:0]};
@@ -96,7 +101,6 @@ always @(posedge i_clk) begin
             /*chyba, tohle se nema stát*/
             cmd_loaded <= 1'b1;
             r_word[33:0] <= 0;
-            o_bits_old <= o_bits;
 
         end
 
@@ -116,7 +120,6 @@ end
 always @(posedge i_clk) begin
 	if(i_stb) begin
         if(o_bits[4:2] == 3'b100) begin
-         //   o_word_new <= r_word;
 		    o_word <= r_word;
         end
 	end

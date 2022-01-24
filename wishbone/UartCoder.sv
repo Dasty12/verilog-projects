@@ -7,7 +7,8 @@ module UartCoder (
 	//UART top
     output reg [7:0] out_char,
 	input  i_TxBusy,
-	output reg o_TxStart
+	output reg o_TxStart,
+	output reg [7:0] o_LEDS
 );
 
 
@@ -34,7 +35,7 @@ wire TxBusy_rise;
 
 reg TxStart_r = 0;
 
-
+initial o_LEDS = 0;
 
 always@(posedge i_clk) begin
 	
@@ -56,8 +57,19 @@ always@(posedge i_clk) begin
 		if(i_word[33:32] == 2'b01)begin
 			//r_word <= i_word;
 			r_word <= 83;
-			transmit_counter <= 2;			
-		end 
+			transmit_counter <= 0;	
+		end else if(i_word[33:32] == 2'b00)begin
+			//r_word <= 9;
+			//r_word <= i_word;
+			//o_LEDS[7:2] <= i_word[5:0];
+			o_LEDS <= o_LEDS + 1;
+			transmit_counter <= 2;
+		end else if(i_word[33:32] == 2'b10) begin
+		end else begin
+		end
+		
+	//	o_LEDS[1:0] <= i_word[33:32];
+		
 	end
 	
 	i_stb_old <= i_stb;

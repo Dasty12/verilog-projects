@@ -12,6 +12,7 @@ module wishbone_top_quartus (
 
 
 wire i_clk_100Mhz;
+wire i_clk_1Mhz;
 reg areset = 0;
 wire locked;
 
@@ -20,6 +21,7 @@ PLL_1 pll(
 	areset,
 	i_clk_12Mhz,
 	i_clk_100Mhz,
+	i_clk_1Mhz,
 	locked);
 
 

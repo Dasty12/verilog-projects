@@ -7,7 +7,8 @@ module UartCoder (
 	//UART top
     output reg [7:0] out_char,
 	input  i_TxBusy,
-	output reg o_TxStart
+	output reg o_TxStart,
+	output reg [7:0] o_LEDS
 );
 
 
@@ -34,6 +35,8 @@ wire TxBusy_rise;
 
 reg TxStart_r = 0;
 
+
+
 always@(posedge i_clk) begin
 	
 	
@@ -54,8 +57,19 @@ always@(posedge i_clk) begin
 		if(i_word[33:32] == 2'b01)begin
 			//r_word <= i_word;
 			r_word <= 83;
-			transmit_counter <= 2;			
-		end 
+			transmit_counter <= 0;	
+		end else if(i_word[33:32] == 2'b00)begin
+			//r_word <= 9;
+			//r_word <= i_word;
+			//o_LEDS[7:2] <= i_word[5:0];
+			o_LEDS <= o_LEDS + 1;
+			transmit_counter <= 2;
+		end else if(i_word[33:32] == 2'b10) begin
+		end else begin
+		end
+		
+	//	o_LEDS[1:0] <= i_word[33:32];
+		
 	end
 	
 	i_stb_old <= i_stb;
@@ -71,23 +85,23 @@ end
 always@(posedge i_clk) begin
 	
 	case(to_Coder)
-		4'h00: out_char <= 8'h30;
-		4'h01: out_char <= 8'h31;
-		4'h02: out_char <= 8'h32;
-		4'h03: out_char <= 8'h33;
-		4'h04: out_char <= 8'h34;
-		4'h05: out_char <= 8'h35;
-		4'h06: out_char <= 8'h36;
-		4'h07: out_char <= 8'h37;
-		4'h08: out_char <= 8'h38;
-		4'h09: out_char <= 8'h39;
+		4'h0: out_char <= 8'h30;
+		4'h1: out_char <= 8'h31;
+		4'h2: out_char <= 8'h32;
+		4'h3: out_char <= 8'h33;
+		4'h4: out_char <= 8'h34;
+		4'h5: out_char <= 8'h35;
+		4'h6: out_char <= 8'h36;
+		4'h7: out_char <= 8'h37;
+		4'h8: out_char <= 8'h38;
+		4'h9: out_char <= 8'h39;
 		
-		4'h0a: out_char <= 8'h61;
-		4'h0b: out_char <= 8'h62;
-		4'h0c: out_char <= 8'h63;
-		4'h0d: out_char <= 8'h64;
-		4'h0e: out_char <= 8'h65;
-		4'h0f: out_char <= 8'h66;
+		4'ha: out_char <= 8'h61;
+		4'hb: out_char <= 8'h62;
+		4'hc: out_char <= 8'h63;
+		4'hd: out_char <= 8'h64;
+		4'he: out_char <= 8'h65;
+		4'hf: out_char <= 8'h66;
 		default:
 			out_char <= 8'hff;
 	endcase

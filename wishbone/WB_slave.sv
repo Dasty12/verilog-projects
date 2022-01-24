@@ -25,14 +25,14 @@ initial o_wb_err = 0;
 reg[15:0] memory[9];
 
 initial memory[0] = 15'h0001;
-initial memory[1] = 15'h0010;
-initial memory[2] = 15'h0020;
-initial memory[3] = 15'h0040;
-initial memory[4] = 15'h0080;
-initial memory[5] = 15'h0090;
-initial memory[6] = 15'h00A0;
-initial memory[7] = 15'h00B0;
-initial memory[8] = 15'h00C0;
+initial memory[1] = 15'h0011;
+initial memory[2] = 15'h0021;
+initial memory[3] = 15'h0041;
+initial memory[4] = 15'h0081;
+initial memory[5] = 15'h0091;
+initial memory[6] = 15'h00A1;
+initial memory[7] = 15'h00B1;
+initial memory[8] = 15'h00C1;
 
 
 
@@ -60,8 +60,10 @@ always @(posedge i_clk) begin
 	   
     end
 
+	if(i_wb_we == 0) begin
+		o_wb_data[15:0] <= memory[1];//memory[i_wb_addr[2:0]];
+	end 
 
-	o_wb_data[15:0] <= memory[i_wb_addr[2:0]];
 
 end
 
