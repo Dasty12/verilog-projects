@@ -90,8 +90,8 @@ always @(posedge i_clk) begin
     end else if(o_wb_stb) begin
         if(!i_wb_stall)
             o_wb_stb <= 1'b0;
-        if((!i_wb_stall) && (i_wb_ack))
-            o_wb_cyc <= 1'b0;
+		if((!i_wb_stall) && (i_wb_ack))
+			o_wb_cyc <= 1'b0;
 
     end else if(o_wb_cyc) begin //BUS WAIT
         if(i_wb_ack)
@@ -107,6 +107,7 @@ always @(posedge i_clk) begin
 end
 
 //whether or not we are too busy to accept anything else from the command port.
+//This will be changed, if we want accept multiple write command per bus cycle.
 assign o_cmd_busy = o_wb_cyc;
 
 
@@ -121,8 +122,13 @@ end
 
 always @(posedge i_clk) begin
     if((i_cmd_addr) && (!o_cmd_busy)) begin
+<<<<<<< Updated upstream
 
         o_wb_addr <= i_cmd_word_old[29:2];
+=======
+        o_wb_addr <= i_cmd_word[29:0];
+	end
+>>>>>>> Stashed changes
        /* if(!i_cmd_word[1]) begin
             o_wb_addr <= i_cmd_word[29:2];
             bude_inc <= 1'b0;
@@ -132,9 +138,10 @@ always @(posedge i_clk) begin
         end
 */
      //   inc <= !i_cmd_word[0];
-    end else if((o_wb_stb) && (!i_wb_stall)) begin
-        o_wb_addr <= o_wb_addr + {{29{1'b0}}, inc};
-    end
+  
+//  end else if((o_wb_stb) && (!i_wb_stall)) begin
+//        o_wb_addr <= o_wb_addr + {{29{1'b0}}, inc};
+//    end
 
     newaddr <= ((!i_reset) && (i_cmd_addr) && (!o_cmd_busy));
 end
@@ -149,9 +156,8 @@ assign o_wb_sel = 4'hf;
 
 initial o_rsp_stb = 1'b1;
 initial o_rsp_word = `RSP_RESET;
-reg test_tady = 1'b0;
+
 always @(posedge i_clk) begin
-	test_tady <= 1'b0;
     if(i_reset) begin
         o_rsp_stb  <= 1'b1;
         o_rsp_word <= `RSP_BUS_ERROR;
@@ -160,7 +166,6 @@ always @(posedge i_clk) begin
         o_rsp_word <= `RSP_BUS_ERROR;
     end else if(o_wb_cyc) begin
         o_rsp_stb <= (i_wb_ack);
-		test_tady <= 1'b1;
 
         if(o_wb_we) begin
             o_rsp_word <= `RSP_WRITE_AKCNOWLEDGEMENT;
@@ -174,7 +179,8 @@ always @(posedge i_clk) begin
         //echo any new addres back up the command chain
 
         o_rsp_stb <= newaddr;
-        o_rsp_word <= {`RSP_SUB_ADDR, {(30 - 30){1'b0}}, o_wb_addr, 1'b0, inc};    
+		o_rsp_word <= {`RSP_SUB_ADDR,o_wb_addr};
+        //o_rsp_word <= {`RSP_SUB_ADDR, {(30 - 30){1'b0}}, o_wb_addr, 1'b0, inc};    
     end
 end
 
