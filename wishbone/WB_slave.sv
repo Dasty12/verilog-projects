@@ -56,17 +56,4 @@ always @(posedge i_clk) begin
     end
 
 end
-
-/*
-always @(posedge i_clk) begin
-   /* if(i_wb_addr == 1) begin
-        
-		//o_wb_data <= i_wb_data;
-    end else begin
-       LEDS <= 8'b11111111;
-	   
-    end
-
-
-
-end
+endmodule

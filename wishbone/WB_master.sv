@@ -122,13 +122,9 @@ end
 
 always @(posedge i_clk) begin
     if((i_cmd_addr) && (!o_cmd_busy)) begin
-<<<<<<< Updated upstream
 
-        o_wb_addr <= i_cmd_word_old[29:2];
-=======
         o_wb_addr <= i_cmd_word[29:0];
-	end
->>>>>>> Stashed changes
+
        /* if(!i_cmd_word[1]) begin
             o_wb_addr <= i_cmd_word[29:2];
             bude_inc <= 1'b0;
@@ -138,7 +134,7 @@ always @(posedge i_clk) begin
         end
 */
      //   inc <= !i_cmd_word[0];
-  
+  end
 //  end else if((o_wb_stb) && (!i_wb_stall)) begin
 //        o_wb_addr <= o_wb_addr + {{29{1'b0}}, inc};
 //    end

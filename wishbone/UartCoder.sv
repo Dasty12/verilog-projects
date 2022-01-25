@@ -57,7 +57,7 @@ always@(posedge i_clk) begin
 		if(i_word[33:32] == 2'b01)begin
 			//r_word <= i_word;
 			r_word <= 83;
-<<<<<<< Updated upstream
+
 			transmit_counter <= 0;	
 		end else if(i_word[33:32] == 2'b00)begin
 			//r_word <= 9;
@@ -71,11 +71,7 @@ always@(posedge i_clk) begin
 		
 	//	o_LEDS[1:0] <= i_word[33:32];
 		
-=======
-			transmit_counter <= 2;			
-		end 
-		r_word_test <= i_word;
->>>>>>> Stashed changes
+
 	end
 	
 	i_stb_old <= i_stb;
