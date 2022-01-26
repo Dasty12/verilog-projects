@@ -34,12 +34,12 @@ module WB_master (
     //}}}
     // Wishbone output 
     //{{{
-    output reg         o_wb_cyc,    /* The cycle output, when assterted, indicates that a valid bus cycle is in progress*/
-    output reg         o_wb_stb,    /* Strobe output -indicates a valid data transfer cycle*/
-    output reg         o_wb_we,     /* Write enable line - indicates whether the current local bus cycle is a READ=0 or WRITE=1 cycle*/
-    output reg [29:0]  o_wb_addr,
-    output reg [31:0]  o_wb_data,
-    output wire [3:0]  o_wb_sel,    /* Adresa slave */
+    output reg         o_wb_cyc = 0,    /* The cycle output, when assterted, indicates that a valid bus cycle is in progress*/
+    output reg         o_wb_stb = 0,    /* Strobe output -indicates a valid data transfer cycle*/
+    output reg         o_wb_we = 0,     /* Write enable line - indicates whether the current local bus cycle is a READ=0 or WRITE=1 cycle*/
+    output reg [29:0]  o_wb_addr = 0,
+    output reg [31:0]  o_wb_data = 0,
+    output wire [3:0]  o_wb_sel = 0,    /* Adresa slave */
     //}}}
     // Wishbone inputs 
     //{{{
@@ -79,7 +79,7 @@ assign i_cmd_wr   = (i_cmd_stb) && (i_cmd_word_old[33:32] == `CMD_SUB_WR);    //
 assign i_cmd_bus  = (i_cmd_stb) && (i_cmd_word_old[33]    == `CMD_SUB_BUS);   // Signalizuje W/R
 
 
-initial o_wb_cyc = 1'b0;
+//initial o_wb_cyc = 1'b0;
 initial o_wb_stb = 1'b0;
 
 
@@ -124,20 +124,7 @@ always @(posedge i_clk) begin
     if((i_cmd_addr) && (!o_cmd_busy)) begin
 
         o_wb_addr <= i_cmd_word[29:0];
-
-       /* if(!i_cmd_word[1]) begin
-            o_wb_addr <= i_cmd_word[29:2];
-            bude_inc <= 1'b0;
-        end else begin
-            o_wb_addr <= i_cmd_word[29:2] + o_wb_addr;  
-            bude_inc <= 1'b1;       
-        end
-*/
-     //   inc <= !i_cmd_word[0];
   end
-//  end else if((o_wb_stb) && (!i_wb_stall)) begin
-//        o_wb_addr <= o_wb_addr + {{29{1'b0}}, inc};
-//    end
 
     newaddr <= ((!i_reset) && (i_cmd_addr) && (!o_cmd_busy));
 end
@@ -176,7 +163,7 @@ always @(posedge i_clk) begin
 
         o_rsp_stb <= newaddr;
 		o_rsp_word <= {`RSP_SUB_ADDR,o_wb_addr};
-        //o_rsp_word <= {`RSP_SUB_ADDR, {(30 - 30){1'b0}}, o_wb_addr, 1'b0, inc};    
+      //  o_rsp_word <= {`RSP_SUB_ADDR, {(30 - 30){1'b0}}, o_wb_addr, 1'b0, inc};    
     end
 end
 

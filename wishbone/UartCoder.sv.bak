@@ -1,13 +1,16 @@
 module UartCoder (
-    input i_clk,
-    input i_reset,
-    input i_stb,
-    output o_dw_busy,
+    input       i_clk,
+    input       i_reset,
+	
+    input        i_stb,
+    output       o_dw_busy,
     input [33:0] i_word,
+    input        i_wb_we,
 	//UART top
     output reg [7:0] out_char,
-	input  i_TxBusy,
-	output reg o_TxStart,
+	input            i_TxBusy,
+	output reg       o_TxStart,
+
 	output reg [7:0] o_LEDS
 );
 
@@ -32,14 +35,14 @@ reg TxBusy_old;
 
 wire TxBusy_rise; 
 
-
+reg TxStart_r_new = 0;
 reg TxStart_r = 0;
 
-
+initial o_LEDS = 0;
 
 always@(posedge i_clk) begin
 	
-	
+	/*
 	if((transmit_counter > 0) && (!TxStart_r) && (!i_TxBusy)) begin
 		transmit_counter <= transmit_counter - 1;
 		to_Coder <= r_word[3:0];
@@ -49,34 +52,25 @@ always@(posedge i_clk) begin
 		transmit_on_vym <= 0;
 		TxStart_r <= 1'b0;
 	end
-	
+	*/
 	
 	
 	
 	if(i_stb) begin	// nereagovat na S příkaz
-		if(i_word[33:32] == 2'b01)begin
-			//r_word <= i_word;
-			r_word <= 83;
-<<<<<<< Updated upstream
-			transmit_counter <= 0;	
-		end else if(i_word[33:32] == 2'b00)begin
-			//r_word <= 9;
-			//r_word <= i_word;
-			//o_LEDS[7:2] <= i_word[5:0];
-			o_LEDS <= o_LEDS + 1;
-			transmit_counter <= 2;
-		end else if(i_word[33:32] == 2'b10) begin
-		end else begin
-		end
+		if(i_wb_we) begin	//write
 		
-	//	o_LEDS[1:0] <= i_word[33:32];
+		end else begin	//read
+			r_word_test <= i_word;
+			to_Coder <= i_word[3:0];
+			TxStart_r <= 1'b1;
+			o_LEDS[7:1] <= i_word[7:1];
+			o_LEDS[0] <= 1;
 		
-=======
-			transmit_counter <= 2;			
 		end 
-		r_word_test <=i_word;
->>>>>>> Stashed changes
+	end else begin
+		TxStart_r <= 1'b0;
 	end
+	
 	
 	i_stb_old <= i_stb;
 	
@@ -91,7 +85,7 @@ end
 always@(posedge i_clk) begin
 	
 	case(to_Coder)
-		4'h0: out_char <= 8'h30;
+		4'h0: out_char <= 8'h36;
 		4'h1: out_char <= 8'h31;
 		4'h2: out_char <= 8'h32;
 		4'h3: out_char <= 8'h33;
