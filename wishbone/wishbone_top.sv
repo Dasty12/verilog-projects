@@ -92,8 +92,8 @@ wire [7:0] o_LEDS_dummy;
  
 WB_master wb_master(.i_clk(i_clk_12Mhz),
                     .i_reset(i_reset),
-							.Usr_button(Usr_button),
-							.o_LEDS(o_LEDS),
+				    .Usr_button(Usr_button),
+				    .o_LEDS(o_LEDS),
                     //prikazy pro receivera
                     .i_cmd_stb(Decoder_o_stb),
                     .i_cmd_word(Decoder_o_word),

@@ -162,7 +162,7 @@ end
 
 assign o_wb_sel = 4'hf;
 
-initial o_rsp_stb = 1'b1;
+initial o_rsp_stb = 1'b0;
 initial o_rsp_word = `RSP_RESET;
 
 always @(posedge i_clk) begin

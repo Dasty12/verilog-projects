@@ -92,8 +92,8 @@ wire [7:0] o_LEDS_dummy;
  
 WB_master wb_master(.i_clk(i_clk_12Mhz),
                     .i_reset(i_reset),
-					.Usr_button(Usr_button),
-					o_LEDS(o_LEDS),
+							.Usr_button(Usr_button),
+							.o_LEDS(o_LEDS_dummy),
                     //prikazy pro receivera
                     .i_cmd_stb(Decoder_o_stb),
                     .i_cmd_word(Decoder_o_word),
@@ -131,7 +131,7 @@ WB_slave wb_slave(.i_clk(i_clk_12Mhz),
                   .o_wb_ack(i_wb_ack),
                   .o_wb_err(i_wb_err),
                   .o_wb_data(i_wb_data),
-                  .o_LEDS(o_LEDS));
+                  .o_LEDS(o_LEDS_dummy));
 
 
 //decode information from slave to multiple 8-bit words
@@ -146,7 +146,7 @@ UartCoder uartCoder(.i_clk(i_clk_12Mhz),
 					.i_TxBusy(uart_busy),
 					.o_TxStart(uart_stb),
 					.i_wb_we(o_wb_we),
-					.o_LEDS(o_LEDS_dummy));
+					.o_LEDS(o_LEDS));
 
 
 

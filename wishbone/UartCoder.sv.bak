@@ -37,10 +37,14 @@ wire TxBusy_rise;
 
 reg TxStart_r_new = 0;
 reg TxStart_r = 0;
+reg [3:0] cnt_wait = 0;
 
 initial o_LEDS = 0;
 
 always@(posedge i_clk) begin
+	
+	
+	
 	
 	/*
 	if((transmit_counter > 0) && (!TxStart_r) && (!i_TxBusy)) begin
@@ -60,17 +64,37 @@ always@(posedge i_clk) begin
 		if(i_wb_we) begin	//write
 		
 		end else begin	//read
-			r_word_test <= i_word;
-			to_Coder <= i_word[3:0];
-			TxStart_r <= 1'b1;
-			o_LEDS[7:1] <= i_word[7:1];
-			o_LEDS[0] <= 1;
-		
+			r_word_test[15:0] <= i_word[15:0];
+			r_word_test[33:20] <= 0;
+			transmit_counter <= 5;
+		//	r_word_test[7:4] <= 0;
+		//	r_word_test[11:8] <= 1;
+			//to_Coder <= i_word[3:0];
+			//TxStart_r <= 1'b1;
+			
+			//o_LEDS[7:1] <= i_word[7:1];
+			//o_LEDS[0] <= 1;
 		end 
 	end else begin
-		TxStart_r <= 1'b0;
+		//TxStart_r <= 1'b0;
+	//	to_Coder <= r_word[3:0];
+	//	r_word <= {{(4){1'b0}},r_word[33:4]};
 	end
 	
+	
+	o_LEDS[2:0] <= transmit_counter;
+	
+	if((transmit_counter > 0) &&(!TxStart_r) && (!i_TxBusy) && (cnt_wait == 0)) begin
+		transmit_counter <= transmit_counter - 1;
+		cnt_wait <= 4;
+		to_Coder <= r_word_test[3:0];
+		r_word_test <= {{(4){1'b0}},r_word_test[33:4]};
+		TxStart_r <= 1'b1;
+	end else begin 
+		TxStart_r <= 1'b0;
+	//	if(cnt_wait > 0) 
+			cnt_wait <= cnt_wait - 1;
+	end
 	
 	i_stb_old <= i_stb;
 	
@@ -85,7 +109,7 @@ end
 always@(posedge i_clk) begin
 	
 	case(to_Coder)
-		4'h0: out_char <= 8'h36;
+		4'h0: out_char <= 8'h30;
 		4'h1: out_char <= 8'h31;
 		4'h2: out_char <= 8'h32;
 		4'h3: out_char <= 8'h33;

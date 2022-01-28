@@ -70,10 +70,11 @@ always @(posedge i_clk) begin
 
 	if(i_cmd_stb) begin	//tady to krasne sedi
 		o_LEDS[1:0] <= i_cmd_word[33:32];	
-		o_LEDS[7:2] <= i_cmd_word[5:0];
+		
 		i_cmd_stb_old <= 1;
 	end
 	else if(i_cmd_stb_old) begin
+		o_LEDS[7:2] <= i_cmd_word[5:0];
 	end
 
 
