@@ -79,7 +79,7 @@ always @(posedge i_clk) begin
 	
 	nevim <= memory[4];
 	
-	o_LEDS[7:0] <=  memory[i_wb_addr[2:0]][7:0];
+	o_LEDS[7:0] <=  i_wb_addr[7:0];
 
 end
 endmodule

@@ -63,6 +63,7 @@ always @(posedge i_clk) begin
         if(i_wb_we) begin
 			//LEDS <= i_wb_data[7:0];
             //o_LEDS <= LEDS;
+			memory[i_wb_addr[2:0]] <= i_wb_data[15:0];
         end else begin
 			o_wb_data[31:16] <= 16'h0;
 			o_wb_data[15:0] <= memory[i_wb_addr[2:0]];
