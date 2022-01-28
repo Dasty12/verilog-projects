@@ -34,12 +34,13 @@ reg[7:0] ram[] = {8'h41, 8'h31, 8'h52, 8'h30, 8'h41, 8'h33, 8'h52, 8'h30};
 
 reg[10:0] ram_counter = 0;
 
-
+reg Usr_button = 0;
 
 wishbone_top DUT(.i_clk_12Mhz(clk),
                  .IO_UART_RX(IO_UART_RX),
                  .IO_UART_TX(IO_UART_TX),
-                 .o_LEDS(o_LEDS));
+                 .o_LEDS(o_LEDS)
+				 .Usr_button(Usr_button));
 
 
 

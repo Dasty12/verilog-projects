@@ -20,6 +20,8 @@
 
 module WB_master (
     input             i_clk, i_reset,
+	input 			  Usr_button,
+	output reg [7:0]  o_LEDS,
     //}}}
     //prikazy od receivera(Uart Decoder)
     //{{{
@@ -60,7 +62,30 @@ reg bude_inc = 1'b1;
 
 reg [33:0] i_cmd_word_old = 0;
 
+reg  i_cmd_stb_old = 0;
 
+
+always @(posedge i_clk) begin
+
+
+	if(i_cmd_stb) begin	//tady to krasne sedi
+		o_LEDS[1:0] <= i_cmd_word[33:32];	
+		
+		i_cmd_stb_old <= 1;
+	end
+	else if(i_cmd_stb_old) begin
+		o_LEDS[7:2] <= i_cmd_word[5:0];
+	end
+
+
+	if(Usr_button) begin	
+		
+	end else begin	//tlacitko je zmacknute
+		o_LEDS <= 0;
+	end
+	
+
+end
 
 always @(posedge i_clk) begin
 	i_cmd_word_old <= i_cmd_word;

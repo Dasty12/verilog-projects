@@ -20,6 +20,8 @@
 
 module WB_master (
     input             i_clk, i_reset,
+	input 			  Usr_button,
+	output reg [7:0]  o_LEDS,
     //}}}
     //prikazy od receivera(Uart Decoder)
     //{{{
@@ -37,9 +39,9 @@ module WB_master (
     output reg         o_wb_cyc = 0,    /* The cycle output, when assterted, indicates that a valid bus cycle is in progress*/
     output reg         o_wb_stb = 0,    /* Strobe output -indicates a valid data transfer cycle*/
     output reg         o_wb_we = 0,     /* Write enable line - indicates whether the current local bus cycle is a READ=0 or WRITE=1 cycle*/
-    output reg [29:0]  o_wb_addr,
-    output reg [31:0]  o_wb_data,
-    output wire [3:0]  o_wb_sel,    /* Adresa slave */
+    output reg [29:0]  o_wb_addr = 0,
+    output reg [31:0]  o_wb_data = 0,
+    output wire [3:0]  o_wb_sel = 0,    /* Adresa slave */
     //}}}
     // Wishbone inputs 
     //{{{
@@ -60,7 +62,29 @@ reg bude_inc = 1'b1;
 
 reg [33:0] i_cmd_word_old = 0;
 
+reg  i_cmd_stb_old = 0;
 
+
+always @(posedge i_clk) begin
+
+
+	if(i_cmd_stb) begin	//tady to krasne sedi
+		o_LEDS[1:0] <= i_cmd_word[33:32];	
+		o_LEDS[7:2] <= i_cmd_word[5:0];
+		i_cmd_stb_old <= 1;
+	end
+	else if(i_cmd_stb_old) begin
+	end
+
+
+	if(Usr_button) begin	
+		
+	end else begin	//tlacitko je zmacknute
+		o_LEDS <= 0;
+	end
+	
+
+end
 
 always @(posedge i_clk) begin
 	i_cmd_word_old <= i_cmd_word;
