@@ -43,47 +43,26 @@ initial o_LEDS = 0;
 
 always@(posedge i_clk) begin
 	
-	
-	
-	
-	/*
-	if((transmit_counter > 0) && (!TxStart_r) && (!i_TxBusy)) begin
-		transmit_counter <= transmit_counter - 1;
-		to_Coder <= r_word[3:0];
-		r_word <= {{(4){1'b0}},r_word[33:4]};
-		TxStart_r <= 1'b1;
-	end else if(i_TxBusy) begin
-		transmit_on_vym <= 0;
-		TxStart_r <= 1'b0;
-	end
-	*/
-	
-	
-	
 	if(i_stb) begin	// nereagovat na S příkaz
 		if(i_wb_we) begin	//write
-		
+			r_word_test[15:0] <= 0;
+			r_word_test[17:16] <= i_word[33:32];
+			r_word_test[31:18] <= 0;
 		end else begin	//read
 			r_word_test[15:0] <= i_word[15:0];
-			r_word_test[19:16] <= 2;
-			r_word_test[33:20] <= 0;
-			transmit_counter <= 5;
-		//	r_word_test[7:4] <= 0;
-		//	r_word_test[11:8] <= 1;
-			//to_Coder <= i_word[3:0];
-			//TxStart_r <= 1'b1;
+			r_word_test[17:16] <= i_word[33:32];
+			r_word_test[33:18] <= 0;
 			
-			//o_LEDS[7:1] <= i_word[7:1];
-			//o_LEDS[0] <= 1;
+
 		end 
+		transmit_counter <= 5;
+		o_LEDS[1:0] <= i_word[33:32];
 	end else begin
-		//TxStart_r <= 1'b0;
-	//	to_Coder <= r_word[3:0];
-	//	r_word <= {{(4){1'b0}},r_word[33:4]};
+
 	end
 	
 	
-	o_LEDS[2:0] <= transmit_counter;
+	//o_LEDS[2:0] <= transmit_counter;
 	
 	if((transmit_counter > 0) &&(!TxStart_r) && (!i_TxBusy) && (cnt_wait == 0)) begin
 		transmit_counter <= transmit_counter - 1;
@@ -92,16 +71,14 @@ always@(posedge i_clk) begin
 		r_word_test <= {{(4){1'b0}},r_word_test[33:4]};
 		TxStart_r <= 1'b1;
 	end else begin 
-		TxStart_r <= 1'b0;
-	//	if(cnt_wait > 0) 
-			cnt_wait <= cnt_wait - 1;
+		TxStart_r <= 1'b0; 
+		cnt_wait <= cnt_wait - 1;
 	end
 	
 	i_stb_old <= i_stb;
 	
 	
 	o_TxStart <= TxStart_r;
-	
 end
 
 
