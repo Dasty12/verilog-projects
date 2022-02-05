@@ -73,13 +73,6 @@ void VUartDecoder::eval_step() {
 }
 
 //============================================================
-// Invoke final blocks
-
-void VUartDecoder::final() {
-    VUartDecoder___024root___final(&(vlSymsp->TOP));
-}
-
-//============================================================
 // Utilities
 
 VerilatedContext* VUartDecoder::contextp() const {
@@ -91,11 +84,18 @@ const char* VUartDecoder::name() const {
 }
 
 //============================================================
+// Invoke final blocks
+
+VL_ATTR_COLD void VUartDecoder::final() {
+    VUartDecoder___024root___final(&(vlSymsp->TOP));
+}
+
+//============================================================
 // Trace configuration
 
 void VUartDecoder___024root__trace_init_top(VUartDecoder___024root* vlSelf, VerilatedVcd* tracep);
 
-static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
+VL_ATTR_COLD static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
     // Callback from tracep->open()
     VUartDecoder___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<VUartDecoder___024root*>(voidSelf);
     VUartDecoder__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -110,9 +110,10 @@ static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
     tracep->scopeEscape('.');
 }
 
-void VUartDecoder___024root__trace_register(VUartDecoder___024root* vlSelf, VerilatedVcd* tracep);
+VL_ATTR_COLD void VUartDecoder___024root__trace_register(VUartDecoder___024root* vlSelf, VerilatedVcd* tracep);
 
-void VUartDecoder::trace(VerilatedVcdC* tfp, int, int) {
+VL_ATTR_COLD void VUartDecoder::trace(VerilatedVcdC* tfp, int levels, int options) {
+    if (false && levels && options) {}  // Prevent unused
     tfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP));
     VUartDecoder___024root__trace_register(&(vlSymsp->TOP), tfp->spTrace());
 }

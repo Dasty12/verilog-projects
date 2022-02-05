@@ -20,8 +20,7 @@ VL_INLINE_OPT void VUartDecoder___024root___sequent__TOP__2(VUartDecoder___024ro
     vlSelf->UartDecoder__DOT__i_data_valid_old = vlSelf->i_data_valid;
     if (vlSelf->i_stb) {
         vlSelf->UartDecoder__DOT__i_stb_old = 1U;
-        vlSelf->UartDecoder__DOT__r_i_data_valid_rise 
-            = vlSelf->i_stb;
+        vlSelf->UartDecoder__DOT__r_i_data_valid_rise = 1U;
         if ((4U == (7U & ((IData)(vlSelf->UartDecoder__DOT__o_bits) 
                           >> 2U)))) {
             vlSelf->UartDecoder__DOT__command = (7U 
@@ -46,8 +45,7 @@ VL_INLINE_OPT void VUartDecoder___024root___sequent__TOP__2(VUartDecoder___024ro
         }
     } else {
         vlSelf->UartDecoder__DOT__i_stb_old = 0U;
-        vlSelf->UartDecoder__DOT__r_i_data_valid_rise 
-            = vlSelf->i_stb;
+        vlSelf->UartDecoder__DOT__r_i_data_valid_rise = 0U;
     }
     if (vlSelf->o_stb) {
         vlSelf->UartDecoder__DOT__testovaci = vlSelf->o_word;

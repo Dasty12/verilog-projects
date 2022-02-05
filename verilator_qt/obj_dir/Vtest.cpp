@@ -81,13 +81,6 @@ void Vtest::eval_step() {
 }
 
 //============================================================
-// Invoke final blocks
-
-void Vtest::final() {
-    Vtest___024root___final(&(vlSymsp->TOP));
-}
-
-//============================================================
 // Utilities
 
 VerilatedContext* Vtest::contextp() const {
@@ -99,11 +92,18 @@ const char* Vtest::name() const {
 }
 
 //============================================================
+// Invoke final blocks
+
+VL_ATTR_COLD void Vtest::final() {
+    Vtest___024root___final(&(vlSymsp->TOP));
+}
+
+//============================================================
 // Trace configuration
 
 void Vtest___024root__trace_init_top(Vtest___024root* vlSelf, VerilatedVcd* tracep);
 
-static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
+VL_ATTR_COLD static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
     // Callback from tracep->open()
     Vtest___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vtest___024root*>(voidSelf);
     Vtest__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -118,9 +118,10 @@ static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
     tracep->scopeEscape('.');
 }
 
-void Vtest___024root__trace_register(Vtest___024root* vlSelf, VerilatedVcd* tracep);
+VL_ATTR_COLD void Vtest___024root__trace_register(Vtest___024root* vlSelf, VerilatedVcd* tracep);
 
-void Vtest::trace(VerilatedVcdC* tfp, int, int) {
+VL_ATTR_COLD void Vtest::trace(VerilatedVcdC* tfp, int levels, int options) {
+    if (false && levels && options) {}  // Prevent unused
     tfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP));
     Vtest___024root__trace_register(&(vlSymsp->TOP), tfp->spTrace());
 }

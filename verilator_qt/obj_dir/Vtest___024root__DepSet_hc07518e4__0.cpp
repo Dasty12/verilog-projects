@@ -55,18 +55,18 @@ VL_INLINE_OPT void Vtest___024root___sequent__TOP__1(Vtest___024root* vlSelf) {
               | (6U == (IData)(vlSelf->test__DOT__state))) 
              | (7U == (IData)(vlSelf->test__DOT__state)))) {
             if ((0U == (IData)(vlSelf->test__DOT__state))) {
-                __Vdly__test__DOT__X0 = VL_MULS_III(32,32,32, (IData)(0xaU), vlSelf->test__DOT__I);
+                __Vdly__test__DOT__X0 = VL_MULS_III(32, (IData)(0xaU), vlSelf->test__DOT__I);
             } else if ((1U == (IData)(vlSelf->test__DOT__state))) {
                 __Vdly__test__DOT__X00 = vlSelf->test__DOT__X0;
             } else if ((2U == (IData)(vlSelf->test__DOT__state))) {
                 __Vdly__test__DOT__X1 = ((IData)(0xc8U) 
                                          - vlSelf->test__DOT__X00);
             } else if ((3U == (IData)(vlSelf->test__DOT__state))) {
-                __Vdly__test__DOT__X2 = VL_MULS_III(32,32,32, (IData)(0x64U), vlSelf->test__DOT__X1);
+                __Vdly__test__DOT__X2 = VL_MULS_III(32, (IData)(0x64U), vlSelf->test__DOT__X1);
             } else if ((4U == (IData)(vlSelf->test__DOT__state))) {
                 __Vdly__test__DOT__X22 = vlSelf->test__DOT__X2;
             } else if ((5U == (IData)(vlSelf->test__DOT__state))) {
-                __Vdly__test__DOT__di = VL_MULS_III(32,32,32, (IData)(0x1aU), vlSelf->test__DOT__X22);
+                __Vdly__test__DOT__di = VL_MULS_III(32, (IData)(0x1aU), vlSelf->test__DOT__X22);
             } else if ((6U == (IData)(vlSelf->test__DOT__state))) {
                 __Vdly__test__DOT__di2 = (vlSelf->test__DOT__di 
                                           >> 0xaU);
