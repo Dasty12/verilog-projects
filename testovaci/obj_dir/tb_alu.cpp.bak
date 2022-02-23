@@ -13,6 +13,7 @@ using namespace std;
 
 #define MAX_SIM_TIME 20
 vluint64_t sim_time = 0;
+vluint64_t posedge_cnt = 0;
 
 int main(int argc, char** argv, char** env) {
     Valu *dut = new Valu;
@@ -32,9 +33,15 @@ int main(int argc, char** argv, char** env) {
         sim_time++;
 		if(dut->clk == 1)
 		{
-			l.push_back(dut->lin);
-			time.push_back(sim_time);
+			posedge_cnt++;
+			
+			if(posedge_cnt == 5)
+			{
+				
+			}
 		}
+		l.push_back(dut->lin);
+		time.push_back(sim_time);
 		
     }
 
@@ -48,7 +55,7 @@ int main(int argc, char** argv, char** env) {
 	
 	for(int i = 0; i < time.size(); i++)
 	{
-		myfile << time.at(i) <<"," <<l.at(i) <<"\n" ;
+		myfile << time.at(i) <<"," <<l.at(i) <<"," <<"\n" ;
 		
 	}
 	
