@@ -12,6 +12,7 @@
 
 class VSPI_DAC__Syms;
 class VSPI_DAC___024root;
+class VerilatedVcdC;
 
 // This class is the main interface to the Verilated model
 class VSPI_DAC VL_NOT_FINAL {
@@ -26,6 +27,7 @@ class VSPI_DAC VL_NOT_FINAL {
     // propagate new values into/out from the Verilated model.
     VL_IN8(&clk,0,0);
     VL_IN8(&ST_rise,0,0);
+    VL_IN8(&rst,0,0);
     VL_OUT8(&n_CS,0,0);
     VL_OUT8(&SCK,0,0);
     VL_OUT8(&SDI,0,0);
@@ -61,6 +63,8 @@ class VSPI_DAC VL_NOT_FINAL {
     void eval_end_step() {}
     /// Simulation complete, run final blocks.  Application must call on completion.
     void final();
+    /// Trace signals in the model; called by application code
+    void trace(VerilatedVcdC* tfp, int levels, int options = 0);
     /// Return current simulation context for this model.
     /// Used to get to e.g. simulation time via contextp()->time()
     VerilatedContext* contextp() const;

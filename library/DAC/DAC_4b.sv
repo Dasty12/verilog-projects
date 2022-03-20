@@ -2,7 +2,7 @@ module DAC_4b (
     input clk_12M,
     input usr_butt,
     output reg[7:0] DAC,
-	 output reg[3:0]  LED
+	 output reg[2:0]  LED
 );
 
 reg areset = 0;

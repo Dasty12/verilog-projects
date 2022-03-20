@@ -32,12 +32,10 @@ always @(posedge clk) begin
 end
 
 
-
-
 always @(negedge r_SCK or posedge ST_rise) begin	// datovy signal se bude menit pri falling edge
 
 	if(rst)begin
-		r_CS = 1;
+		r_cs = 0;
 	end else begin
 		
 		if(ST_rise) begin

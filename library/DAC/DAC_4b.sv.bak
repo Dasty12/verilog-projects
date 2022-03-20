@@ -7,6 +7,7 @@ module DAC_4b (
 
 reg areset = 0;
 wire i_clk;
+wire locked;
 
 PLL1 pll(.areset(areset),
 		 .inclk0(clk_12M),
@@ -65,7 +66,7 @@ end
 
 always @(posedge i_clk) begin 
 	
-	if(cnt < 100) begin
+	if(cnt < 20) begin
 		cnt <= cnt + 1;
 	end else begin
 		if(DAC > 0)begin
