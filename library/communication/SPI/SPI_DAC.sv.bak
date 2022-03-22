@@ -9,62 +9,62 @@ wire [15:0] data_out;
 reg [3:0] cnt = 0;
 reg [$clog2(SCK_div):0] SCK_cnt = 0;
 reg r_SCK = 0;
-reg r_SDI ;
+reg r_SDI;
 reg r_CS;
-reg [3:0] index = 0;
+reg [4:0] index = 0;
 
+reg r_SCK_fall;
 
-
+wire w_SCK_fall;
 
 always @(posedge clk) begin
 
-	if(SCK_cnt < SCK_div) begin	
-		SCK_cnt = SCK_cnt + 1;
-	end else begin
-		SCK_cnt = 0;
-		r_SCK = ~ r_SCK;
-	end
-
-	if(ST_rise) begin
-		SCK_cnt = 0;
-		r_SCK = 0;
+	if(r_CS == 0) begin
+	
+		if(SCK_cnt < SCK_div) begin
+			SCK_cnt <= SCK_cnt + 1;
+		end else begin
+			SCK_cnt <= 0;
+			r_SCK <= ~ r_SCK;
+		end
+	
 	end
 end
 
 
-always @(negedge r_SCK or posedge ST_rise) begin	// datovy signal se bude menit pri falling edge
+assign data_out = {{4{1'b0}},{data,cfg}};
+assign w_SCK_fall = r_SCK_fall & (!r_SCK);
+
+always @(posedge clk) begin	// datovy signal se bude menit pri falling edge
 
 	if(rst)begin
-		r_cs = 0;
+		r_CS <= 1;
+		index <= 15;
 	end else begin
 		
 		if(ST_rise) begin
 			index <= 0;
-			r_SDI <= data_out[index];
-			r_CS = 0;
+			r_SDI <= data_out[index[3:0]];
+			r_CS  <= 0;
 		end
 		else begin
-			index <= index + 1;
-			r_SDI <= data_out[index];
+			if((index < 15) && (w_SCK_fall)) begin
+				index <= index + 1;
+				r_SDI <= data_out[index[3:0]];
+				
+			end else if(index > 15) begin
+				r_CS  <= 1;
+			end
+			
 		end 
-		
-	if(index == 15) begin
-		r_CS = 1;
 	end
-	
-	end
-	
-
-
-
-
 end
 
 
 assign n_CS = r_CS;
 assign SCK = r_SCK;
 assign SDI = r_SDI;
-assign data_out = {{4{1'b0}},{data,cfg}};
+
 //assign data_out = {{4{1'b0}},{}}
 
 endmodule;

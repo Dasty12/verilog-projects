@@ -26,8 +26,8 @@ class VSPI_DAC VL_NOT_FINAL {
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
     VL_IN8(&clk,0,0);
-    VL_IN8(&ST_rise,0,0);
     VL_IN8(&rst,0,0);
+    VL_IN8(&ST_rise,0,0);
     VL_OUT8(&n_CS,0,0);
     VL_OUT8(&SCK,0,0);
     VL_OUT8(&SDI,0,0);

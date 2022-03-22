@@ -1,0 +1,73 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Tue Mar 22 16:57:03 2022
+[*]
+[dumpfile] "C:\msys64\home\David\Projects\library\Math\HIL\RL\waveform.vcd"
+[dumpfile_mtime] "Tue Mar 22 16:46:44 2022"
+[dumpfile_size] 512523876
+[savefile] "C:\msys64\home\David\Projects\library\Math\HIL\RL\save_graph.gtkw"
+[timestart] 52320
+[size] 1000 600
+[pos] 790 29
+*-14.000000 87790 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TOP.
+[sst_width] 211
+[signals_width] 102
+[sst_expanded] 1
+[sst_vpaned_height] 154
+@10024
+TOP.RL.I[31:0]
+@20000
+-
+@c10022
+TOP.RL.I_1[31:0]
+@28
+(0)TOP.RL.I_1[31:0]
+(1)TOP.RL.I_1[31:0]
+(2)TOP.RL.I_1[31:0]
+(3)TOP.RL.I_1[31:0]
+(4)TOP.RL.I_1[31:0]
+(5)TOP.RL.I_1[31:0]
+(6)TOP.RL.I_1[31:0]
+(7)TOP.RL.I_1[31:0]
+(8)TOP.RL.I_1[31:0]
+(9)TOP.RL.I_1[31:0]
+(10)TOP.RL.I_1[31:0]
+(11)TOP.RL.I_1[31:0]
+(12)TOP.RL.I_1[31:0]
+(13)TOP.RL.I_1[31:0]
+(14)TOP.RL.I_1[31:0]
+(15)TOP.RL.I_1[31:0]
+(16)TOP.RL.I_1[31:0]
+(17)TOP.RL.I_1[31:0]
+(18)TOP.RL.I_1[31:0]
+(19)TOP.RL.I_1[31:0]
+(20)TOP.RL.I_1[31:0]
+(21)TOP.RL.I_1[31:0]
+(22)TOP.RL.I_1[31:0]
+(23)TOP.RL.I_1[31:0]
+(24)TOP.RL.I_1[31:0]
+(25)TOP.RL.I_1[31:0]
+(26)TOP.RL.I_1[31:0]
+(27)TOP.RL.I_1[31:0]
+(28)TOP.RL.I_1[31:0]
+(29)TOP.RL.I_1[31:0]
+(30)TOP.RL.I_1[31:0]
+(31)TOP.RL.I_1[31:0]
+@1411200
+-group_end
+@20000
+-
+-
+-
+@20004
+-
+@10022
+TOP.RL.di2[31:0]
+@20000
+-
+-
+@20001
+-
+[pattern_trace] 1
+[pattern_trace] 0

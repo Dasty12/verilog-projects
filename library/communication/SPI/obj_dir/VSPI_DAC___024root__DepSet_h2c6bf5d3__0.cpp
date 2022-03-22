@@ -10,50 +10,51 @@ VL_INLINE_OPT void VSPI_DAC___024root___sequent__TOP__1(VSPI_DAC___024root* vlSe
     if (false && vlSelf) {}  // Prevent unused
     VSPI_DAC__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    VSPI_DAC___024root___sequent__TOP__1\n"); );
-    // Body
-    if ((5U > (IData)(vlSelf->SPI_DAC__DOT__SCK_cnt))) {
-        vlSelf->SPI_DAC__DOT__SCK_cnt = (0xfU & ((IData)(1U) 
-                                                 + (IData)(vlSelf->SPI_DAC__DOT__SCK_cnt)));
-    } else {
-        vlSelf->SPI_DAC__DOT__SCK_cnt = 0U;
-        vlSelf->SPI_DAC__DOT__r_SCK = (1U & (~ (IData)(vlSelf->SPI_DAC__DOT__r_SCK)));
-    }
-    if (vlSelf->ST_rise) {
-        vlSelf->SPI_DAC__DOT__SCK_cnt = 0U;
-        vlSelf->SPI_DAC__DOT__r_SCK = 0U;
-    }
-    vlSelf->SCK = vlSelf->SPI_DAC__DOT__r_SCK;
-}
-
-VL_INLINE_OPT void VSPI_DAC___024root___sequent__TOP__4(VSPI_DAC___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    VSPI_DAC__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VSPI_DAC___024root___sequent__TOP__4\n"); );
     // Init
-    CData/*3:0*/ __Vdly__SPI_DAC__DOT__index;
+    CData/*0:0*/ __Vdly__SPI_DAC__DOT__r_SCK;
+    CData/*0:0*/ __Vdly__SPI_DAC__DOT__r_SCK_fall;
+    CData/*4:0*/ __Vdly__SPI_DAC__DOT__index;
     // Body
     __Vdly__SPI_DAC__DOT__index = vlSelf->SPI_DAC__DOT__index;
-    if (vlSelf->rst) {
-        vlSelf->SPI_DAC__DOT__r_CS = 1U;
-    } else {
-        if (vlSelf->ST_rise) {
-            vlSelf->SPI_DAC__DOT__r_CS = 0U;
-            vlSelf->SPI_DAC__DOT__r_SDI = (1U & (0x78cU 
-                                                 >> (IData)(vlSelf->SPI_DAC__DOT__index)));
-            __Vdly__SPI_DAC__DOT__index = 0U;
+    __Vdly__SPI_DAC__DOT__r_SCK_fall = vlSelf->SPI_DAC__DOT__r_SCK_fall;
+    __Vdly__SPI_DAC__DOT__r_SCK = vlSelf->SPI_DAC__DOT__r_SCK;
+    if ((1U & (~ (IData)(vlSelf->SPI_DAC__DOT__r_CS)))) {
+        if ((5U > (IData)(vlSelf->SPI_DAC__DOT__SCK_cnt))) {
+            vlSelf->SPI_DAC__DOT__SCK_cnt = (0xfU & 
+                                             ((IData)(1U) 
+                                              + (IData)(vlSelf->SPI_DAC__DOT__SCK_cnt)));
         } else {
-            __Vdly__SPI_DAC__DOT__index = (0xfU & ((IData)(1U) 
-                                                   + (IData)(vlSelf->SPI_DAC__DOT__index)));
-            vlSelf->SPI_DAC__DOT__r_SDI = (1U & (0x78cU 
-                                                 >> (IData)(vlSelf->SPI_DAC__DOT__index)));
-        }
-        if ((0xfU == (IData)(vlSelf->SPI_DAC__DOT__index))) {
-            vlSelf->SPI_DAC__DOT__r_CS = 1U;
+            __Vdly__SPI_DAC__DOT__r_SCK = (1U & (~ (IData)(vlSelf->SPI_DAC__DOT__r_SCK)));
+            vlSelf->SPI_DAC__DOT__SCK_cnt = 0U;
         }
     }
-    vlSelf->n_CS = vlSelf->SPI_DAC__DOT__r_CS;
+    __Vdly__SPI_DAC__DOT__r_SCK_fall = vlSelf->SPI_DAC__DOT__r_SCK;
+    if (vlSelf->rst) {
+        vlSelf->SPI_DAC__DOT__r_CS = 1U;
+        __Vdly__SPI_DAC__DOT__index = 0xfU;
+    } else if (vlSelf->ST_rise) {
+        vlSelf->SPI_DAC__DOT__r_SDI = (1U & (0x78cU 
+                                             >> (0xfU 
+                                                 & (IData)(vlSelf->SPI_DAC__DOT__index))));
+        vlSelf->SPI_DAC__DOT__r_CS = 0U;
+        __Vdly__SPI_DAC__DOT__index = 0U;
+    } else if (((0xfU > (IData)(vlSelf->SPI_DAC__DOT__index)) 
+                & ((IData)(vlSelf->SPI_DAC__DOT__r_SCK_fall) 
+                   & (~ (IData)(vlSelf->SPI_DAC__DOT__r_SCK))))) {
+        __Vdly__SPI_DAC__DOT__index = (0x1fU & ((IData)(1U) 
+                                                + (IData)(vlSelf->SPI_DAC__DOT__index)));
+        vlSelf->SPI_DAC__DOT__r_SDI = (1U & (0x78cU 
+                                             >> (0xfU 
+                                                 & (IData)(vlSelf->SPI_DAC__DOT__index))));
+    } else if ((0xfU < (IData)(vlSelf->SPI_DAC__DOT__index))) {
+        vlSelf->SPI_DAC__DOT__r_CS = 1U;
+    }
+    vlSelf->SPI_DAC__DOT__r_SCK_fall = __Vdly__SPI_DAC__DOT__r_SCK_fall;
     vlSelf->SPI_DAC__DOT__index = __Vdly__SPI_DAC__DOT__index;
+    vlSelf->SPI_DAC__DOT__r_SCK = __Vdly__SPI_DAC__DOT__r_SCK;
+    vlSelf->n_CS = vlSelf->SPI_DAC__DOT__r_CS;
     vlSelf->SDI = vlSelf->SPI_DAC__DOT__r_SDI;
+    vlSelf->SCK = vlSelf->SPI_DAC__DOT__r_SCK;
 }
 
 void VSPI_DAC___024root___eval(VSPI_DAC___024root* vlSelf) {
@@ -63,17 +64,10 @@ void VSPI_DAC___024root___eval(VSPI_DAC___024root* vlSelf) {
     // Body
     if (((IData)(vlSelf->clk) & (~ (IData)(vlSelf->__Vclklast__TOP__clk)))) {
         VSPI_DAC___024root___sequent__TOP__1(vlSelf);
-    }
-    if ((((~ (IData)(vlSelf->SPI_DAC__DOT__r_SCK)) 
-          & (IData)(vlSelf->__Vclklast__TOP__SPI_DAC__DOT__r_SCK)) 
-         | ((IData)(vlSelf->ST_rise) & (~ (IData)(vlSelf->__Vclklast__TOP__ST_rise))))) {
-        VSPI_DAC___024root___sequent__TOP__4(vlSelf);
         vlSelf->__Vm_traceActivity[1U] = 1U;
     }
     // Final
     vlSelf->__Vclklast__TOP__clk = vlSelf->clk;
-    vlSelf->__Vclklast__TOP__SPI_DAC__DOT__r_SCK = vlSelf->SPI_DAC__DOT__r_SCK;
-    vlSelf->__Vclklast__TOP__ST_rise = vlSelf->ST_rise;
 }
 
 #ifdef VL_DEBUG

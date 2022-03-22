@@ -1,0 +1,32 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Tue Mar 22 18:53:54 2022
+[*]
+[dumpfile] "C:\msys64\home\David\Projects\library\communication\SPI\waveform.vcd"
+[dumpfile_mtime] "Tue Mar 22 18:53:16 2022"
+[dumpfile_size] 9066
+[savefile] "C:\msys64\home\David\Projects\library\communication\SPI\wave.gtkw"
+[timestart] 0
+[size] 1652 605
+[pos] -1 -1
+*-6.000000 365 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TOP.
+[sst_width] 211
+[signals_width] 126
+[sst_expanded] 1
+[sst_vpaned_height] 156
+@28
+TOP.SPI_DAC.clk
+TOP.SPI_DAC.r_CS
+TOP.SPI_DAC.ST_rise
+@22
+TOP.SPI_DAC.index[4:0]
+@28
+TOP.SPI_DAC.SDI
+TOP.SPI_DAC.SCK
+@22
+TOP.SPI_DAC.SCK_cnt[3:0]
+@29
+TOP.SPI_DAC.w_SCK_fall
+[pattern_trace] 1
+[pattern_trace] 0

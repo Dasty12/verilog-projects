@@ -24,18 +24,21 @@ void VSPI_DAC___024root__trace_chg_sub_0(VSPI_DAC___024root* vlSelf, VerilatedVc
     vluint32_t* const oldp VL_ATTR_UNUSED = tracep->oldp(vlSymsp->__Vm_baseCode + 1);
     // Body
     if (VL_UNLIKELY(vlSelf->__Vm_traceActivity[1U])) {
-        tracep->chgBit(oldp+0,(vlSelf->SPI_DAC__DOT__r_SDI));
-        tracep->chgBit(oldp+1,(vlSelf->SPI_DAC__DOT__r_CS));
-        tracep->chgCData(oldp+2,(vlSelf->SPI_DAC__DOT__index),4);
+        tracep->chgCData(oldp+0,(vlSelf->SPI_DAC__DOT__SCK_cnt),4);
+        tracep->chgBit(oldp+1,(vlSelf->SPI_DAC__DOT__r_SCK));
+        tracep->chgBit(oldp+2,(vlSelf->SPI_DAC__DOT__r_SDI));
+        tracep->chgBit(oldp+3,(vlSelf->SPI_DAC__DOT__r_CS));
+        tracep->chgCData(oldp+4,(vlSelf->SPI_DAC__DOT__index),5);
+        tracep->chgBit(oldp+5,(vlSelf->SPI_DAC__DOT__r_SCK_fall));
+        tracep->chgBit(oldp+6,(((IData)(vlSelf->SPI_DAC__DOT__r_SCK_fall) 
+                                & (~ (IData)(vlSelf->SPI_DAC__DOT__r_SCK)))));
     }
-    tracep->chgBit(oldp+3,(vlSelf->clk));
-    tracep->chgBit(oldp+4,(vlSelf->rst));
-    tracep->chgBit(oldp+5,(vlSelf->ST_rise));
-    tracep->chgBit(oldp+6,(vlSelf->n_CS));
-    tracep->chgBit(oldp+7,(vlSelf->SCK));
-    tracep->chgBit(oldp+8,(vlSelf->SDI));
-    tracep->chgCData(oldp+9,(vlSelf->SPI_DAC__DOT__SCK_cnt),4);
-    tracep->chgBit(oldp+10,(vlSelf->SPI_DAC__DOT__r_SCK));
+    tracep->chgBit(oldp+7,(vlSelf->clk));
+    tracep->chgBit(oldp+8,(vlSelf->rst));
+    tracep->chgBit(oldp+9,(vlSelf->ST_rise));
+    tracep->chgBit(oldp+10,(vlSelf->n_CS));
+    tracep->chgBit(oldp+11,(vlSelf->SCK));
+    tracep->chgBit(oldp+12,(vlSelf->SDI));
 }
 
 void VSPI_DAC___024root__trace_cleanup(void* voidSelf, VerilatedVcd* /*unused*/) {

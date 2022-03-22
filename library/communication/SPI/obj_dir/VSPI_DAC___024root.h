@@ -13,19 +13,18 @@ VL_MODULE(VSPI_DAC___024root) {
 
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
-    VL_IN8(ST_rise,0,0);
-    CData/*0:0*/ SPI_DAC__DOT__r_SCK;
     VL_IN8(rst,0,0);
+    VL_IN8(ST_rise,0,0);
     VL_OUT8(n_CS,0,0);
     VL_OUT8(SCK,0,0);
     VL_OUT8(SDI,0,0);
     CData/*3:0*/ SPI_DAC__DOT__SCK_cnt;
+    CData/*0:0*/ SPI_DAC__DOT__r_SCK;
     CData/*0:0*/ SPI_DAC__DOT__r_SDI;
     CData/*0:0*/ SPI_DAC__DOT__r_CS;
-    CData/*3:0*/ SPI_DAC__DOT__index;
+    CData/*4:0*/ SPI_DAC__DOT__index;
+    CData/*0:0*/ SPI_DAC__DOT__r_SCK_fall;
     CData/*0:0*/ __Vclklast__TOP__clk;
-    CData/*0:0*/ __Vclklast__TOP__SPI_DAC__DOT__r_SCK;
-    CData/*0:0*/ __Vclklast__TOP__ST_rise;
     VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
 
     // INTERNAL VARIABLES

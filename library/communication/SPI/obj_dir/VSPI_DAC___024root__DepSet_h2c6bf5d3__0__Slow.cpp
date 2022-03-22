@@ -12,8 +12,8 @@ VL_ATTR_COLD void VSPI_DAC___024root___initial__TOP__2(VSPI_DAC___024root* vlSel
     VL_DEBUG_IF(VL_DBG_MSGF("+    VSPI_DAC___024root___initial__TOP__2\n"); );
     // Body
     vlSelf->SPI_DAC__DOT__SCK_cnt = 0U;
-    vlSelf->SPI_DAC__DOT__r_SCK = 0U;
     vlSelf->SPI_DAC__DOT__index = 0U;
+    vlSelf->SPI_DAC__DOT__r_SCK = 0U;
 }
 
 VL_ATTR_COLD void VSPI_DAC___024root___settle__TOP__3(VSPI_DAC___024root* vlSelf) {
@@ -35,8 +35,6 @@ VL_ATTR_COLD void VSPI_DAC___024root___eval_initial(VSPI_DAC___024root* vlSelf) 
     VSPI_DAC___024root___initial__TOP__2(vlSelf);
     vlSelf->__Vm_traceActivity[1U] = 1U;
     vlSelf->__Vm_traceActivity[0U] = 1U;
-    vlSelf->__Vclklast__TOP__SPI_DAC__DOT__r_SCK = 0U;
-    vlSelf->__Vclklast__TOP__ST_rise = vlSelf->ST_rise;
 }
 
 VL_ATTR_COLD void VSPI_DAC___024root___eval_settle(VSPI_DAC___024root* vlSelf) {
@@ -68,7 +66,8 @@ VL_ATTR_COLD void VSPI_DAC___024root___ctor_var_reset(VSPI_DAC___024root* vlSelf
     vlSelf->SPI_DAC__DOT__r_SCK = VL_RAND_RESET_I(1);
     vlSelf->SPI_DAC__DOT__r_SDI = VL_RAND_RESET_I(1);
     vlSelf->SPI_DAC__DOT__r_CS = VL_RAND_RESET_I(1);
-    vlSelf->SPI_DAC__DOT__index = VL_RAND_RESET_I(4);
+    vlSelf->SPI_DAC__DOT__index = VL_RAND_RESET_I(5);
+    vlSelf->SPI_DAC__DOT__r_SCK_fall = VL_RAND_RESET_I(1);
     for (int __Vi0=0; __Vi0<2; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = VL_RAND_RESET_I(1);
     }

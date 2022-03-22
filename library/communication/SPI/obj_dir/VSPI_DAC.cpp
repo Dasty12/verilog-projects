@@ -11,8 +11,8 @@
 VSPI_DAC::VSPI_DAC(VerilatedContext* _vcontextp__, const char* _vcname__)
     : vlSymsp{new VSPI_DAC__Syms(_vcontextp__, _vcname__, this)}
     , clk{vlSymsp->TOP.clk}
-    , ST_rise{vlSymsp->TOP.ST_rise}
     , rst{vlSymsp->TOP.rst}
+    , ST_rise{vlSymsp->TOP.ST_rise}
     , n_CS{vlSymsp->TOP.n_CS}
     , SCK{vlSymsp->TOP.SCK}
     , SDI{vlSymsp->TOP.SDI}
