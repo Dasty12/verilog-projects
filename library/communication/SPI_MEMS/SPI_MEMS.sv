@@ -44,7 +44,7 @@ assign w_SCK_fall = r_SCK_fall & (!r_SCK);
 	
 	end else begin
 		if(ST_rise) begin
-		
+			
 		
 		end
 	end
