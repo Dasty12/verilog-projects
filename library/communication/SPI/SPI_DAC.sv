@@ -51,12 +51,13 @@ always @(posedge clk) begin	// datovy signal se bude menit pri falling edge
 			r_CS  <= 0;
 		end
 		else begin
-			if((index < 15) && (w_SCK_fall)) begin
+			if((index < 16) && (w_SCK_fall)) begin
 				index <= index + 1;
 				r_SDI <= data_out[index[3:0]];
 				
 			end else if(index > 15) begin
 				r_CS  <= 1;
+				index <= 0;
 			end
 			
 		end 
