@@ -20,11 +20,12 @@ reg i_reset = 0;
 
 
 UartTop uartTop(.clk(i_clk_12Mhz),
+				// signals for transmitera
                 .in_w_data(UART_WORD_TX),
                 .in_valid(uart_stb),
                 .out_BUSY(uart_busy),
                 .out_signal(IO_UART_TX),
-                //signals for receivera
+                // signals for receivera
                 .in_signal(IO_UART_RX),
                 .in_RXNE_clear(in_RXNE_clear),
                 .out_word(UART_WORD_RX),
@@ -67,9 +68,6 @@ always @(posedge i_clk_12Mhz) begin
 end
 
 assign UART_DECODER_i_stb_rise = UART_DECODER_i_stb &(~UART_DECODER_i_stb_old);
-
-
-
 
 
 //WB master 
@@ -116,8 +114,6 @@ WB_master wb_master(.i_clk(i_clk_12Mhz),
 
 
 
-
-
 //WB master
 WB_slave wb_slave(.i_clk(i_clk_12Mhz),
                   .i_wb_cyc(o_wb_cyc),
@@ -147,9 +143,6 @@ UartCoder uartCoder(.i_clk(i_clk_12Mhz),
 					.o_TxStart(uart_stb),
 					.i_wb_we(o_wb_we),
 					.o_LEDS(o_LEDS));
-
-
-
 
 
 endmodule

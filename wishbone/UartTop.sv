@@ -3,25 +3,23 @@
 
 module UartTop (
     input clk,
-    //tyto signaly jsou pouze pro transmitra
-   // input [7:0]    in_data,             /*pokud je valid = 1, tak jsou to nova data pro transmitera*/   
-    input wire [7:0] in_w_data, 		  /**/
-    input            in_valid,            /*je pozadavek na prenos dat*/
-    output           out_BUSY,            /*znaci, ze dochazi k prenosu*/
-    output           out_signal,          /*signal odesilany pres UART pryc*/   
-    //signaly pro receivera
-    input            in_signal,           /*signal prijimany pres UART*/
-    input            in_RXNE_clear,       /*clear RXNE signal*/
-    output [7:0]     out_word,            /*prijmuta data*/ 
-    output           out_RXNE,            /*receiver dokoncil přenos a jsou nova data*/
-    output           out_Rx_ORE           /*received data isnt read, and occurs override*/
+    //signaly pro transmitera
+    input wire [7:0] in_w_data, 		  /* */
+    input            in_valid,            /* je pozadavek na prenos dat 			       */
+    output           out_BUSY,            /* signalizuje, ze dochazi k prenosu			   */
+    output           out_signal,          /* I/O OUTPUT TX signal						   */   
+    //signaly pro receivera 
+    input            in_signal,           /* I/O INPUT RX signal			 			   */
+    input            in_RXNE_clear,       /* clear RXNE signal 							   */
+    output [7:0]     out_word,            /* received data								   */ 
+    output           out_RXNE,            /* receiver dokoncil přenos a jsou nova data     */
+    output           out_Rx_ORE           /* received data isn't read, and occurs override */
 );
 
 
 
 reg [7:0] r_Tx_DataByte; 
 reg [7:0] r_Rx_DataByte = 0; 
-reg r_BUSY = 1; 
 reg r_Tx_start = 1;
 reg r_Tx_busy = 0;
 reg in_valid_old = 0;

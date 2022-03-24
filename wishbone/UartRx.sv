@@ -41,15 +41,15 @@ reg[3:0] r_data_cnt = 0;
 always @(posedge clk) begin
     if(baud_cnt == 0) begin
         case(state)
-            s_IDLE:    begin
-                if(data_IN_falEdge)begin
+            s_IDLE: begin
+                if(data_IN_falEdge) begin
                     baud_cnt <= KBAUD_half - 1;
                     state <= s_START;
                 end
                 r_data_cnt <= 0;
                 Rx_done_nTmp <= 0;
                 
-            end s_START:begin
+            end s_START: begin
                 baud_cnt <= KBAUD - 1;
                 state <= s_DATA;
 
