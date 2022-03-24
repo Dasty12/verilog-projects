@@ -6,7 +6,8 @@ module UartDecoder (
 	//
     input i_stb, // True if something is valid on input
     output reg o_stb,
-	output reg [33:0]  o_word
+	output reg [33:0]  o_word,
+    output [7:0] o_LEDS
 );
 
 reg i_data_valid_old;
@@ -100,6 +101,16 @@ always @(posedge i_clk) begin
 
         end
 
+        o_LEDS[4:0] <= o_bits;
+       /* if(o_bits == 7'h52) begin
+            o_LEDS <= 1;
+        end else if(o_bits == 7'h57) begin 
+            o_LEDS <= 2;
+        end else begin
+        //    o_LEDS <= 4;
+        end
+
+*/
     end else begin
 		r_i_data_valid_rise <= 0;
 	end

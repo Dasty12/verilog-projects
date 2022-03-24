@@ -1,8 +1,8 @@
 module WB_slave (
     input             i_clk,
-    input             i_wb_cyc,
-    input             i_wb_stb,
-    input             i_wb_we,
+    input             i_wb_cyc, /* WB_master/o_wb_cyc - the cycle output, when asserted indicates that a valid bus cycle is in progress*/
+    input             i_wb_stb,	/* WB_master/o_wb_stb - indicates a valid data transfer cycle*/
+    input             i_wb_we,  /* WB_master/o_wb_we  - write enable line - indicates if is READ=0 or WRITE=1 */ 
     input     [29:0]  i_wb_addr,
     input     [31:0]  i_wb_data,
     input      [3:0]  i_wb_sel,
@@ -64,10 +64,12 @@ always @(posedge i_clk) begin
 			//LEDS <= i_wb_data[7:0];
             //o_LEDS <= LEDS;
 			memory[i_wb_addr[2:0]] <= i_wb_data[15:0];
+			o_LEDS[7:0] <= 2;
         end else begin
 			o_wb_data[31:16] <= 16'h0;
 			o_wb_data[15:0] <= memory[i_wb_addr[2:0]];
-			//o_LEDS[7:0] <= memory[i_wb_addr[2:0]][7:0];
+			o_LEDS[7:0] <= 1;
+			
 		end
 		
 		o_wb_stall <= 0;
@@ -80,7 +82,7 @@ always @(posedge i_clk) begin
 	
 	nevim <= memory[4];
 	
-	o_LEDS[7:0] <=  i_wb_addr[7:0];
+//	o_LEDS[7:0] <=  i_wb_addr[7:0];
 
 end
 endmodule

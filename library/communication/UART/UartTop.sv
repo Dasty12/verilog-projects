@@ -13,7 +13,8 @@ module UartTop (
     input            in_RXNE_clear,       /* clear RXNE signal 							   */
     output [7:0]     out_word,            /* received data								   */ 
     output           out_RXNE,            /* receiver dokoncil přenos a jsou nova data     */
-    output           out_Rx_ORE           /* received data isn't read, and occurs override */
+    output           out_Rx_ORE,          /* received data isn't read, and occurs override */
+    output [7:0]     o_LEDS
 );
 
 
@@ -43,7 +44,8 @@ UartRx #(.KBAUD(KBAUD)) uartRx(.clk(clk),
                                .in_data(in_signal), 
                                .out_data(r_Rx_data), //out_word
                                .Rx_done(r_Rx_done), 
-                               .busy(Rx_busy));
+                               .busy(Rx_busy),
+                               .o_LEDS(o_LEDS));
 
 UartTx #(.KBAUD(KBAUD)) uartTx(.clk(clk),
                                .in_DataByte(r_Tx_DataByte), 

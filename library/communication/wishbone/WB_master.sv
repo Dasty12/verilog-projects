@@ -37,7 +37,7 @@ module WB_master (
     // Wishbone output 
     //{{{
     output reg         o_wb_cyc = 0,    /* The cycle output, when assterted, indicates that a valid bus cycle is in progress*/
-    output reg         o_wb_stb = 0,    /* Strobe output -indicates a valid data transfer cycle*/
+    output reg         o_wb_stb = 0,    /* Strobe output - indicates a valid data transfer cycle*/
     output reg         o_wb_we = 0,     /* Write enable line - indicates whether the current local bus cycle is a READ=0 or WRITE=1 cycle*/
     output reg [29:0]  o_wb_addr = 0,
     output reg [31:0]  o_wb_data = 0,

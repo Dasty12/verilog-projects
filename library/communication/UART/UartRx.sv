@@ -5,7 +5,8 @@ module UartRx
     input in_data,         /* příchozí jednotlivá data, sériově     */
     output[7:0] out_data,  /* data budou poslána do UART kontroleru */
     output Rx_done,        /* 1 BYTE dat je úspěšně přijat          */
-    output busy            /* Aktuálně dochází k přijmu dat         */
+    output busy,            /* Aktuálně dochází k přijmu dat         */
+    output [7:0] o_LEDS
 );
 
 localparam s_IDLE  = 0;
@@ -16,6 +17,7 @@ localparam s_STOP  = 3;
 
 parameter CNT_BITS = $clog2(KBAUD);
 parameter KBAUD_half = KBAUD / 2;
+
 
 
 //rising edge signal detector
@@ -45,7 +47,7 @@ always @(posedge clk) begin
                 if(data_IN_falEdge) begin
                     baud_cnt <= KBAUD_half - 1;
                     state <= s_START;
-                end
+                end 
                 r_data_cnt <= 0;
                 Rx_done_nTmp <= 0;
                 
@@ -64,6 +66,7 @@ always @(posedge clk) begin
                 state <= s_IDLE;
                 r_out_data <= UR_data;
                 Rx_done_nTmp <= 1;
+                o_LEDS <= r_out_data;
             end default:begin end
         endcase    
     end else begin
