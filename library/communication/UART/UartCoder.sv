@@ -27,14 +27,8 @@ reg [33:0] r_word;
 reg [33:0] r_word_test = 0;
 
 reg [2:0] transmit_counter = 0;
-
-
-
-
 reg TxBusy_old;
-
 wire TxBusy_rise; 
-
 reg TxStart_r_new = 0;
 reg TxStart_r = 0;
 reg [3:0] cnt_wait = 0;

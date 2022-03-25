@@ -16,7 +16,7 @@ wire uart_out_Rx_ORE;
 
 wire uart_stb;
 reg in_RXNE_clear = 0;
-
+wire [7:0] o_LEDS_dummy;
 
 reg i_reset = 0; 
 
@@ -33,7 +33,7 @@ UartTop uartTop(.clk(i_clk_12Mhz),
                 .out_word(UART_WORD_RX),
                 .out_RXNE(uart_out_RXNE),
                 .out_Rx_ORE(uart_out_Rx_ORE),
-                .o_LEDS(o_LEDS));
+                .o_LEDS(o_LEDS_dummy));
 
 
 wire [7:0]UART_DECODER_i_data_in;
@@ -47,12 +47,13 @@ wire UART_DECODER_i_stb_rise;
 assign UART_DECODER_i_data_in  = UART_WORD_RX;
 
 UartDecoder uartDecoder(.i_clk(i_clk_12Mhz),
-                        .i_data_in(UART_DECODER_i_data_in),
+						.rst(i_reset),
+                        .i_data_in(UART_WORD_RX),
                         .i_data_valid(UART_DECODER_i_data_valid),
-                        .i_stb(UART_DECODER_i_stb_rise),
+                        .i_stb(uart_out_RXNE),  //UART_DECODER_i_stb_rise
                         .o_stb(Decoder_o_stb),
                         .o_word(Decoder_o_word),
-                        .o_LEDS(o_LEDS_dummy));
+                        .o_LEDS(o_LEDS));
 
 
 always @(posedge i_clk_12Mhz) begin
@@ -90,7 +91,7 @@ wire i_wb_ack;
 wire i_wb_err;
 wire [31:0] i_wb_data;
 
-wire [7:0] o_LEDS_dummy;
+
  
 WB_master wb_master(.i_clk(i_clk_12Mhz),
                     .i_reset(i_reset),

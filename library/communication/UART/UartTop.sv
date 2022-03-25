@@ -35,7 +35,6 @@ localparam KBAUD = 14'd10416;
 
 wire Rx_busy;
 reg r_RXNE = 0;
-reg r_RXNE_clear_old;
 wire w_RXNE_clear_rise;
 reg r_Rx_done;
 reg r_out_Rx_ORE = 0;
@@ -58,8 +57,8 @@ assign rst = r_rst;
 UartRx #(.KBAUD(KBAUD)) uartRx(.clk(clk), 
                                .rst(rst),
                                .in_data(in_signal), 
-                               .out_data(r_Rx_data), //out_word
-                               .Rx_done(r_Rx_done), 
+                               .out_data(out_word), //out_word
+                               .Rx_done(out_RXNE), 
                                .busy(Rx_busy),
                                .o_LEDS(o_LEDS));
 
@@ -83,28 +82,13 @@ always @(posedge clk) begin
     end
 
 
-    if(r_Rx_done) begin
-      /*  if(r_RXNE == 1) begin
-            r_out_Rx_ORE <= 1;
-        end else begin
-            r_out_Rx_ORE <= 0;
-        end*/
-        r_RXNE <= 1;
-        r_Rx_DataByte <= r_Rx_data;
-    end else if(w_RXNE_clear_rise) begin
-        r_RXNE <= 0;
-    end
-
-    r_RXNE_clear_old <= in_RXNE_clear;  
+   // r_RXNE_clear_old <= in_RXNE_clear;  
     TxComplete_old <= TxComplete;
     in_valid_old <= in_valid;
 end
 
 assign TxCompleteRise = TxComplete & (!TxComplete_old);
-assign out_RXNE = r_RXNE;
 assign Tx_start = r_Tx_start;
-assign w_RXNE_clear_rise = in_RXNE_clear & (~r_RXNE_clear_old);
 assign out_Rx_ORE = r_out_Rx_ORE;
 assign out_BUSY = r_Tx_busy;
-assign out_word = r_Rx_DataByte;
 endmodule

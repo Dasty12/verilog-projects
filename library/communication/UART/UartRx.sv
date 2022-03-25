@@ -5,7 +5,7 @@ module UartRx
     input rst,
     input in_data,
     output [7:0] out_data,
-    output Rx_done,
+    output Rx_done,                 //nove slovo je projmute- pouze po dobu jedne periody clk
     output busy,
     output reg [7:0] o_LEDS
 );
@@ -106,7 +106,6 @@ always @(posedge clk) begin
                 state <= s_IDLE;
                 
                 r_out_data <= UR_data;
-                o_LEDS <= UR_data;
                 data_cnt <= 0;
                 Rx_done_RE <= 1;
             end default:begin end
@@ -115,6 +114,18 @@ always @(posedge clk) begin
     end
     state_old <= state;
     Rx_done_RE_old <= Rx_done_RE;
+    
+end
+
+
+
+reg[7:0] testovaci = 0;
+// testovaci - v tomhle se pricte jednicka pri kazdem prijmu hodnoty
+always @(posedge clk) begin
+    if(Rx_done) begin
+        testovaci <= testovaci + 1;
+        o_LEDS <= testovaci;
+    end
 
 end
 

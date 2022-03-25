@@ -1,9 +1,8 @@
 module UartDecoder (
     input i_clk,
+	input rst,
     input [7:0] i_data_in,
     input i_data_valid,
-	
-	//
     input i_stb, // True if something is valid on input
     output reg o_stb,
 	output reg [33:0]  o_word,
@@ -26,10 +25,6 @@ reg cmd_loaded = 0;
 
 reg [7:0] i_data_old_in;
 
-reg [33:0] o_word_new;
-
-initial o_word_new[33:32] = 2'b11;
-
 initial o_word[33:32] = 2'b11;
 initial cmd_loaded = 1'b0;
 
@@ -40,8 +35,7 @@ end
 
 
 always @(posedge i_clk) begin
-   // if(i_stb) begin
-        case(i_data_old_in[6:0])
+        case(i_data_in[6:0])
             7'h30: o_bits <= 5'h00;
             7'h31: o_bits <= 5'h01;
             7'h32: o_bits <= 5'h02;
@@ -73,7 +67,6 @@ always @(posedge i_clk) begin
                     // Also used as an end of word character, if received
                 o_bits <= 5'h1f;    
         endcase
-  //  end
 end
 
 
@@ -81,7 +74,7 @@ end
 initial o_word[31:0] = 0;
 always @(posedge i_clk) begin
 
-    if(i_stb) begin
+    if(i_stb_old) begin
         //new command arrived
         if(o_bits[4:2] == 3'b100) begin  
             command <= o_bits[2:0];
@@ -91,7 +84,7 @@ always @(posedge i_clk) begin
             r_word[31:0] <= 0;
 			
         end else if(o_bits != 5'h1f) begin
-            r_word[31:0] <= {r_word[27:0], o_bits[3:0]};
+            r_word[31:0] <= {r_word[27:0], o_bits[3:0]};    //pokud je to pouze číslo, tak se přiřadí z prava
             cmd_loaded <= 1'b0;
            
         end else begin
@@ -101,16 +94,6 @@ always @(posedge i_clk) begin
 
         end
 
-        o_LEDS[4:0] <= o_bits;
-       /* if(o_bits == 7'h52) begin
-            o_LEDS <= 1;
-        end else if(o_bits == 7'h57) begin 
-            o_LEDS <= 2;
-        end else begin
-        //    o_LEDS <= 4;
-        end
-
-*/
     end else begin
 		r_i_data_valid_rise <= 0;
 	end
@@ -118,35 +101,32 @@ end
 
 
 
-
+reg[7:0] test = 0;
 
 always @(posedge i_clk) begin
-    o_stb <= (i_stb_old) && (cmd_loaded) && (o_bits_old[4]);
+    o_stb <= (i_stb_old) && (o_bits[4:2] == 3'b100);
+	
+	if(o_stb) begin //tohle funguje, jen pri odeslani prvniho znaku se nic nestane a potom je vse ok
+		test <= test + 1;
+		o_LEDS <= test;
+	end
 end
 
 always @(posedge i_clk) begin
-	if(i_stb) begin
-        if(o_bits[4:2] == 3'b100) begin
+	if(i_stb_old) begin
+        if(o_bits[4:2] == 3'b100) begin // při přijmu nové instrukce se odešlou vsechna predesla data
 		    o_word <= r_word;
         end
 	end
 end
 
 
-/*testovaci - kdy bych odeslal command ja */
 
-always @(posedge i_clk) begin
-    
-end
 
 /*konec testovaciho*/
 
 reg[33:0] testovaci = 0;
 always @(posedge i_clk) begin
-	
-	if(o_stb)
-			testovaci <= o_word;
-
 	i_stb_old <= i_stb;
 end
 

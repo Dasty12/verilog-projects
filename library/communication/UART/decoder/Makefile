@@ -1,16 +1,4 @@
-MODULE=wishbone_top
-
-
-VSRC := ../UART/UartRx.sv \
-		../UART/UartTop.sv \
-		../UART/UartTx.sv \
-		../UART/UartCoder.sv \
-		../UART/decoder/UartDecoder.sv \
-		
-			
-			
-
-
+MODULE=UartDecoder
 
 .PHONY:sim
 sim: waveform.vcd
@@ -20,7 +8,7 @@ verilate: verilateStemp
 	@echo "ahoj"
 
 .PHONY:build
-build: obj_dir/VSPI_DAC
+build: obj_dir/V$(MODULE)
 
 
 .PHONY:waves
@@ -36,16 +24,16 @@ waveform.vcd: ./obj_dir/V$(MODULE)
 	@./obj_dir/V$(MODULE) +verilator+rand+reset+2
 
 
-./obj_dir/V$(MODULE): verilateStemp  $(VSRC)
+./obj_dir/V$(MODULE): verilateStemp
 	@echo
 	@echo "### BUILDING SIM ###"
 	make -C obj_dir -f V$(MODULE).mk V$(MODULE)
 
 
-verilateStemp: $(MODULE).sv tb_$(MODULE).cpp $(VSRC)
+verilateStemp: $(MODULE).sv tb_$(MODULE).cpp
 	@echo
 	@echo "### VERILATING ###"
-	verilator --trace --x-assign unique --x-initial unique -cc $(MODULE).sv $(VSRC) --exe tb_$(MODULE).cpp
+	verilator --trace --x-assign unique --x-initial unique -cc $(MODULE).sv --exe tb_$(MODULE).cpp
 	@touch .stamp.verilate
 	
 	
