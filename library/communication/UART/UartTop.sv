@@ -29,6 +29,7 @@ wire TxComplete;
 reg TxComplete_old;
 wire TxCompleteRise;
 wire Tx_start;
+reg [4:0] rst_counter = 20; 
 
 localparam KBAUD = 14'd10416; 
 
@@ -39,8 +40,23 @@ wire w_RXNE_clear_rise;
 reg r_Rx_done;
 reg r_out_Rx_ORE = 0;
 reg [7:0] r_Rx_data;
+reg r_rst;
+wire rst;
+
+always @(posedge clk) begin 
+    if(rst_counter > 0) begin
+        rst_counter <= rst_counter - 1;
+        r_rst <= 1;
+    end else begin
+        r_rst <= 0;
+    end
+end
+
+
+assign rst = r_rst;
 
 UartRx #(.KBAUD(KBAUD)) uartRx(.clk(clk), 
+                               .rst(rst),
                                .in_data(in_signal), 
                                .out_data(r_Rx_data), //out_word
                                .Rx_done(r_Rx_done), 
