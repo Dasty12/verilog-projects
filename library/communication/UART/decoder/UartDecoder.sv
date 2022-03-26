@@ -14,7 +14,9 @@ wire i_data_valid_rise;
 reg r_i_data_valid_rise;
 reg [4:0] o_bits;
 reg [4:0] o_bits_old;
+reg [4:0] o_bits_old_old;
 reg i_stb_old = 0;
+reg i_stb_old_old = 0;
 
 
 reg [33:0] r_word = 0;
@@ -30,11 +32,13 @@ initial cmd_loaded = 1'b0;
 
 always @(posedge i_clk) begin
     i_data_old_in <= i_data_in;
-	o_bits_old <= o_bits;
+//	o_bits_old <= o_bits;
+//    o_bits_old_old <= o_bits_old;
 end
 
 
 always @(posedge i_clk) begin
+    if(i_stb) begin
         case(i_data_in[6:0])
             7'h30: o_bits <= 5'h00;
             7'h31: o_bits <= 5'h01;
@@ -67,6 +71,9 @@ always @(posedge i_clk) begin
                     // Also used as an end of word character, if received
                 o_bits <= 5'h1f;    
         endcase
+
+        o_bits_old <= o_bits;
+    end
 end
 
 
@@ -104,7 +111,7 @@ end
 reg[7:0] test = 0;
 
 always @(posedge i_clk) begin
-    o_stb <= (i_stb_old) && (o_bits[4:2] == 3'b100);
+    o_stb <= (i_stb_old) && (o_bits_old[4:2] == 3'b100);
 	
 	if(o_stb) begin //tohle funguje, jen pri odeslani prvniho znaku se nic nestane a potom je vse ok
 		test <= test + 1;

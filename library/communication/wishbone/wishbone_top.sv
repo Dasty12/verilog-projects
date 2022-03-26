@@ -6,7 +6,7 @@ module wishbone_top (
     output [7:0] o_LEDS
 );
 
-reg[7:0] UART_WORD_RX;
+wire[7:0] UART_WORD_RX;
 reg[7:0] UART_WORD_TX;
 
 wire uart_Rx_stb;
@@ -33,10 +33,10 @@ UartTop uartTop(.clk(i_clk_12Mhz),
                 .out_word(UART_WORD_RX),
                 .out_RXNE(uart_out_RXNE),
                 .out_Rx_ORE(uart_out_Rx_ORE),
-                .o_LEDS(o_LEDS_dummy));
+                .o_LEDS(o_LEDS));
 
 
-wire [7:0]UART_DECODER_i_data_in;
+
 reg UART_DECODER_i_data_valid;  //muzu  ponechat necinne
 reg UART_DECODER_i_stb = 0;
 reg UART_DECODER_i_stb_old = 0;
@@ -44,7 +44,6 @@ reg Decoder_o_stb;
 reg [33:0]Decoder_o_word;
 wire UART_DECODER_i_stb_rise;
 
-assign UART_DECODER_i_data_in  = UART_WORD_RX;
 
 UartDecoder uartDecoder(.i_clk(i_clk_12Mhz),
 						.rst(i_reset),
@@ -53,26 +52,12 @@ UartDecoder uartDecoder(.i_clk(i_clk_12Mhz),
                         .i_stb(uart_out_RXNE),  //UART_DECODER_i_stb_rise
                         .o_stb(Decoder_o_stb),
                         .o_word(Decoder_o_word),
-                        .o_LEDS(o_LEDS));
+                        .o_LEDS(o_LEDS_dummy));
 
 
 always @(posedge i_clk_12Mhz) begin
     UART_DECODER_i_stb_old <= UART_DECODER_i_stb;
 end
-
-
-always @(posedge i_clk_12Mhz) begin
-    if(uart_out_RXNE)begin
-        in_RXNE_clear <= 1;
-        UART_DECODER_i_stb <= 1;
-    end else begin
-        in_RXNE_clear <= 0;
-        UART_DECODER_i_stb <= 0;
-    end
-
-end
-
-assign UART_DECODER_i_stb_rise = UART_DECODER_i_stb &(~UART_DECODER_i_stb_old);
 
 
 //WB master 

@@ -108,6 +108,8 @@ always @(posedge clk) begin
                 r_out_data <= UR_data;
                 data_cnt <= 0;
                 Rx_done_RE <= 1;
+                if(UR_data == 65)
+                    o_LEDS <= o_LEDS + 1;
             end default:begin end
         endcase
         
@@ -124,7 +126,7 @@ reg[7:0] testovaci = 0;
 always @(posedge clk) begin
     if(Rx_done) begin
         testovaci <= testovaci + 1;
-        o_LEDS <= testovaci;
+      //  o_LEDS <= testovaci;
     end
 
 end

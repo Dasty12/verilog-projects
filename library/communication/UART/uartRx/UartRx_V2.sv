@@ -2,10 +2,12 @@ module UartRx_V2
 #(parameter KBAUD = 14'D10416)
 (
     input clk,
+    input clk2,
+    input clk3,
     input rst,
     input in_data,
     output [7:0] out_data,
-    output Rx_done,
+    output Rx_done,                 //nove slovo je projmute- pouze po dobu jedne periody clk
     output busy,
     output reg [7:0] o_LEDS
 );
@@ -106,21 +108,34 @@ always @(posedge clk) begin
                 state <= s_IDLE;
                 
                 r_out_data <= UR_data;
-                o_LEDS <= r_out_data;
                 data_cnt <= 0;
                 Rx_done_RE <= 1;
+                if(UR_data == 65)
+                    o_LEDS <= o_LEDS + 1;
             end default:begin end
         endcase
         
     end
     state_old <= state;
     Rx_done_RE_old <= Rx_done_RE;
+    
+end
+
+
+
+reg[7:0] testovaci = 0;
+// testovaci - v tomhle se pricte jednicka pri kazdem prijmu hodnoty
+always @(posedge clk) begin
+    if(Rx_done) begin
+        testovaci <= testovaci + 1;
+      //  o_LEDS <= testovaci;
+    end
 
 end
 
 assign out_data = r_out_data;
-assign Rx_done = Rx_done_RE & (!Rx_done_RE_old);
+assign Rx_done = Rx_done_RE & (~Rx_done_RE_old);
 
 
 
-endmodule;
+endmodule
