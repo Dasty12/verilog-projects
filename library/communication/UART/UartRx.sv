@@ -27,6 +27,7 @@ wire clk_UART_RE;
 reg [7:0]UR_data = 0;
 reg data_IN_old = 0;
 wire data_IN_FE;
+wire data_IN_RE;
 
 reg[3:0] data_cnt = 0;
 
@@ -41,9 +42,12 @@ reg [3:0] dalsi_cnt = 0;
 reg Rx_done_RE;
 reg Rx_done_RE_old;
 
+reg [13:0] testovaci  = 0;
+
 
 always @(posedge clk) begin
-
+  //  testovaci <= KBAUD_half - 1;
+  //  o_LEDS <= testovaci[12:5];
 
     if(rst) begin
         clk_UART <= 1;
@@ -82,6 +86,7 @@ end
 
 
 assign data_IN_FE = (~in_data) & data_IN_old;
+assign data_IN_RE = (in_data) & (~data_IN_old);
 assign clk_UART_RE = clk_UART & (~clk_UART_old);
 
 
@@ -108,8 +113,8 @@ always @(posedge clk) begin
                 r_out_data <= UR_data;
                 data_cnt <= 0;
                 Rx_done_RE <= 1;
-                if(UR_data == 65)
-                    o_LEDS <= o_LEDS + 1;
+              //  if(UR_data == 65)
+                  //  o_LEDS <= o_LEDS + 1;
             end default:begin end
         endcase
         
@@ -120,14 +125,65 @@ always @(posedge clk) begin
 end
 
 
-
-reg[7:0] testovaci = 0;
+reg start_cnt = 0;
+reg [15:0] cnt_delay = 0;
+reg [1:0] jednou = 0;
+//reg[7:0] testovaci = 0;
 // testovaci - v tomhle se pricte jednicka pri kazdem prijmu hodnoty
 always @(posedge clk) begin
-    if(Rx_done) begin
+   /* if(Rx_done) begin
         testovaci <= testovaci + 1;
       //  o_LEDS <= testovaci;
     end
+*/
+ /*   if(jednou == 2) begin
+        if(data_IN_FE) begin
+            start_cnt <= 1;
+            cnt_delay <= 0;
+        end else if(clk_UART_RE)begin
+            start_cnt <= 0;
+            o_LEDS <= cnt_delay[12:5];
+            jednou <= 1;
+        end
+
+        if(start_cnt) begin
+            cnt_delay <= cnt_delay + 1;
+        end
+    end else if(jednou < 1 ) begin
+        if(clk_UART_RE) begin
+            start_cnt <= 1;
+            cnt_delay <= 0;
+        end else if(data_IN_RE) begin
+            start_cnt <= 0;
+            o_LEDS <= cnt_delay[15:8];
+            jednou <= jednou + 1;
+        end
+        
+        if(start_cnt) begin
+            cnt_delay <= cnt_delay + 1;
+        end
+
+    end
+*/
+
+/*
+    if((data_cnt > 1) &&(jednou == 0)) begin
+        if(clk_UART_RE) begin
+            start_cnt <= 1;
+            cnt_delay <= 0;
+        end else if(data_IN_RE) begin
+            start_cnt <= 0;
+            o_LEDS <= cnt_delay[15:8];
+            jednou <= jednou + 1;
+        end
+        
+        if(start_cnt) begin
+            cnt_delay <= cnt_delay + 1;
+        end    
+    end
+*/
+
+
 
 end
 

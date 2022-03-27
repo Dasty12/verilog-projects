@@ -33,7 +33,7 @@ UartTop uartTop(.clk(i_clk_12Mhz),
                 .out_word(UART_WORD_RX),
                 .out_RXNE(uart_out_RXNE),
                 .out_Rx_ORE(uart_out_Rx_ORE),
-                .o_LEDS(o_LEDS));
+                .o_LEDS(o_LEDS_dummy));
 
 
 
@@ -52,7 +52,7 @@ UartDecoder uartDecoder(.i_clk(i_clk_12Mhz),
                         .i_stb(uart_out_RXNE),  //UART_DECODER_i_stb_rise
                         .o_stb(Decoder_o_stb),
                         .o_word(Decoder_o_word),
-                        .o_LEDS(o_LEDS_dummy));
+                        .o_LEDS(o_LEDS));
 
 
 always @(posedge i_clk_12Mhz) begin
@@ -134,5 +134,22 @@ UartCoder uartCoder(.i_clk(i_clk_12Mhz),
 					.i_wb_we(o_wb_we),
 					.o_LEDS(o_LEDS_dummy));
 
+
+
+reg[35:0] cnt = 0;
+reg temp = 0;
+
+always @(posedge i_clk_12Mhz) begin 
+    if(cnt < 2000000000) begin
+        cnt <= cnt + 1;
+    end else begin 
+        cnt <= 0;
+        temp <= ~temp;
+       
+    end
+
+end
+
+//assign o_LEDS[0] = temp;
 
 endmodule

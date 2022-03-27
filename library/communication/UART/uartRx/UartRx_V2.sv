@@ -57,6 +57,7 @@ always @(posedge clk) begin
             baud_cnt <= KBAUD_half - 1;
             clk_UART <= 1;
             start <= 1;
+            o_LEDS <= baud_cnt[12:5];
         end 
     
         if(start)begin 
@@ -111,7 +112,7 @@ always @(posedge clk) begin
                 data_cnt <= 0;
                 Rx_done_RE <= 1;
                 if(UR_data == 65)
-                    o_LEDS <= o_LEDS + 1;
+                  //  o_LEDS <= o_LEDS + 1;
             end default:begin end
         endcase
         

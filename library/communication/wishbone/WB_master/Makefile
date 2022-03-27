@@ -1,4 +1,8 @@
-MODULE=UartRx_V2
+MODULE=WB_master
+
+
+.PHONY:simIca
+simIca:WaveIcarus.vcd 
 
 .PHONY:sim
 sim: waveform.vcd
@@ -33,7 +37,7 @@ waveform.vcd: ./obj_dir/V$(MODULE)
 verilateStemp: $(MODULE).sv tb_$(MODULE).cpp
 	@echo
 	@echo "### VERILATING ###"
-	verilator --trace --timescale 1ns/1ns  --x-assign unique --x-initial unique -cc $(MODULE).sv --exe tb_$(MODULE).cpp
+	verilator --trace --timescale 1ns/1ns --x-assign unique --x-initial unique -cc $(MODULE).sv --exe tb_$(MODULE).cpp
 	@touch .stamp.verilate
 	
 	
@@ -46,3 +50,20 @@ clean:
 	rm -rf .stamp./;
 	rm -rf ./obj_dir
 	rm -rf waveform.vcd
+	rm -rf WaveIcarus.vcd
+	rm -rf Icarus
+	
+	
+	
+WaveIcarus.vcd: Icarus/tb_$(MODULE) 
+	vvp Icarus/tb_$(MODULE)
+	
+	
+Icarus/tb_$(MODULE): Icarus tb_$(MODULE).sv $(MODULE).sv WB_slave.sv
+	iverilog -g2012 -o Icarus/tb_$(MODULE) tb_$(MODULE).sv $(MODULE).sv WB_slave.sv
+	
+Icarus:
+	@mkdir -p Icarus
+	
+	
+	

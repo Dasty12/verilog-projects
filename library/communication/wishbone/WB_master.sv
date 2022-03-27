@@ -149,7 +149,7 @@ always @(posedge i_clk) begin
     if((i_cmd_addr) && (!o_cmd_busy)) begin
 
         o_wb_addr <= i_cmd_word[29:0];
-  end
+    end
 
     newaddr <= ((!i_reset) && (i_cmd_addr) && (!o_cmd_busy));
 end

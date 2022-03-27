@@ -85,20 +85,16 @@ always @(posedge i_clk) begin
         //new command arrived
         if(o_bits[4:2] == 3'b100) begin  
             command <= o_bits[2:0];
-           
             cmd_loaded <= 1'b1;
             r_word[33:32] <= o_bits[1:0];  
             r_word[31:0] <= 0;
-			
         end else if(o_bits != 5'h1f) begin
             r_word[31:0] <= {r_word[27:0], o_bits[3:0]};    //pokud je to pouze číslo, tak se přiřadí z prava
             cmd_loaded <= 1'b0;
-           
         end else begin
             /*chyba, tohle se nema stát*/
             cmd_loaded <= 1'b1;
             r_word[33:0] <= 0;
-
         end
 
     end else begin
@@ -115,7 +111,7 @@ always @(posedge i_clk) begin
 	
 	if(o_stb) begin //tohle funguje, jen pri odeslani prvniho znaku se nic nestane a potom je vse ok
 		test <= test + 1;
-		o_LEDS <= test;
+		o_LEDS[1:0] <= o_word[33:32];
 	end
 end
 

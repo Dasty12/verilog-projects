@@ -29,86 +29,82 @@ int main(int argc, char**argv, char** env)
     VerilatedVcdC *m_trace = new VerilatedVcdC;
     dut->trace(m_trace, 5);
     m_trace -> open("waveform.vcd");
+    uint8_t dalsi_cnt = 0;
 
     while(sim_time < MAX_SIM_TIME)
     {
-        dut->clk ^= 1;
-        dut->eval();
-		if(dut->clk == 1)
-		{
-            posedge_cnt ++;
 
-            if(posedge_cnt < 10)
-            {
-                dut->rst = 1;
-            }
-            else
-            {
-                dut->rst = 0;
-            
+        if(dalsi_cnt < (5-1))
+        {dalsi_cnt ++;}
+        else{
+            dalsi_cnt = 0;
 
-                if(UART_cnt > (UART_div / 2))
-                { 
-                    UART_cnt = 0;
-                    
-                    UART_clk = !UART_clk;
-                   // dut->clk2 = UART_clk;
+            dut->clk ^= 1;
+            dut->eval();
+            if(dut->clk == 1)
+            {
+                posedge_cnt ++;
+
+                if(posedge_cnt < 10)
+                {
+                    dut->rst = 1;
                 }
                 else
-                { UART_cnt = UART_cnt + 1;}
-
-                //rising edge UART_clk
-                if(UART_clk && (!UART_clk_old))
                 {
-                   // dut->clk3 ^= 1; 
-                    if(data_index == 0)
-                    {
-                        dut->in_data = 0;
+                    dut->rst = 0;
+                
+
+                    if(UART_cnt > (UART_div / 2))
+                    { 
+                        UART_cnt = 0;
+                        
+                        UART_clk = !UART_clk;
+                    // dut->clk2 = UART_clk;
                     }
-                    if(data_index < 7 + 1)
+                    else
+                    { UART_cnt = UART_cnt + 1;}
+
+                    //rising edge UART_clk
+                    if(UART_clk && (!UART_clk_old))
                     {
-                        dut->in_data = (data_out >> (data_index - 1)) & 1u;
-                    }
-                    else if(data_index < 8 + 1)
-                    {
-                        dut->in_data = 0u;
-                    }
-                    else if(data_index < 60 + 1)
-                    {
-                        dut->in_data = 1u;
-                    }
+                    // dut->clk3 ^= 1; 
+                        if(data_index == 0)
+                        {
+                            dut->in_data = 0;
+                        }
+                        if(data_index < 7 + 1)
+                        {
+                            dut->in_data = (data_out >> (data_index - 1)) & 1u;
+                        }
+                        else if(data_index < 8 + 1)
+                        {
+                            dut->in_data = 0u;
+                        }
+                        else if(data_index < 60 + 1)
+                        {
+                            dut->in_data = 1u;
+                        }
 
 
-                    if(data_index > 60)
-                    {
-                        data_index = 0;
-                        if(dut->out_data == data_index)
-                        {cout << "pass";}
-                    // else
-                        //{cout << "error: " << dut->out_data <<"hodnota "<<data_out;}
+                        if(data_index > 60)
+                        {
+                            data_index = 0;
+                            if(dut->out_data == data_index)
+                            {cout << "pass";}
+                        // else
+                            //{cout << "error: " << dut->out_data <<"hodnota "<<data_out;}
 
-                        data_out++;
-                    }
-                    else 
-                    {
-                        data_index = data_index + 1;
+                            data_out++;
+                        }
+                        else 
+                        {
+                            data_index = data_index + 1;
+                        }
                     }
                 }
+                UART_clk_old = UART_clk;
             }
-            UART_clk_old = UART_clk;
-
-         /*   if(posedge_cnt < 4)
-            {dut->rst = 1;}
-            else
-            {dut->rst = 0;}
-        
-            if(posedge_cnt == 7)
-            { dut-> ST_rise = 1;}
-            else
-            { dut -> ST_rise = 0;}
-		*/
         }
-		
         m_trace->dump(sim_time);
         sim_time ++;
     }
