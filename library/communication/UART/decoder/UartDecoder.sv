@@ -111,7 +111,7 @@ always @(posedge i_clk) begin
 	
 	if(o_stb) begin //tohle funguje, jen pri odeslani prvniho znaku se nic nestane a potom je vse ok
 		test <= test + 1;
-		o_LEDS[1:0] <= o_word[33:32];
+	//	o_LEDS[1:0] <= o_word[33:32];
 	end
 end
 

@@ -34,55 +34,17 @@ reg[7:0] cnt_div = 0;
 wire [7:0]out_char;
 
 
-WB_master dut(
-    .i_clk(clk),
-    .i_reset(reset),
-    .o_LEDS(o_LEDS),
-    .i_cmd_stb(i_cmd_stb),
-    .i_cmd_word(i_cmd_word),
-    .o_cmd_busy(o_cmd_busy),
-    .o_rsp_stb(o_rsp_stb),
-    .o_rsp_word(o_rsp_word),
-    .o_wb_cyc(o_wb_cyc),
-    .o_wb_stb(o_wb_stb),
-    .o_wb_we(o_wb_we),
-    .o_wb_addr(o_wb_addr),
-    .o_wb_data(o_wb_data_mas),
-    .o_wb_sel(o_wb_sel),
-    .i_wb_stall(o_wb_stall),
-    .i_wb_ack(o_wb_ack),
-    .i_wb_err(o_wb_err),
-    .i_wb_data(o_wb_data));
+reg Usr_button = 0;
 
 
-WB_slave dut_slave(.i_clk(clk),
-					.i_rst(reset),
-					.i_wb_cyc(o_wb_cyc),
-					.i_wb_stb(o_wb_stb),
-					.i_wb_we(o_wb_we),
-					.i_wb_addr(o_wb_addr),
-					.i_wb_data(o_wb_data_mas),
-					.i_wb_sel(o_wb_sel),
-					.o_wb_stall(o_wb_stall),
-					.o_wb_ack(o_wb_ack),
-					.o_wb_err(o_wb_err),
-					.o_wb_data(o_wb_data),
-					.o_LEDS(o_LEDS));
-					
-			
+reg IO_UART_RX;
+wire IO_UART_TX;
 
-wire o_dw_busy;			
-					
-UartCoder coder(.i_clk(clk),
-				.i_reset(reset),
-				.i_stb(o_rsp_stb),
-				.o_dw_busy(o_dw_busy),
-				.i_word(o_rsp_word),
-				.i_wb_we(o_wb_we),
-				.out_char(out_char),
-				.i_TxBusy(i_TxBusy),
-				.o_TxStart(o_TxStart),
-				.o_LEDS(o_LEDS));
+wishbone_top dut(.i_clk_12Mhz(clk),
+				 .Usr_button(Usr_button),
+				 .IO_UART_RX(IO_UART_RX),
+				 .IO_UART_TX(IO_UART_TX),
+				 .o_LEDS(o_LEDS));
 
 reg[33:0] data_in[0:4];
 reg[2:0]  data_cnt = 0;

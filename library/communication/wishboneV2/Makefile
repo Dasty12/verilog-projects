@@ -1,5 +1,13 @@
 MODULE=WB_master
 
+VSRC := ../UART/UartRx.sv \
+		../UART/UartTop.sv \
+		../UART/UartTx.sv \
+		../UART/UartCoder.sv \
+		../UART/decoder/UartDecoder.sv \
+		wishbone_top.sv \
+
+
 
 .PHONY:simIca
 simIca:WaveIcarus.vcd 
@@ -59,8 +67,8 @@ WaveIcarus.vcd: Icarus/tb_$(MODULE)
 	vvp Icarus/tb_$(MODULE)
 	
 	
-Icarus/tb_$(MODULE): Icarus tb_$(MODULE).sv $(MODULE).sv WB_slave.sv UartCoder.sv
-	iverilog -g2012 -o Icarus/tb_$(MODULE) tb_$(MODULE).sv $(MODULE).sv WB_slave.sv UartCoder.sv
+Icarus/tb_$(MODULE): Icarus tb_$(MODULE).sv $(MODULE).sv WB_slave.sv $(VSRC)
+	iverilog -g2012 -o Icarus/tb_$(MODULE) tb_$(MODULE).sv $(MODULE).sv WB_slave.sv $(VSRC)
 	
 Icarus:
 	@mkdir -p Icarus
