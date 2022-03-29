@@ -91,4 +91,16 @@ assign TxCompleteRise = TxComplete & (!TxComplete_old);
 assign Tx_start = r_Tx_start;
 assign out_Rx_ORE = r_out_Rx_ORE;
 assign out_BUSY = r_Tx_busy;
+
+
+
+
+`ifdef  OPT_UART_RE
+
+`else
+
+
+`endif
+
+
 endmodule

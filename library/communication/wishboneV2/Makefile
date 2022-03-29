@@ -6,6 +6,7 @@ VSRC := ../UART/UartRx.sv \
 		../UART/UartCoder.sv \
 		../UART/decoder/UartDecoder.sv \
 		wishbone_top.sv \
+		WBdefs.sv \
 
 
 
