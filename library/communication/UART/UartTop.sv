@@ -31,7 +31,11 @@ wire TxCompleteRise;
 wire Tx_start;
 reg [4:0] rst_counter = 20; 
 
-localparam KBAUD = 14'd10416; 
+`ifdef OPT_SIM
+	parameter KBAUD = 14'd1041; 
+`else
+	parameter KBAUD = 14'd10416; 
+`endif
 
 wire Rx_busy;
 reg r_RXNE = 0;
@@ -41,6 +45,9 @@ reg r_out_Rx_ORE = 0;
 reg [7:0] r_Rx_data;
 reg r_rst;
 wire rst;
+
+
+reg[15:0] tt = 0;
 
 always @(posedge clk) begin 
     if(rst_counter > 0) begin
@@ -80,7 +87,6 @@ always @(posedge clk) begin
         r_Tx_start <= 1;
         r_Tx_busy  <= 1; 
     end
-
 
    // r_RXNE_clear_old <= in_RXNE_clear;  
     TxComplete_old <= TxComplete;

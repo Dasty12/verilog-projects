@@ -107,7 +107,7 @@ end
 reg[7:0] test = 0;
 
 always @(posedge i_clk) begin
-    o_stb <= (i_stb_old) && (o_bits_old[4:2] == 3'b100);
+    o_stb <= (i_stb_old) && (o_bits[4:2] == 3'b100);
 	
 	if(o_stb) begin //tohle funguje, jen pri odeslani prvniho znaku se nic nestane a potom je vse ok
 		test <= test + 1;
