@@ -31,15 +31,20 @@ always @(posedge i_clk) begin
 		memory[1] <= 1;
 		memory[2] <= 2;
 		memory[3] <= 3;
+		memory[4] <= 4;
+		memory[5] <= 5;
+		memory[6] <= 6;
+		memory[7] <= 7;
+		
 	end else begin
 		if((i_wb_cyc) && (i_wb_stb)) begin
 			o_wb_ack <= 1;
 			if(i_wb_we) begin	//pri požadavku na zápis
-				memory[i_wb_addr[2:0]] <= i_wb_data[15:0];
+				memory[i_wb_addr[15:0]] <= i_wb_data[15:0];
 				o_LEDS[5:3] <= i_wb_addr[2:0];
 			end else begin		// při požadavku na čtení
 				o_wb_data[31:16] <= 16'h0;
-				o_wb_data[15:0] <= memory[i_wb_addr[2:0]];
+				o_wb_data[15:0] <= memory[i_wb_addr[15:0]];
 				o_LEDS[2:0] <= i_wb_addr[2:0];
 			end
 			

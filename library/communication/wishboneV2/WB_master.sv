@@ -55,11 +55,20 @@ wire cmd_addr;
 wire cmd_read;
 wire cmd_write;
 
+wire cmd_addr_long;
+wire cmd_read_long;
+wire cmd_write_long;
+
+reg [1:0] cmd;
+
 	
 assign cmd_addr  = i_cmd_stb && (i_cmd_word[33:32] == `CMD_SUB_ADDR);
 assign cmd_read  = i_cmd_stb && (i_cmd_word[33:32] == `CMD_SUB_RD);
 assign cmd_write = i_cmd_stb && (i_cmd_word[33:32] == `CMD_SUB_WR);
 
+assign cmd_addr_long = (i_cmd_word[33:32] == `CMD_SUB_ADDR);
+assign cmd_read_long = (i_cmd_word[33:32] == `CMD_SUB_RD);
+assign cmd_write_long = (i_cmd_word[33:32] == `CMD_SUB_WR);
 
 always @(posedge i_clk) begin
 	
@@ -89,7 +98,9 @@ always @(posedge i_clk) begin
 			o_wb_stb <= 0;
 			o_wb_cyc <= 0;
 		end
-    end
+    end	
+	
+	
 end
 
 
@@ -98,7 +109,12 @@ end
 
 always @(posedge i_clk)begin
     if(i_wb_ack) begin
-        o_rsp_word <= {i_cmd_word[33:32],i_wb_data};
+		if(cmd_write_long)
+			o_rsp_word <= {i_cmd_word[33:32],{32{1'b0}}};
+		else if(cmd_read_long)
+			o_rsp_word <= {i_cmd_word[33:32],i_wb_data};
+		else
+			o_rsp_word <= {2'b11,{32{1'b0}}};
         o_rsp_stb <= 1;
     end else begin
         o_rsp_stb <= 0;           
@@ -106,5 +122,13 @@ always @(posedge i_clk)begin
     
 
 end
+
+
+reg wb_sel = 0;
+
+
+assign o_wb_sel = wb_sel;
+
+
 
 endmodule

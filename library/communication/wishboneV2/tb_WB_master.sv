@@ -59,7 +59,7 @@ reg[33:0] data_in[0:4];
 reg[2:0]  data_cnt = 0;
 
 
-reg[7:0] data_RX_arr[0:3];
+reg[7:0] data_RX_arr[0:6];
 
 initial begin
 	data_in[0] = 0;
@@ -84,6 +84,9 @@ initial begin
 	data_RX_arr[1]  <= 49;
 	data_RX_arr[2]  <= 87;
 	data_RX_arr[3]  <= 49;
+	data_RX_arr[4]  <= 65;
+	data_RX_arr[5]  <= 49;
+	data_RX_arr[6]  <= 82;
 
 	tt <= KBAUD;
 end
@@ -120,7 +123,7 @@ always @(posedge clk) begin
 			baud_BitIndex <= baud_BitIndex + 1;
 		else begin
 			baud_BitIndex <= 0;
-			if(baud_DataIndex < 3)
+			if(baud_DataIndex < 6)
 				baud_DataIndex <= baud_DataIndex + 1;
 			else
 				baud_DataIndex <= 0;
