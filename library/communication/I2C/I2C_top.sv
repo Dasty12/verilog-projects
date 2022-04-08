@@ -21,7 +21,7 @@ reg [$clog2(kCLK_DIV)-1:0] SCL_CNT = kCLK_DIV_quad;
 reg [2:0] data_cnt = 0;
 reg r_SDA = 1;
 //přenos bude na 10kHz
-reg[1:0] state = S_START;
+reg[1:0] state = s_START;
 
 
 reg[7:0] test_data[3];
@@ -32,13 +32,18 @@ always @(posedge clk) begin
    // end else begin
    //     clk_i2c_cnt <= 0;
    // end
-    case(state)
+   /* case(state)
         s_START: begin
             r_SDA <= 0;
         end
+		s_ADDR: begin
+		
+		end
+		s_DATA: begin
+		end
         default:begin end
     endcase
-
+*/
 
     if(clk_i2c_cnt < (kCLK_DIV - 1)) begin
         clk_i2c_cnt <= clk_i2c_cnt + 1;

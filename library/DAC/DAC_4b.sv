@@ -75,15 +75,7 @@ always @(posedge i_clk) begin
 			DAC <= 255;
 		end
 		cnt <= 0;
-	
 	end
-	
-	
-	
-
-
-
-
 end
 
 
