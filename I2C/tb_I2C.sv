@@ -9,13 +9,16 @@ reg r_start;
 
 wire SDA ;
 wire SCL;
+wire test_ack;
 
+reg r_SDA;
 
 I2C dut(.clk(clk),
 		.rst(reset),
 		.start(r_start),	
 		.SDA(SDA),	
-		.SCL(SCL));
+		.SCL(SCL),
+		.test_ack(test_ack));
 
 
 
@@ -33,13 +36,21 @@ always @(posedge clk) begin
 	else
 		reset <= 0;
 		
-		
-		
 	if(cnt == 25)
 		r_start <= 1;
 	else 
 		r_start <= 0;
+
+	if(test_ack)
+		r_SDA <= 0;
+	else 
+		r_SDA <= 1;
+
+
 end
+
+
+assign SDA = (test_ack) ? r_SDA : 1'bz;
 
 initial
  begin
