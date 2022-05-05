@@ -2,7 +2,7 @@ module RL
 (
 input clk,
 input rst,
-input sig1,
+input [31:0]sig1,
 output out,
 output [15:0] cnt_out,
 output [31:0] out_I,
@@ -22,19 +22,21 @@ reg [15:0] cnt2;
 
 parameter signed R  = 10 ;    // Q5.0
 parameter signed L_div  = 100;   // Q8.0
-parameter signed U0 = 200 ;  // Q11.0	200*2**8
+//parameter signed U0 = 200	;  // Q11.0	200*2**8
+parameter signed U01 = 51200;
 parameter signed dt = 26;	// Q1.18 (26)
 
 
-
+reg signed [31:0] U0;
 reg signed [31:0] X0;
 reg signed [31:0] X1;
 reg signed [31:0] X2;	//signed Q8.4
 reg signed [31:0] di;	//signed Q0.18	
 reg signed [31:0] i1;	//signed Q12.19 
 reg signed [31:0] I;	//signed Q12.19
-reg [4:0] state;
+reg [5:0] state;
 integer X00;
+integer X11;
 integer X22;
 integer di2;
 integer I_1;
@@ -49,9 +51,11 @@ initial I = 0;
 			cnt2 <= 0;
 			state <= 0;
 		end else begin
+		
+			U0 <= sig1;
 			
 			case(state)
-				0: X0  <= R * I;			// Q.0= Q.0 * Q.0
+			/*	0: X0  <= R * I;			// Q.0= Q.0 * Q.0
 				1: X00 <= X0 >> 0;			// Q.0
 				2: X1  <= U0 - X00;			// Q.0
 				3: X2  <= X1 * L_div;		// Q0
@@ -59,10 +63,38 @@ initial I = 0;
 				5: di  <= X22 * dt;			// Q0 * 18 = 18
 				6: di2 <= di >> 10;			// Q8
 				7: I_1 <= I_1 + di2;        // Q8  
-				8: I   <= I_1 >> 8; 		// Q0
+				8: I   <= I_1 >> 8; 		// Q0*/
+				
+				
+ 				0: X0  <= R * I;			// Q.0= Q.0 * Q.0
+				1: X00 <= X0 ;				// Q.0
+				2: X1  <= U0 - X00;			// Q.0
+				3: X11 <= X1 >>> 8;
+				4: X2  <= X11 * L_div;		// Q0
+				5: X22 <= X2 >>> 0;			// Q0
+				6: di  <= X22 * dt;			// Q0 * 18 = 18
+				7: di2 <= di >>> 10;			// Q8
+				8: I_1 <= I_1 + di2;        // Q8  
+				9: I   <= I_1 >>> 0; 		// Q0 
+				
+				/* 
+				0: X0  <= R * I;			// Q.0= Q.0 * Q.8
+				1: X00 <= X0 ;				// Q.0
+				2: X1  <= U01 - X00;			// Q.0
+				3: X11 <= X1;
+				4: X2  <= X11 * L_div;		// Q8
+				5: X22 <= X2 >> 0;			// Q8
+				6: di  <= X22 * dt;			// Q8 + 18 = 18 + 8
+				7: di2 <= di >> 10;			// Q8
+				8: I_1 <= I_1 + di2;        // Q16  
+				9: I   <= I_1 >> 8; 		// Q0  */
+				
+				
+				
+				
 			endcase
 		
-			if(state < 8) begin
+			if(state < 9) begin
 				state <= state + 1;
 			end else begin
 				state <= 0;
@@ -97,7 +129,7 @@ assign out_X0 = X0;
 assign out_X00 = X00;
 assign out_X1 = X1;
 assign out_X2 = X2;
-assign out_X22 = X22;
+assign out_X22 = X11;
 assign out_di = di;
 assign out_di2 = di2;
 assign out_I_1 = I_1;
