@@ -23,14 +23,14 @@ reg [15:0] cnt2;
 parameter signed R  = 10 ;    // Q5.0
 parameter signed L_div  = 100;   // Q8.0
 parameter signed U0 = 200 ;  // Q11.0	200*2**8
-parameter signed dt = 26;	// Q1.18
+parameter signed dt = 26;	// Q1.18 (26)
 
 
 
 reg signed [31:0] X0;
 reg signed [31:0] X1;
 reg signed [31:0] X2;	//signed Q8.4
-reg signed [31:0] di;		//signed Q0.18	
+reg signed [31:0] di;	//signed Q0.18	
 reg signed [31:0] i1;	//signed Q12.19 
 reg signed [31:0] I;	//signed Q12.19
 reg [4:0] state;
@@ -51,15 +51,15 @@ initial I = 0;
 		end else begin
 			
 			case(state)
-				0: X0 <= R * I;				// Q.0= Q.0 * Q.0
+				0: X0  <= R * I;			// Q.0= Q.0 * Q.0
 				1: X00 <= X0 >> 0;			// Q.0
-				2: X1 <= U0 - X00;			// Q.0
-				3: X2 <= X1 * L_div;		// Q0
+				2: X1  <= U0 - X00;			// Q.0
+				3: X2  <= X1 * L_div;		// Q0
 				4: X22 <= X2 >> 0;			// Q0
-				5: di <= X22 * dt;			// Q0 * 18 = 18
+				5: di  <= X22 * dt;			// Q0 * 18 = 18
 				6: di2 <= di >> 10;			// Q8
-				7: I_1 <= I_1 + di2;        	// Q8  
-				8: I  <= I_1 >> 8; 			// Q0
+				7: I_1 <= I_1 + di2;        // Q8  
+				8: I   <= I_1 >> 8; 		// Q0
 			endcase
 		
 			if(state < 8) begin
