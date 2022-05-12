@@ -21,7 +21,7 @@ reg [15:0] cnt;
 reg [15:0] cnt2;
 
 parameter signed R  = 10 ;    // Q5.0
-parameter signed L_div  = 100;   // Q8.0
+parameter signed L_div  = 1000;   // Q8.0
 //parameter signed U0 = 200	;  // Q11.0	200*2**8
 parameter signed U01 = 51200;
 parameter signed dt = 26;	// Q1.18 (26)

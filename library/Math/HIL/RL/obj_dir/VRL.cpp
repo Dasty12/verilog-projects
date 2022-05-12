@@ -12,9 +12,9 @@ VRL::VRL(VerilatedContext* _vcontextp__, const char* _vcname__)
     : vlSymsp{new VRL__Syms(_vcontextp__, _vcname__, this)}
     , clk{vlSymsp->TOP.clk}
     , rst{vlSymsp->TOP.rst}
-    , sig1{vlSymsp->TOP.sig1}
     , out{vlSymsp->TOP.out}
     , cnt_out{vlSymsp->TOP.cnt_out}
+    , sig1{vlSymsp->TOP.sig1}
     , out_I{vlSymsp->TOP.out_I}
     , out_X0{vlSymsp->TOP.out_X0}
     , out_X00{vlSymsp->TOP.out_X00}
