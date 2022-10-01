@@ -1,10 +1,10 @@
 #include "UartRxDrv.h"
 #include <iostream>
 
-
+using namespace std;
 int UartRxDrv::charToBit(int index)
 {
-    std::cout <<"index je: "<< index <<std::endl;
+    //cout <<"index je: "<< index << endl;
     return (char_list.at(index_char) >> index) & 1;
 }
 
@@ -34,6 +34,9 @@ void UartRxDrv::whenRiseEdge(void)
              else
              { index_char = 0;}
         }
+        else
+        { cout << "UartRxDrv: vole asi neco spatne ne ?" << endl;}
+
         dut -> state_cnt = state_cnt;
 
         if(state_cnt < 9)

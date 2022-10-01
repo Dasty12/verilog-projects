@@ -9,13 +9,14 @@ class UartRxDrv
         DUT *dut;
         int index_insideCh;
         int index_char;
-        vector<char> char_list;
+        
         ///list<int>::iterator it;
         int period;
         int kperiod;
         int state_cnt;
 
     public: 
+        vector<char> char_list;
         UartRxDrv(DUT *dut,int kperiod)
         {
             this->dut = dut;
@@ -38,5 +39,5 @@ class UartRxDrv
         int charToBit(int index);
         void resetIndex(void);
         void whenRiseEdge(void);
-
+        
 };

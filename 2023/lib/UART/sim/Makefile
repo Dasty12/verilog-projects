@@ -1,7 +1,8 @@
 MODULE = top_Uart
 
 PROJ_FILES += -I../rtl
-CPP_FILES = ../SW/UartRxDrv.cpp
+CPP_FILES = ../SW/UartRxDrv.cpp \
+			../SW/UartRxMon.cpp
 
 DEFINE = OPT_SIM
 
