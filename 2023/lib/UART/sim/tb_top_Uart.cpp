@@ -2,6 +2,7 @@
 #include <iostream>
 #include "tb_top_Uart.h"
 #include "../SW/UartRxDrv.h"
+#include "../SW/UartRxMon.h"
 
 
 
@@ -31,6 +32,7 @@ int main(int argc, char** argv, char** env) {
     Verilated::commandArgs(argc, argv); //pro inicializaci signalu na nahodne cislo
     DUT *dut = new DUT;
     UartRxDrv *Rx = new UartRxDrv(dut, 104);
+    UartRxMon *RxMon = new UartRxMon(dut, &Rx->char_list);
 
     Verilated::traceEverOn(true);
     VerilatedVcdC *m_trace = new VerilatedVcdC;
@@ -53,7 +55,10 @@ int main(int argc, char** argv, char** env) {
             set_rnd_out_valid(dut,sim_time);
 
             if(posedge_cnt > 10)
-            { Rx->whenRiseEdge();}
+            { 
+                Rx->whenRiseEdge();
+                RxMon->checkChar();
+            }
             
             switch(posedge_cnt){
                 case 5:
