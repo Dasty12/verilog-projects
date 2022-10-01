@@ -24,7 +24,11 @@ module top_Uart #(
     output [7:0]     out_word,            /* received data								   */ 
     output           out_RXNE,            /* receiver dokoncil přenos a jsou nova data     */
     output           out_Rx_ORE,         /* received data isn't read, and occurs override */
-    output [$clog2(KBAUD)-1:0] bauld
+    output [$clog2(KBAUD)-1:0] bauld,
+    /* verilator lint_off UNUSED */
+    input data_ted,
+    /* verilator lint_off UNUSED */
+    input [3:0]state_cnt 
 );
 
 
@@ -39,7 +43,7 @@ wire Tx_start;
 reg [4:0] rst_counter = 20; 
 
 `ifdef OPT_SIM
-	parameter KBAUD = 1041; 
+	parameter KBAUD = 104; 
 `else
 	parameter KBAUD = 10416; 
 `endif

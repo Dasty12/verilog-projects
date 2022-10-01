@@ -33,7 +33,7 @@ waveform.vcd: ./obj_dir/V$(MODULE)
 .stamp.verilate: $(MODULE).sv tb_$(MODULE).cpp $(CPP_FILES)
 	@echo
 	@echo "### VERILATING ###"
-	verilator -I.. $(PROJ_FILES) -Wall -D$(DEFINE) --trace --x-assign unique --x-initial unique -cc $(MODULE).sv --exe tb_$(MODULE).cpp $(CPP_FILES)
+	verilator -I.. $(PROJ_FILES) -Wall   -D$(DEFINE) --trace --x-assign unique --x-initial unique -cc $(MODULE).sv --exe tb_$(MODULE).cpp $(CPP_FILES)
 	@touch .stamp.verilate
 
 .PHONY:lint

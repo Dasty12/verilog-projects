@@ -33,8 +33,8 @@ reg[3:0] data_index = 0;          ///< index bitů ve slově
 reg[1:0] state = s_IDLE;          ///< stav stavového automatu
 reg[1:0] state_old = s_IDLE;      ///< stav stavového automatu, zpozdeneho o jednu periodu
 //baud counter
-reg [CNT_BITS-1:0] baud_cnt = 0;    ///< čítač UART periody
-reg [7:0] r_out_data = 0;           ///< výstupní slovo, registrované
+reg [CNT_BITS-1:0] baud_cnt = 0;  ///< čítač UART periody
+reg [7:0] r_out_data = 0;         ///< výstupní slovo, registrované
 reg startReceive = 0;       ///<signal aktivni pri prijimani celeho slova, povoluje čítání UART děličky
 
 reg Rx_done_r;              ///< indikace úspěšně přijatého slova

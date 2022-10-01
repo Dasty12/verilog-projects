@@ -5,13 +5,18 @@
 
 
 
-#define MAX_SIM_TIME 300
+#define MAX_SIM_TIME 60000
 #define VERIF_START_TIME 5
 vluint64_t sim_time = 0;
 vluint64_t posedge_cnt = 0; ///< counter nabeznych hran
 
 
+void dut_reset(DUT *dut,vluint64_t &sim_time)
+{
+    if(sim_time < 5)
+    { dut->UART_IN = 1;}
 
+}
 
 void set_rnd_out_valid(DUT *dut, vluint64_t &sim_time)
 {
@@ -25,7 +30,7 @@ int main(int argc, char** argv, char** env) {
 
     Verilated::commandArgs(argc, argv); //pro inicializaci signalu na nahodne cislo
     DUT *dut = new DUT;
-    UartRxDrv *Rx = new UartRxDrv(dut);
+    UartRxDrv *Rx = new UartRxDrv(dut, 104);
 
     Verilated::traceEverOn(true);
     VerilatedVcdC *m_trace = new VerilatedVcdC;
@@ -35,7 +40,8 @@ int main(int argc, char** argv, char** env) {
     
 
     while (sim_time < MAX_SIM_TIME) {
-       // dut_reset(dut, sim_time);
+        
+        dut_reset(dut, sim_time);
         dut->clk ^= 1;
         dut->eval();
         
@@ -45,6 +51,9 @@ int main(int argc, char** argv, char** env) {
 
 
             set_rnd_out_valid(dut,sim_time);
+
+            if(posedge_cnt > 10)
+            { Rx->whenRiseEdge();}
             
             switch(posedge_cnt){
                 case 5:
