@@ -31,8 +31,8 @@ int main(int argc, char** argv, char** env) {
 
     Verilated::commandArgs(argc, argv); //pro inicializaci signalu na nahodne cislo
     DUT *dut = new DUT;
-    UartRxDrv *Rx = new UartRxDrv(dut, 104);
-    UartRxMon *RxMon = new UartRxMon(dut, &Rx->char_list);
+    UartRxDrv *Rx = new UartRxDrv(dut, 104);               //Rx controller
+    UartRxMon *RxMon = new UartRxMon(dut, &Rx->char_list); //Rx monitor
 
     Verilated::traceEverOn(true);
     VerilatedVcdC *m_trace = new VerilatedVcdC;
