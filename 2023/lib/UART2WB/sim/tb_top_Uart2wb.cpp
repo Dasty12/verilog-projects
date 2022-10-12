@@ -3,6 +3,7 @@
 #include "tb_top_Uart2wb.h"
 //#include "../../UART/SW/UartRxDrv.h"
 //#include "../../UART/SW/UartRxMon.h"
+#include "../SW/Uart2WbDrv.h"
 
 
 
@@ -33,6 +34,7 @@ int main(int argc, char** argv, char** env) {
     DUT *dut = new DUT;
     //UartRxDrv *Rx = new UartRxDrv(dut, 104);               //Rx controller
     //UartRxMon *RxMon = new UartRxMon(dut, &Rx->char_list); //Rx monitor
+    Uart2WbDrv *Drv = new Uart2WbDrv(dut, 104);
 
     Verilated::traceEverOn(true);
     VerilatedVcdC *m_trace = new VerilatedVcdC;
@@ -58,24 +60,25 @@ int main(int argc, char** argv, char** env) {
             { 
               //  Rx->whenRiseEdge();
               //  RxMon->checkChar();
+              Drv->whenRiseEdge();
             }
             
             switch(posedge_cnt){
                 case 5:
-                   dut->UART_in_data = 0x41;
-                   dut->UART_Rx_done = 1;
+                  // dut->UART_in_data = 0x41;
+                  // dut->UART_Rx_done = 1;
                    // dut->in_valid = 1;
                     break;
                 case 6:
-                    dut->UART_Rx_done = 0;
+                   // dut->UART_Rx_done = 0;
                 case 7:
                     break;
                 case 9:
-                    dut->UART_in_data = 0x31;
-                    dut->UART_Rx_done = 1;
+                   // dut->UART_in_data = 0x31;
+                  //  dut->UART_Rx_done = 1;
                     break;
                 case 10:
-                    dut->UART_Rx_done = 0;
+                  //  dut->UART_Rx_done = 0;
                     break;
                 case 12:
                    // dut->UART_in_data = 0x34;
@@ -84,11 +87,11 @@ int main(int argc, char** argv, char** env) {
                 case 13:
                     break;
                 case 16:
-                    dut->UART_in_data = 0x57;
-                    dut->UART_Rx_done = 1;
+                   // dut->UART_in_data = 0x57;
+                   // dut->UART_Rx_done = 1;
                     break;
                 case 17:
-                    dut->UART_Rx_done = 0;
+                   // dut->UART_Rx_done = 0;
                     break;
                    /* if(dut->out_valid != 1)
                     {   std::cout << "ERROR!" << std::endl;}

@@ -28,11 +28,11 @@ void UartRxDrv::whenRiseEdge(void)
         }
         else if(state_cnt == 9)//stop bit
         {
-             dut->UART_IN = 1;
-             if(index_char < (char_list.size() - 1))
-             { index_char ++;}
-             else
-             { index_char = 0;}
+            dut->UART_IN = 1;
+            if(index_char < (char_list.size() - 1))
+            { index_char ++;}
+            else
+            { index_char = 0;}
         }
         else
         { cout << "UartRxDrv: vole asi neco spatne ne ?" << endl;}

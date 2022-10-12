@@ -4,6 +4,8 @@ PROJ_FILES += -I../rtl
 #CPP_FILES = ../../UART/SW/UartRxDrv.cpp \
 #	        ../../UART/SW/UartRxMon.cpp
 
+CPP_FILES = ../SW/Uart2WbDrv.cpp
+
 DEFINE = OPT_SIM
 
 .PHONY:sim
