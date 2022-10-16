@@ -65,7 +65,7 @@ always @(posedge clk) begin
             WB_ctr_w_r[33:32] <= asciiToBits[1:0]; //ale tohle neplati pro T, todo!!!! 
             WB_ctr_w_r[31:0] <= 0;
         end else begin
-            WB_ctr_w_r[31:0] <= {WB_ctr_w_r[26:0],asciiToBits};  
+            WB_ctr_w_r[31:0] <= {WB_ctr_w_r[27:0],asciiToBits[3:0]};  
         end
         
     end
