@@ -58,9 +58,9 @@ reg WB_o_cyc_r;
 
 always @(posedge clk) begin
     WB_o_cyc_r <= 0;
-    if(UART_rx_done_1p) begin
+    if(UART_rx_done_1p) begin   //priznak, dalsiho pismene z uartu, zpozdene o jednu peridou
         if(asciiToBits[4] == 1) begin   //prikazy R,W,A,S,T
-            WB_o_cyc_r <= 1;
+            WB_o_cyc_r <= 1;    //pokud jsou to prikazy, odeslat soucasne hodnoty ulozene v WB_ctr_w_r dále
             WB_ctr_w_o <= WB_ctr_w_r;
             WB_ctr_w_r[33:32] <= asciiToBits[1:0]; //ale tohle neplati pro T, todo!!!! 
             WB_ctr_w_r[31:0] <= 0;
