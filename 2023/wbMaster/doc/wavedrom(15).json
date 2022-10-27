@@ -1,0 +1,14 @@
+{signal: [
+  {name: 'clk', wave: 'p....|...', period:1},
+  {name:'in_WB_ctr_w',  wave:'03......', data:['adresa']},
+  {name: 'in_WB_o_cyc', wave:'010.....'},
+  {name: 'i_cmd_addr',  wave:'0.1....'},
+  {name: 'w_cmd_addr', wave:'01........',phase:-0.4},
+  {name: 'ro_wb_addr',  wave:'0.4.',data:["adr[31:0]"]}
+],
+ config: {hscale: 2},
+ head:{
+   tick:0,
+   every:1,
+ },
+}
