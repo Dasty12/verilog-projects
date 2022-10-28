@@ -42,3 +42,9 @@ library/communication/SPI_MEMS/obj_dir/VSPI_MEMS__ver.d
 library/communication/SPI_MEMS/obj_dir/VSPI_MEMS__verFiles.dat
 library/communication/SPI_MEMS/obj_dir/VSPI_MEMS_classes.mk
 library/Math/HIL/RL/waveform.vcd
+2023/lib/UART/sim/obj_dir/tb_top_Uart.d
+2023/lib/UART/sim/obj_dir/tb_top_Uart.d
+2023/lib/UART/sim/obj_dir/Vtop_Uart
+2023/lib/UART/sim/obj_dir/UartRxMon.o
+2023/lib/UART/sim/obj_dir/Vtop_Uart
+2023/lib/UART/sim/waveform.vcd

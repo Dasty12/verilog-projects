@@ -2,9 +2,9 @@
 # DESCRIPTION: Verilator output: Makefile for building Verilated archive or executable
 #
 # Execute this makefile from the object directory:
-#    make -f Vtop_Uart.mk
+#    make -f Vtop_Uart2wb.mk
 
-default: Vtop_Uart
+default: Vtop_Uart2wb
 
 ### Constants...
 # Perl executable (from $PERL)
@@ -28,9 +28,9 @@ VM_SC_TARGET_ARCH = linux
 
 ### Vars...
 # Design prefix (from --prefix)
-VM_PREFIX = Vtop_Uart
+VM_PREFIX = Vtop_Uart2wb
 # Module prefix (from --prefix)
-VM_MODPREFIX = Vtop_Uart
+VM_MODPREFIX = Vtop_Uart2wb
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
 
@@ -39,9 +39,8 @@ VM_USER_LDLIBS = \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
-	UartRxDrv \
-	UartRxMon \
-	tb_top_Uart \
+	Uart2WbDrv \
+	tb_top_Uart2wb \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
@@ -51,22 +50,20 @@ VM_USER_DIR = \
 
 ### Default rules...
 # Include list of all generated classes
-include Vtop_Uart_classes.mk
+include Vtop_Uart2wb_classes.mk
 # Include global rules
 include $(VERILATOR_ROOT)/include/verilated.mk
 
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-UartRxDrv.o: ../SW/UartRxDrv.cpp
+Uart2WbDrv.o: ../SW/Uart2WbDrv.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-UartRxMon.o: ../SW/UartRxMon.cpp
-	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
-tb_top_Uart.o: tb_top_Uart.cpp
+tb_top_Uart2wb.o: tb_top_Uart2wb.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST) -c -o $@ $<
 
 ### Link rules... (from --exe)
-Vtop_Uart: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a
+Vtop_Uart2wb: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a
 	$(LINK) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) $(LIBS) $(SC_LIBS) -o $@
 
 

@@ -1,0 +1,19 @@
+{signal: [
+  {name: 'clk', wave: 'p....|...', period:1},
+  {name: 'in_WB_o_cyc', wave: '010..'},
+  {name: 'in_WB_ctr_w', wave:'04...',data:['write-5']},
+  {name: 'ro_wb_cyc', wave:'0.1.0'},
+  {name: 'ro_wb_stb', wave:'0.10.'},
+  {name: 'rio_wb_data',wave:'x.4',data:['5']},
+  {name: 'i_wb_ack', wave:'0..10'},
+  {name: 'ro_wb_we', wave:'x'},
+  {}
+
+  
+],
+ config: {hscale: 2},
+ head:{
+   tick:0,
+   every:1,
+ },
+}

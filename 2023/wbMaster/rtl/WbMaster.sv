@@ -1,5 +1,5 @@
-module top_wbMaster
-{
+module WbMaster
+(
     input clk, 
     input rst,
 
@@ -16,7 +16,7 @@ module top_wbMaster
     output        o_wb_stb,
     input         i_wb_stall,
     input         i_wb_ack
-};
+);
 
 reg i_cmd_rd;       // prikaz je read
 reg i_cmd_wr;       // prikaz je write
@@ -24,10 +24,18 @@ reg i_cmd_bus;      // prikaz je write nebo read
 reg i_cmd_addr;     // prikaz je addresa
 reg i_cmd_special;  // prikaz je specialni instrukce
 
+wire w_cmd_addr;
+wire w_cmd_write;
+wire w_cmd_read;
+wire w_cmd_bus;
 wire [1:0] i_WB_cmd;
 
 
 assign i_WB_cmd = in_WB_ctr_w[33:32];
+assign w_cmd_addr  = (i_WB_cmd == 2)  ? 1 : 0;
+assign w_cmd_write = (i_WB_cmd == 1)  ? 1 : 0;
+assign w_cmd_read  = (i_WB_cmd == 0)  ? 1 : 0;
+assign w_cmd_bus   = (i_WB_cmd[1]==0) ? 1 : 0;
 
 
 always @(posedge clk)begin
@@ -57,7 +65,7 @@ end
 reg [31:0] ro_wb_addr;
 
 always @(posedge clk) begin
-    if(i_cmd_addr)
+    if(w_cmd_addr)
         ro_wb_addr <= in_WB_ctr_w[31:0];
 end
 
@@ -74,13 +82,12 @@ reg [31:0] rio_wb_data;
 always @(posedge clk)begin
 
     if(!ro_wb_cyc && !ro_wb_stb) begin
-        if(i_WB_bus)begin
+        if(w_cmd_bus)begin
             ro_wb_cyc <= 1;
             ro_wb_stb <= 1;
             ro_wb_we <= i_cmd_wr;
         end
-    end 
-    else begin
+    end else begin
         ro_wb_stb <= 0; //strobe se nastavuje vzdycky o periodu dele
         if(i_wb_ack) begin  //cyc az ve chvili kdy prijde ack
             ro_wb_cyc <= 0;
@@ -89,7 +96,7 @@ always @(posedge clk)begin
 end
 
 always @(posedge clk) begin
-    if(i_wb_ack && !i_cmd_wr)   //i_cmd_mozna uz tou dobou bude v nule
+    if(i_wb_ack && !w_cmd_write)   //i_cmd_mozna uz tou dobou bude v nule
         rio_wb_data <= io_wb_data;
     else
         rio_wb_data <= in_WB_ctr_w[31:0]; //todo nebo misto toho pouzit ro_wb_addr
