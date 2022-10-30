@@ -1,10 +1,13 @@
 MODULE = top_WbMaster
 
-PROJ_FILES += -I../rtl
+PROJ_FILES += -I../rtl \
+	      -I../../lib/UART2WB/rtl \
+		  -I../../lib/WB2UART/rtl \
+		  -I../../lib/UART/rtl
 #CPP_FILES = ../../UART/SW/UartRxDrv.cpp \
 #	        ../../UART/SW/UartRxMon.cpp
 
-#CPP_FILES = ../SW/Uart2WbDrv.cpp
+CPP_FILES = ../SW/WbMasterDrv.cpp
 
 DEFINE = OPT_SIM
 
@@ -21,7 +24,7 @@ buidl: obj_dir/V$(MODULE)
 waves: waveform.vcd
 	@echo
 	@echo "### WAVES ###"
-	gtkwave waveform.vcd
+	gtkwave waveform.vcd waves.gtkw
 
 waveform.vcd: ./obj_dir/V$(MODULE)
 	@echo 
@@ -33,10 +36,10 @@ waveform.vcd: ./obj_dir/V$(MODULE)
 	@echo "### BUILDING SIM ###"
 	make -C obj_dir -f V$(MODULE).mk V$(MODULE)
 	
-.stamp.verilate: $(MODULE).sv tb_$(MODULE).cpp #$(CPP_FILES)
+.stamp.verilate: $(MODULE).sv tb_$(MODULE).cpp $(CPP_FILES)
 	@echo
 	@echo "### VERILATING ###"
-	verilator -I.. $(PROJ_FILES) -Wall   -D$(DEFINE) --trace --x-assign unique --x-initial unique -cc $(MODULE).sv --exe tb_$(MODULE).cpp # $(CPP_FILES)
+	verilator -I.. $(PROJ_FILES) -Wall   -D$(DEFINE) --trace --x-assign unique --x-initial unique -cc $(MODULE).sv --exe tb_$(MODULE).cpp  $(CPP_FILES)
 	@touch .stamp.verilate
 
 .PHONY:lint

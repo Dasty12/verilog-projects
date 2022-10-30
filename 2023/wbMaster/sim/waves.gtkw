@@ -1,0 +1,68 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Sun Oct 30 13:56:05 2022
+[*]
+[dumpfile] "/home/dasty/Projects/verilog-projects/2023/wbMaster/sim/waveform.vcd"
+[dumpfile_mtime] "Sun Oct 30 13:34:19 2022"
+[dumpfile_size] 2404543
+[savefile] "/home/dasty/Projects/verilog-projects/2023/wbMaster/sim/waves.gtkw"
+[timestart] 0
+[size] 1978 846
+[pos] 1690 272
+*-3.000000 9 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TOP.
+[treeopen] TOP.top_WbMaster.
+[sst_width] 233
+[signals_width] 166
+[sst_expanded] 1
+[sst_vpaned_height] 231
+@28
+TOP.UART_Rx_done
+TOP.clk
+@22
+TOP.UART_in_data[7:0]
+@200
+-U2WB-WBM
+@22
+TOP.top_WbMaster.WBM.in_WB_ctr_w[33:0]
+@28
+TOP.top_WbMaster.WBM.in_WB_o_cyc
+@200
+-END
+@22
+TOP.io_wb_data[31:0]
+@24
+TOP.top_WbMaster.WBM.i_WB_cmd[1:0]
+@28
+TOP.top_WbMaster.WBM.w_cmd_addr
+TOP.top_WbMaster.WBM.w_cmd_read
+TOP.top_WbMaster.WBM.w_cmd_write
+@22
+TOP.top_WbMaster.WBM.ro_wb_addr[31:0]
+TOP.o_wb_addr[31:0]
+@200
+-MAster prikazy
+@28
+TOP.top_WbMaster.WBM.o_wb_cyc
+TOP.top_WbMaster.WBM.o_wb_stb
+TOP.top_WbMaster.WBM.i_wb_ack
+@22
+TOP.top_WbMaster.WBM.io_wb_data[31:0]
+@200
+-WB2UART
+-uart tx
+@23
+TOP.top_WbMaster.Utx.in_DataByte[7:0]
+@28
+TOP.top_WbMaster.Utx.in_Start
+TOP.top_WbMaster.Utx.out_DataBit
+TOP.top_WbMaster.Utx.out_fComplete
+@c00028
+TOP.top_WbMaster.Utx.state[1:0]
+@28
+(0)TOP.top_WbMaster.Utx.state[1:0]
+(1)TOP.top_WbMaster.Utx.state[1:0]
+@1401200
+-group_end
+[pattern_trace] 1
+[pattern_trace] 0

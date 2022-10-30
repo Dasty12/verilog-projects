@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "tb_top_WbMaster.h"
+#include "../SW/WbMasterDrv.h"
 
 #define MAX_SIM_TIME 60000
 #define VERIF_START_TIME 5
@@ -11,8 +12,8 @@ vluint64_t posedge_cnt = 0;
 
 void dut_reset(DUT *dut,vluint64_t &sim_time)
 {
-   // if(sim_time < 5)
-   // { dut->UART_IN = 1;}
+    if(sim_time < 5)
+    { dut->rst = 1;}
 
 }
 
@@ -30,7 +31,7 @@ int main(int argc, char** argv, char** env) {
     DUT *dut = new DUT;
     //UartRxDrv *Rx = new UartRxDrv(dut, 104);               //Rx controller
     //UartRxMon *RxMon = new UartRxMon(dut, &Rx->char_list); //Rx monitor
-   // Uart2WbDrv *Drv = new Uart2WbDrv(dut, 104);
+    WbMasterDrv *Drv = new WbMasterDrv(dut);
 
     Verilated::traceEverOn(true);
     VerilatedVcdC *m_trace = new VerilatedVcdC;
@@ -40,7 +41,7 @@ int main(int argc, char** argv, char** env) {
     
 
     while (sim_time < MAX_SIM_TIME) {
-        
+        dut->rst = 0;
         dut_reset(dut, sim_time);
         dut->clk ^= 1;
         dut->eval();
@@ -56,7 +57,7 @@ int main(int argc, char** argv, char** env) {
             { 
               //  Rx->whenRiseEdge();
               //  RxMon->checkChar();
-             // Drv->whenRiseEdge();
+                Drv->whenRiseEdge();
             }
             
             switch(posedge_cnt){
