@@ -23,11 +23,17 @@ module top_WbMaster
    // input       i_wb_stall,
     input         i_wb_ack,
 
+    output        WB2UART_stall,
+
     output [33:0] WB2UART_word,
     output        WB2UART_cyc,
 
 
-    output UartTx_out
+//output UartTx_out,
+    
+    output U2Tx_Start,
+    output [7:0] U2Tx_DataByte,
+    input  U2Tx_fComplete
 
 );
 
@@ -58,23 +64,23 @@ WbMaster WBM (.clk(clk),
               .i_wb_ack(i_wb_ack));
 
 /* verilator lint_off UNUSED */
-wire [7:0] U2Tx_DataByte;
-wire       U2Tx_Start;
+//wire [7:0] U2Tx_DataByte;
+//wire       U2Tx_Start;
 /* verilator lint_off UNDRIVEN */
-reg       U2Tx_fComplete;
+//reg       U2Tx_fComplete;
 
 
 WB2UART wb2U(.clk(clk),
              .rst(rst),
              .in_WB2UART_word(WB2UART_word),
              .in_WB2UART_cyc(WB2UART_cyc),
+             .out_WB2UART_stall(WB2UART_stall),
              .out_DataByte(U2Tx_DataByte),
              .out_Start(U2Tx_Start),
              .in_fComplete(U2Tx_fComplete));
 
 parameter KBA=5;
-UartTx 
-    #(.KBAUD(KBA))Utx
+/*UartTx #(.KBAUD(KBA))Utx
     (
         .clk(clk),
         .in_DataByte(U2Tx_DataByte),
@@ -82,6 +88,6 @@ UartTx
         .out_DataBit(UartTx_out),
         .out_fComplete(U2Tx_fComplete)
     );
-
+*/
 
 endmodule

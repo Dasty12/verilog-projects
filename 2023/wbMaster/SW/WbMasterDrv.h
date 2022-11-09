@@ -10,6 +10,7 @@ class WbMasterDrv
     private:
         DUT *dut;
         int cnt;
+        int DelayTx;
         int index;
         char chars[12]= {'A','2','R','A','4','W','2','A','1','1','2','R'};
         int sizeOfChars;
@@ -23,6 +24,7 @@ class WbMasterDrv
         {
             this -> dut = dut;
             cnt = 0;
+            DelayTx;
             index = 0;
             sizeOfChars = sizeof(chars) / sizeof(char);
             ack_wait = 2;
@@ -31,4 +33,6 @@ class WbMasterDrv
         void whenRiseEdge(void);
         void InFromUart(char znak);
         void testWB_out(char znak);
+        void simUartTx(void);
+        void simUartRX_To_TX(void);
 };

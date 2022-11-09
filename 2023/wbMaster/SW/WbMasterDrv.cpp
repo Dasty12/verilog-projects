@@ -15,21 +15,23 @@ void WbMasterDrv::InFromUart(char znak)
 
 void WbMasterDrv::whenRiseEdge(void)
 {
+    //counter, ktery se dekrementuje od 5 do 0
+
     if(cnt > 0)
     { cnt --;}
     else
-    { cnt = 5;}
-
+    { cnt = 40;}
+    
     switch(cnt)
     {
-        case 1:
+        case 1: //simulace UartRx
             WbMasterDrv::InFromUart(chars[index]);
             if(index < (sizeOfChars - 1))
             { index ++;}
             else
             { index = 0;}  
             break;
-        case 0: 
+        case 0: //po odeslani slova z UartRx se vynuluje priznak odeslaneho slova
             dut->UART_Rx_done = 0;
             break;
     }
@@ -57,6 +59,8 @@ void WbMasterDrv::whenRiseEdge(void)
     { dut->i_wb_ack = 0;}
 
     o_wb_cyc_old = dut->o_wb_cyc;
+
+    WbMasterDrv::simUartTx();
 
 
 }
@@ -103,7 +107,33 @@ void WbMasterDrv::testWB_out(char znak)
     {
         previous_char = prevedene;
     }
+}
+
+        
+void WbMasterDrv::simUartTx(void)
+{
+    if(dut->U2Tx_Start == 1)
+    { 
+       DelayTx = 4;
+    }
+
+    if(DelayTx > 0)
+    {
+        if(DelayTx == 1)
+        { dut->U2Tx_fComplete = 1;}
+        else
+        { dut->U2Tx_fComplete = 0;}
+        DelayTx --;    
+    }
 
 
 
+}
+
+void WbMasterDrv::simUartRX_To_TX(void)
+{
+   // if((dut->UART_Rx_done == 1))
+   // {
+   //     CNT_Rx_to_Tx = 0;
+   // }
 }

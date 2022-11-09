@@ -108,7 +108,7 @@ always @(posedge clk)begin
                 ro_wb_we <= i_cmd_wr;
             end
         end else begin
-            ro_wb_stb <= 0; //strobe se nastavuje vzdycky o periodu dele
+            ro_wb_stb <= 0; //strobe se nastavuje vzdycky o periodu dele,(nastavuje se pouze na jednu periodu)
             if(i_wb_ack) begin  //cyc az ve chvili kdy prijde ack
                 ro_wb_cyc <= 0;
                 ro_wb_we <= 0;
@@ -133,8 +133,12 @@ always @(posedge clk) begin
         Rout_WB2UART_cyc <= 0;
     end else begin
 
-        if((!o_wb_we) && (i_wb_ack)) begin
-            Rout_WB_ctr_r[31:0] <= io_wb_data;
+        if(i_wb_ack) begin
+            if(!o_wb_we) begin
+                Rout_WB_ctr_r[31:0] <= io_wb_data;
+            end else begin 
+                Rout_WB_ctr_r[31:0] <= 0;
+            end
         end
 
         if(i_wb_ack) begin
