@@ -1,1 +1,17 @@
 ## WbMaster
+This is type of synchronnous wbMaster, which means that from pc is send only one command, until is received answer from communication.  
+all components are:
+1. UartRx
+  - out_data[7:0] -  Receiving 8 bits in the sequence, and send byte (7 bits long) word. And when whole word is completed, send result about 7 bits long to the ouput.
+  - Rx_done - when transfer is complete, together with that is set signal which indicate transfer complete. This signal is active just for one period.
+2. Uart2wb
+  - UART_in_data[7:0] - word from UartRx
+  - UART_rx_done - input signal, which indicating new received word in UART_in_data. Just for one period actived.
+  - WB_ctr_w[33:0] 
+    - control word form WbMaster. Higher two bits on index [33:32], are determined for distinction between commands:W-write, R-read, A-address.
+    - Rest bits [31:0] are data bits.
+  - WB_o_cyc - When is from UartRx received another word, which indicating some command, than previous WB_ctr_w is send to master. And this signal is activated, consequence to the new data to the WbMmaster. This signal is hold active for one period.
+3. WbMaster
+4. WB2UART
+5. UartTx
+
