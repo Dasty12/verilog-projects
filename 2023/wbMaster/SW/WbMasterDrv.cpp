@@ -10,17 +10,64 @@ void WbMasterDrv::InFromUart(char znak)
 
     WbMasterDrv::testWB_out(znak);
 }
-
+/*void WbMasterDrv::InFromUart2(char znak)
+{
+    int Ur_cnt = 0;
+    while(1)
+    {
+        if((znak == 'A') || (znak == 'R') || (znak == 'W'))
+        {
+            Ur_cnt ++;
+            if(Ur_cnt == 2)
+            { break;}
+            else if(index < (sizeOfChars - 1))
+            { index ++;}
+            else
+            { index = 0;}
+        }
+    }
+}*/
 
 
 void WbMasterDrv::whenRiseEdge(void)
 {
     //counter, ktery se dekrementuje od 5 do 0
 
-    if(cnt > 0)
-    { cnt --;}
+
+
+
+
+    if(Uart_stall_fall == 1)
+    { cnt_stopTed = 0;}
+
+
+
+    if(cnt_stopTed >= 2)
+    {}
     else
-    { cnt = 40;}
+    {
+        if(cnt > 0)
+        { cnt --;}
+        else
+        { cnt = 8;}
+    }
+    if(cnt == 8)
+    {
+        if((chars[index] == 'A') || (chars[index] == 'R') || (chars[index] == 'W'))
+        {
+            cnt_stopTed ++;
+        }
+    }
+
+
+
+
+    if((dut->WB2UART_stall == 0) && (Uart_stall_old == 1))
+    { Uart_stall_fall = 1; }
+    else 
+    { Uart_stall_fall = 0;}
+
+    Uart_stall_old = dut->WB2UART_stall;
     
     switch(cnt)
     {
@@ -109,20 +156,21 @@ void WbMasterDrv::testWB_out(char znak)
     }
 }
 
-        
+//        
 void WbMasterDrv::simUartTx(void)
 {
+    //pozadovany prenos dat z UartTx
     if(dut->U2Tx_Start == 1)
     { 
-       DelayTx = 4;
+       DelayTx = 4; //nastavi se delay
     }
 
-    if(DelayTx > 0)
+    if(DelayTx > 0) 
     {
-        if(DelayTx == 1)
-        { dut->U2Tx_fComplete = 1;}
+        if(DelayTx == 1)    //pokud se delay rovna 1
+        { dut->U2Tx_fComplete = 1;} // posle se z UartTx, hotovy prenos dat
         else
-        { dut->U2Tx_fComplete = 0;}
+        { dut->U2Tx_fComplete = 0;} // signal je pouze jednu periodu dlouhy, proto vynulovat
         DelayTx --;    
     }
 

@@ -18,6 +18,9 @@ class WbMasterDrv
         uint16_t previous_char_comm;
         int ack_wait;
         int o_wb_cyc_old = 0;
+        int Uart_stall_old = 0;
+        int Uart_stall_fall = 0;
+        int cnt_stopTed = 0;
 
     public:
         WbMasterDrv(DUT* dut)
