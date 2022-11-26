@@ -14,12 +14,12 @@ module WbMaster
 
     //prikazi pro slaves
     inout [31:0]  io_wb_data,
-    output [31:0] o_wb_addr,
+    output [31:0] o_wb_addr,    // adresa pro slaves
     output        o_wb_we,  //write enable (write=1,read=0)
     output        o_wb_cyc,
     output        o_wb_stb,
   //  input         i_wb_stall, //tento signal bude pouzit pouze u asynchroni 
-    input         i_wb_ack
+    input         i_wb_ack      // aknowledge from slave, that are valid data
 );
 
 //reg i_cmd_rd;       // prikaz je read
@@ -104,6 +104,7 @@ always @(posedge clk)begin
         ro_wb_cyc <= 0;
         ro_wb_stb <= 0;
     end else begin
+    if(!w_cmd_addr) begin
         if(!ro_wb_cyc && !ro_wb_stb) begin
             if(w_cmd_bus_r)begin
                 ro_wb_cyc <= 1;
@@ -117,6 +118,7 @@ always @(posedge clk)begin
                 ro_wb_we <= 0;
             end
         end 
+    end
     end //end reset
 
 end //end always

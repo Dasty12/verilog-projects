@@ -37,7 +37,7 @@ always @(posedge clk) begin
     if((rst) || (in_WB2UART_word[33:32] == 3)) begin
         index <= 0;
         in_fComplete_old <= 0;
-        regInWord <=0;
+        regInWord <= 0;
         r_WB2UART_stall <= 0;
         r_fComplete_r_old <= 0;
 
@@ -50,7 +50,8 @@ always @(posedge clk) begin
             Rout_DataByte[3:1] <= 0; 
             ted <= 1; 
             rOut_Start <= 1;
-            r_WB2UART_stall <= 1;    
+            r_WB2UART_stall <= 1;   
+            regInWord <= in_WB2UART_word[31:0]; 
         end
     end
 

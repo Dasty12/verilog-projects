@@ -3,7 +3,8 @@ MODULE = top_WbMaster
 PROJ_FILES += -I../rtl \
 	      -I../../lib/UART2WB/rtl \
 		  -I../../lib/WB2UART/rtl \
-		  -I../../lib/UART/rtl
+		  -I../../lib/WB_MEMORY/rtl \
+		  -I../../lib/UART/rtl 
 #CPP_FILES = ../../UART/SW/UartRxDrv.cpp \
 #	         ../../UART/SW/UartRxMon.cpp
 

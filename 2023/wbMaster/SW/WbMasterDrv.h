@@ -10,6 +10,8 @@ using namespace std;
 class WbMasterDrv
 {
     private:
+  
+
         DUT *dut;
         int cnt;
         int DelayTx;
@@ -70,12 +72,16 @@ class WbMasterDrv
 
 
 
-            str_vtr.push_back("A10000");
+            str_vtr.push_back("A40");
             str_vtr.push_back("W5");
             str_vtr.push_back("R");
             str_vtr.push_back("W255");                                                      
             str_vtr.push_back("R");
             str_vtr.push_back("A25");
+            str_vtr.push_back("R");
+            str_vtr.push_back("A30");
+            str_vtr.push_back("A31");
+            str_vtr.push_back("A32");
             str_vtr.push_back("R");
 
             Tx_cmd_size = 0;

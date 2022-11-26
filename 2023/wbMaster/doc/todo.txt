@@ -1,0 +1,5 @@
+1.prvních pár instrukcí se posílá do Tx špatně. Tzn odešle se jen první 2 byte a potom se třetí přeruší.
+Proto je v CMD vidět, jak se jednotlivé příkazy posouvají.
+    - až se bude komunikovat s reálným zařízením, jako ochranu mezi jednotlivými zprávami dát mezeru, nebo poslat
+    speciální sekvenci instrukcí, z které se také zjistí, že je v komunikaci chyba.
+    -nebo nejakou instrucki, ktera se inkrementuje, pri pruchodem mastera

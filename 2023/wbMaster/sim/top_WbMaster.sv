@@ -16,12 +16,13 @@ module top_WbMaster
     output        WB_o_cyc,
     
     inout [31:0]  io_wb_data,
-    output [31:0] o_wb_addr,
+    output [31:0] o_wb_addr,  // adresa pro slaves
     output        o_wb_we,
     output        o_wb_cyc,
     output        o_wb_stb,
-   // input       i_wb_stall,
+`ifdef SLAVE_SIM 
     input         i_wb_ack,
+`endif
 
     output        WB2UART_stall,
 
@@ -39,6 +40,7 @@ module top_WbMaster
     input [31:0] wait_A_cnt,
     input [31:0] wait_cnt,
     input [31:0] cmd_index,
+    input [31:0] slave_adresa,
     //END DEBUG C++
 
 
@@ -49,6 +51,8 @@ module top_WbMaster
 
 );
 
+
+
 Uart2wb U2wb(
     .clk(clk),
     .rst(rst),
@@ -57,6 +61,32 @@ Uart2wb U2wb(
     .WB_ctr_w(WB_ctr_w),
     .WB_o_cyc(WB_o_cyc)
 );
+
+
+
+
+`ifndef SLAVE_SIM
+wire i_wb_ack;
+wb_memory WBmemory
+(
+    .clk(clk),
+    .rst(rst),
+
+    .i_wb_we(o_wb_we),  // write enable 
+    .i_wb_cyc(o_wb_cyc), // jde do nuly az o jednu periodu dele
+    .i_wb_stb(o_wb_stb), //stb jde do nuly hned potom
+
+    .o_wb_ack(i_wb_ack), //potvrzeni od tohoto
+    
+    .io_wb_data(io_wb_data),
+    .i_wb_addr(o_wb_addr)
+
+);
+
+`endif
+
+
+
 
 WbMaster WBM (.clk(clk), 
               .rst(rst), 
@@ -74,6 +104,11 @@ WbMaster WBM (.clk(clk),
               .o_wb_stb(o_wb_stb),
            //   .i_wb_stall(i_wb_stall),
               .i_wb_ack(i_wb_ack));
+
+
+
+
+
 
 /* verilator lint_off UNUSED */
 //wire [7:0] U2Tx_DataByte;

@@ -5,6 +5,9 @@
 using namespace std;
 
 
+#define SIM_SLAVE_EN 0
+
+
 /// @brief odešle data a nastaví příznak úspěšného odeslání
 /// @param znak - znak, který se odešle
 void WbMasterDrv::InFromUart(char znak)
@@ -18,6 +21,15 @@ void WbMasterDrv::InFromUart(char znak)
 void WbMasterDrv::init(void)
 {
     WbMasterDrv::StrToChars();
+
+    cout << "----Start init----" << endl;
+
+    if(SIM_SLAVE_EN == 1)
+    { cout << "Sim slave on" << endl;}
+    else
+    { cout << "Sim slave Off" << endl;}
+
+    cout << "----End Init----" << endl;
 }
 
 void WbMasterDrv::whenRiseEdge(void)
@@ -54,7 +66,9 @@ void WbMasterDrv::whenRiseEdge(void)
 
 
     //simulace slave
-    WbMasterDrv::simSlave();
+    if(SIM_SLAVE_EN == 1)
+    { WbMasterDrv::simSlave();}
+    
 
 
 
@@ -141,7 +155,7 @@ void WbMasterDrv::simUartRX_To_TX(void)
 //@ při požadavku na čtení instrukce read = 1, se vrátí hodnota podle poslední nastavené adresy
 void WbMasterDrv::simSlave(void)
 {
-
+    #ifdef SLAVE_SIM
     slave_adresa = dut->o_wb_addr;  //instrukce nastaveni adresy
     if(slave_adresa != slave_adresa_old)
     {
@@ -175,6 +189,7 @@ void WbMasterDrv::simSlave(void)
     { dut->i_wb_ack = 0;}
 
     o_wb_cyc_old = dut->o_wb_cyc;
+    #endif
 }
 
 /**
@@ -281,7 +296,7 @@ void WbMasterDrv::UartHost(void)
     if(Rx_cmd_done)
     {
         Rx_cmd_done = 0;
-        wait_cnt = 0;
+        wait_cnt --;        //wait_cnt = 0;
         wait_A_cnt = 0;
     }
 
@@ -404,5 +419,5 @@ void WbMasterDrv::StrToChars(void)
 /// @param  
 void WbMasterDrv::Diag_info(void)
 {
-
+    dut->slave_adresa = slave_adresa;
 }
