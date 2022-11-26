@@ -5,7 +5,7 @@ PROJ_FILES += -I../rtl \
 		  -I../../lib/WB2UART/rtl \
 		  -I../../lib/UART/rtl
 #CPP_FILES = ../../UART/SW/UartRxDrv.cpp \
-#	        ../../UART/SW/UartRxMon.cpp
+#	         ../../UART/SW/UartRxMon.cpp
 
 CPP_FILES = ../SW/WbMasterDrv.cpp
 

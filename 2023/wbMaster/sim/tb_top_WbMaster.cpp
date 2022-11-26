@@ -32,6 +32,7 @@ int main(int argc, char** argv, char** env) {
     //UartRxDrv *Rx = new UartRxDrv(dut, 104);               //Rx controller
     //UartRxMon *RxMon = new UartRxMon(dut, &Rx->char_list); //Rx monitor
     WbMasterDrv *Drv = new WbMasterDrv(dut);
+    Drv->init();
 
     Verilated::traceEverOn(true);
     VerilatedVcdC *m_trace = new VerilatedVcdC;

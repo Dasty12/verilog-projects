@@ -29,11 +29,23 @@ module top_WbMaster
     output        WB2UART_cyc,
 
 
-//output UartTx_out,
+    //START DEBUG C++
+    /* verilator lint_off UNUSEDSIGNAL */
+    input [31:0] tst1,
+    input [31:0] tst2,
+    input [31:0] tst3,
+    input [31:0] tst4,
+    input [31:0] Rx_wait,
+    input [31:0] wait_A_cnt,
+    input [31:0] wait_cnt,
+    input [31:0] cmd_index,
+    //END DEBUG C++
+
+
     
-    output U2Tx_Start,
+    output U2Tx_Start,         //pozadavek na odeslani dalsiho znaku z WB2Uart do UartTx
     output [7:0] U2Tx_DataByte,
-    input  U2Tx_fComplete
+    input  U2Tx_fComplete       //signál z UartTx, úspěšný přenos znaku
 
 );
 
@@ -53,7 +65,7 @@ WbMaster WBM (.clk(clk),
               .in_WB_o_cyc(WB_o_cyc),
 
               .out_WB2UART_word(WB2UART_word),
-              .out_WB2UART_cyc( WB2UART_cyc), 
+              .out_WB2UART_cyc(WB2UART_cyc), 
               
               .io_wb_data(io_wb_data),
               .o_wb_addr(o_wb_addr),

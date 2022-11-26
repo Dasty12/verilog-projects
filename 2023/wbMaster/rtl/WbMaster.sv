@@ -12,7 +12,7 @@ module WbMaster
     output        out_WB2UART_cyc,
 
 
-    //prikazi pri slavy
+    //prikazi pro slaves
     inout [31:0]  io_wb_data,
     output [31:0] o_wb_addr,
     output        o_wb_we,  //write enable (write=1,read=0)
@@ -31,13 +31,15 @@ reg i_cmd_special;  // prikaz je specialni instrukce
 
 wire w_cmd_addr;
 wire w_cmd_write;
+wire w_cmd_rst;
 wire w_cmd_read;
 wire w_cmd_bus;
 wire [1:0] i_WB_cmd;
 
 
-assign i_WB_cmd = in_WB_ctr_w[33:32];
+assign i_WB_cmd    = in_WB_ctr_w[33:32];
 assign w_cmd_addr  = (i_WB_cmd == 2)  ? 1 : 0;
+assign w_cmd_rst   = (i_WB_cmd == 3)  ? 1 : 0;
 assign w_cmd_write = (i_WB_cmd == 1)  ? 1 : 0;
 assign w_cmd_read  = (i_WB_cmd == 0)  ? 1 : 0;
 assign w_cmd_bus   = (i_WB_cmd[1]==0) ? 1 : 0;
@@ -97,6 +99,7 @@ reg ro_wb_we;
 reg [31:0] rio_wb_data;
 
 always @(posedge clk)begin
+
     if(rst) begin
         ro_wb_cyc <= 0;
         ro_wb_stb <= 0;
@@ -113,9 +116,10 @@ always @(posedge clk)begin
                 ro_wb_cyc <= 0;
                 ro_wb_we <= 0;
             end
-        end
-    end
-end
+        end 
+    end //end reset
+
+end //end always
 
 always @(posedge clk) begin
     if(i_wb_ack && !w_cmd_write)   //i_cmd_mozna uz tou dobou bude v nule
@@ -127,30 +131,39 @@ end
 
 reg [33:0] Rout_WB_ctr_r = 0;
 reg Rout_WB2UART_cyc = 0;
+
+//@brief - odelsani w/r pro wb2uart modul
 always @(posedge clk) begin
+
     if(rst) begin
         Rout_WB_ctr_r <= 0;
         Rout_WB2UART_cyc <= 0;
     end else begin
 
-        if(i_wb_ack) begin
-            if(!o_wb_we) begin
-                Rout_WB_ctr_r[31:0] <= io_wb_data;
-            end else begin 
-                Rout_WB_ctr_r[31:0] <= 0;
+        if(w_cmd_bus) begin //pokud je příkaz r/w
+
+            if(i_wb_ack) begin
+                if(!o_wb_we) begin
+                    Rout_WB_ctr_r[31:0] <= io_wb_data;
+                end else begin 
+                    Rout_WB_ctr_r[31:0] <= 0;
+                end
             end
-        end
 
-        if(i_wb_ack) begin
-            Rout_WB_ctr_r[33:32] <= i_WB_cmd;
+            if(i_wb_ack) begin
+                Rout_WB_ctr_r[33:32] <= i_WB_cmd;
+                Rout_WB2UART_cyc <= 1;
+            end else begin
+                Rout_WB2UART_cyc <= 0;
+            end
+        end else if(w_cmd_rst) begin    //pokud je prikaz reset
+            Rout_WB_ctr_r[33:32] <= 3;
             Rout_WB2UART_cyc <= 1;
-        end
-        else begin
+        end else begin
             Rout_WB2UART_cyc <= 0;
-        end
+        end       
+    end //end !reset
 
-
-    end
 end
 
 assign out_WB2UART_word = Rout_WB_ctr_r;

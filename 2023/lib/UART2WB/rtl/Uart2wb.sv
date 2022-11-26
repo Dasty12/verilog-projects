@@ -37,7 +37,7 @@ always @(posedge clk) begin
             7'h52: asciiToBits <= 5'h10; // R
             7'h57: asciiToBits <= 5'h11; // W
             7'h41: asciiToBits <= 5'h12; // A
-            7'h53: asciiToBits <= 5'h13; // S
+            7'h53: asciiToBits <= 5'h13; // S - bude se jednat o reset
             7'h54: asciiToBits <= 5'h16; // T
 
             default:    //other character, are ignored
@@ -57,19 +57,21 @@ reg WB_o_cyc_r;
 
 
 always @(posedge clk) begin
-    WB_o_cyc_r <= 0;
-    if(UART_rx_done_1p) begin   //priznak, dalsiho pismene z uartu, zpozdene o jednu peridou
-        if(asciiToBits[4] == 1) begin   //prikazy R,W,A,S,T
-            WB_o_cyc_r <= 1;    //pokud jsou to prikazy, odeslat soucasne hodnoty ulozene v WB_ctr_w_r dále
-            WB_ctr_w_o <= WB_ctr_w_r;
-            WB_ctr_w_r[33:32] <= asciiToBits[1:0]; //ale tohle neplati pro T, todo!!!! 
-            WB_ctr_w_r[31:0] <= 0;
-        end else begin
-            WB_ctr_w_r[31:0] <= {WB_ctr_w_r[27:0],asciiToBits[3:0]};  
+    if(rst == 1) begin
+    end else begin
+        WB_o_cyc_r <= 0;
+        if(UART_rx_done_1p) begin   //priznak, dalsiho pismene z uartu, zpozdene o jednu peridou
+            if(asciiToBits[4] == 1) begin   //prikazy R,W,A,S,T
+                WB_o_cyc_r <= 1;    //pokud jsou to prikazy, odeslat soucasne hodnoty ulozene v WB_ctr_w_r dále
+                WB_ctr_w_o <= WB_ctr_w_r;
+                WB_ctr_w_r[33:32] <= asciiToBits[1:0]; //ale tohle neplati pro T, todo!!!! 
+                WB_ctr_w_r[31:0] <= 0;
+            end else begin
+                WB_ctr_w_r[31:0] <= {WB_ctr_w_r[27:0],asciiToBits[3:0]};  
+            end
+            
         end
-        
     end
-
 end
 
 assign WB_o_cyc = WB_o_cyc_r;

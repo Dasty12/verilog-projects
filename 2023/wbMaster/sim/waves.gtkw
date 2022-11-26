@@ -1,24 +1,24 @@
 [*]
-[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Sun Oct 30 13:56:05 2022
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Sun Nov 20 18:11:11 2022
 [*]
-[dumpfile] "/home/dasty/Projects/verilog-projects/2023/wbMaster/sim/waveform.vcd"
-[dumpfile_mtime] "Sun Oct 30 13:34:19 2022"
-[dumpfile_size] 2404543
-[savefile] "/home/dasty/Projects/verilog-projects/2023/wbMaster/sim/waves.gtkw"
-[timestart] 0
-[size] 1978 846
-[pos] 1690 272
-*-3.000000 9 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[dumpfile] "C:\App\msys64\home\david.jensi\verilog-projects\2023\wbMaster\sim\waveform.vcd"
+[dumpfile_mtime] "Sun Nov 20 18:11:01 2022"
+[dumpfile_size] 718248
+[savefile] "C:\App\msys64\home\david.jensi\verilog-projects\2023\wbMaster\sim\waves.gtkw"
+[timestart] 262
+[size] 1536 801
+[pos] -1 -1
+*-4.000000 280 280 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] TOP.
 [treeopen] TOP.top_WbMaster.
-[sst_width] 233
-[signals_width] 166
+[sst_width] 197
+[signals_width] 383
 [sst_expanded] 1
-[sst_vpaned_height] 231
+[sst_vpaned_height] 224
 @28
-TOP.UART_Rx_done
 TOP.clk
+TOP.UART_Rx_done
 @22
 TOP.UART_in_data[7:0]
 @200
@@ -48,21 +48,44 @@ TOP.top_WbMaster.WBM.o_wb_stb
 TOP.top_WbMaster.WBM.i_wb_ack
 @22
 TOP.top_WbMaster.WBM.io_wb_data[31:0]
+@28
+TOP.top_WbMaster.WBM.w_cmd_bus
+TOP.top_WbMaster.WBM.w_cmd_rst
 @200
 -WB2UART
+@28
+TOP.top_WbMaster.WBM.out_WB2UART_cyc
+@22
+TOP.top_WbMaster.wb2U.in_WB2UART_word[33:0]
+@28
+TOP.top_WbMaster.wb2U.out_Start
+@22
+TOP.top_WbMaster.wb2U.index[3:0]
+@200
 -uart tx
-@23
-TOP.top_WbMaster.Utx.in_DataByte[7:0]
 @28
-TOP.top_WbMaster.Utx.in_Start
-TOP.top_WbMaster.Utx.out_DataBit
-TOP.top_WbMaster.Utx.out_fComplete
-@c00028
-TOP.top_WbMaster.Utx.state[1:0]
-@28
-(0)TOP.top_WbMaster.Utx.state[1:0]
-(1)TOP.top_WbMaster.Utx.state[1:0]
+TOP.U2Tx_fComplete
+@22
+TOP.U2Tx_DataByte[7:0]
+@c00200
+-TOP.top_WbMaster.Utx.state
 @1401200
 -group_end
+@28
+TOP.top_WbMaster.wb2U.out_WB2UART_stall
+@200
+-DEBUG
+@22
+TOP.tst1[31:0]
+@23
+TOP.top_WbMaster.tst2[31:0]
+@22
+TOP.Rx_wait[31:0]
+TOP.waitt[31:0]
+TOP.cmd_index[31:0]
+@200
+-BORDEL
+@22
+TOP.top_WbMaster.wb2U.Rout_DataByte[4:0]
 [pattern_trace] 1
 [pattern_trace] 0
