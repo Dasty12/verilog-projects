@@ -36,15 +36,15 @@ always @(posedge clk) begin
                 rout_wb_data <= memory[i_wb_addr[5:0]];
             end
 
-           /* if((i_wb_addr[31:6] == 0)) begin
+            if((i_wb_addr[31:6] < 255)) begin
                 if(!i_wb_we) begin
                     read_enable <= 1;
-                end*/
+                end
                 ro_wb_ack <= 1;
-            /*end else begin
+            end else begin
                 read_enable <= 0;
                 ro_wb_ack <= 0;
-            end*/
+            end
 
 
 

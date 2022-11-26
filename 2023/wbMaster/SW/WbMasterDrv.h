@@ -83,6 +83,10 @@ class WbMasterDrv
             str_vtr.push_back("A31");
             str_vtr.push_back("A32");
             str_vtr.push_back("R");
+            /*TODO tohle taky dodelat, i kdyz se to chova, tak jak je to napsany,
+             proste neni zadna periferie, ktera ma adresu vetsi nez 255*/
+            //str_vtr.push_back("A258");
+            //str_vtr.push_back("R");
 
             Tx_cmd_size = 0;
             Tx_cmd_index = 0;
