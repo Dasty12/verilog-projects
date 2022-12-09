@@ -85,12 +85,9 @@ reg r_cmd_bus;
 always @(posedge clk) begin
     r_cmd_bus_old <= r_cmd_bus;
     r_cmd_bus <= in_WB_o_cyc;
-
 end
 
 assign w_cmd_bus_r = r_cmd_bus & ~r_cmd_bus_old;
-
-
 
 reg ro_wb_cyc;
 reg ro_wb_stb;
@@ -104,21 +101,21 @@ always @(posedge clk)begin
         ro_wb_cyc <= 0;
         ro_wb_stb <= 0;
     end else begin
-    if(!w_cmd_addr) begin
-        if(!ro_wb_cyc && !ro_wb_stb) begin
-            if(w_cmd_bus_r)begin
-                ro_wb_cyc <= 1;
-                ro_wb_stb <= 1;
-                ro_wb_we <= i_cmd_wr;
-            end
-        end else begin
-            ro_wb_stb <= 0; //strobe se nastavuje vzdycky o periodu dele,(nastavuje se pouze na jednu periodu)
-            if(i_wb_ack) begin  //cyc az ve chvili kdy prijde ack
-                ro_wb_cyc <= 0;
-                ro_wb_we <= 0;
-            end
-        end 
-    end
+        if(!w_cmd_addr) begin
+            if(!ro_wb_cyc && !ro_wb_stb) begin
+                if(w_cmd_bus_r)begin
+                    ro_wb_cyc <= 1;
+                    ro_wb_stb <= 1;
+                    ro_wb_we <= i_cmd_wr;
+                end
+            end else begin
+                ro_wb_stb <= 0; //strobe se nastavuje vzdycky o periodu dele,(nastavuje se pouze na jednu periodu)
+                if(i_wb_ack) begin  //cyc az ve chvili kdy prijde ack
+                    ro_wb_cyc <= 0;
+                    ro_wb_we <= 0;
+                end
+            end 
+        end
     end //end reset
 
 end //end always

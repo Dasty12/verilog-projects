@@ -37,8 +37,6 @@ void WbMasterDrv::whenRiseEdge(void)
     //counter, ktery se dekrementuje od 5 do 0
 
 
-
-
     if((dut->WB2UART_stall == 0) && (Uart_stall_old == 1))
     { Uart_stall_fall = 1;}
     else 
@@ -62,20 +60,13 @@ void WbMasterDrv::whenRiseEdge(void)
 */
 
     WbMasterDrv::UartHost();
-    
-
 
     //simulace slave
     if(SIM_SLAVE_EN == 1)
     { WbMasterDrv::simSlave();}
     
-
-
-
     //WbMasterDrv::simUartTx();
     WbMasterDrv::sim_HostUart();
-
-
 
     WbMasterDrv::Diag_info();
 }
@@ -119,9 +110,7 @@ void WbMasterDrv::testWB_out(char znak)
         previous_char_comm = prevedene;
     }
     else
-    {
-        previous_char = prevedene;
-    }
+    { previous_char = prevedene;}
 }
 
 //        
@@ -129,9 +118,7 @@ void WbMasterDrv::simUartTx(void)
 {
     //pozadovany prenos dat z UartTx
     if(dut->U2Tx_Start == 1)
-    { 
-       DelayTx = 4; //nastavi se delay
-    }
+    { DelayTx = 4; }//nastavi se delay
 
     if(DelayTx > 0) 
     {

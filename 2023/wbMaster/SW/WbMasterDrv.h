@@ -11,7 +11,6 @@ class WbMasterDrv
 {
     private:
   
-
         DUT *dut;
         int cnt;
         int DelayTx;
@@ -71,7 +70,6 @@ class WbMasterDrv
             Rx_wait = 0;
 
 
-
             str_vtr.push_back("A40");
             str_vtr.push_back("W5");
             str_vtr.push_back("R");
@@ -83,6 +81,9 @@ class WbMasterDrv
             str_vtr.push_back("A31");
             str_vtr.push_back("A32");
             str_vtr.push_back("R");
+            str_vtr.push_back("A1");
+            str_vtr.push_back("R");
+            
             /*TODO tohle taky dodelat, i kdyz se to chova, tak jak je to napsany,
              proste neni zadna periferie, ktera ma adresu vetsi nez 255*/
             //str_vtr.push_back("A258");

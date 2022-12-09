@@ -13,7 +13,6 @@ module wb_memory
 
     inout [31 : 0] io_wb_data,
     input [31 : 0] i_wb_addr
-
 );
 
 
@@ -22,6 +21,14 @@ reg ro_wb_ack;
 reg[31:0] memory [0:63];
 
 reg [31:0] rout_wb_data;
+
+
+
+initial begin
+    memory[0] = 1;
+    memory[1] = 262144;
+    memory[50] = 500;
+end
 
 always @(posedge clk) begin
     if(rst == 1)begin
