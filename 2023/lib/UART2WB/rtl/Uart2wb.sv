@@ -18,27 +18,27 @@ always @(posedge clk) begin
 
         if(UART_rx_done)begin
             case (UART_in_data[6:0])
-            7'h30: asciiToBits <= 5'h00;
-            7'h31: asciiToBits <= 5'h01;
-            7'h32: asciiToBits <= 5'h02;
-            7'h33: asciiToBits <= 5'h03;
-            7'h34: asciiToBits <= 5'h04;
-            7'h35: asciiToBits <= 5'h05;
-            7'h36: asciiToBits <= 5'h06;
-            7'h37: asciiToBits <= 5'h07;
-            7'h38: asciiToBits <= 5'h08;
-            7'h39: asciiToBits <= 5'h09;
-            7'h61: asciiToBits <= 5'h0a;
-            7'h62: asciiToBits <= 5'h0b;
-            7'h63: asciiToBits <= 5'h0c;
-            7'h64: asciiToBits <= 5'h0d;
-            7'h65: asciiToBits <= 5'h0e;
-            7'h66: asciiToBits <= 5'h0f;
-            7'h52: asciiToBits <= 5'h10; // R
-            7'h57: asciiToBits <= 5'h11; // W
-            7'h41: asciiToBits <= 5'h12; // A
-            7'h53: asciiToBits <= 5'h13; // S - bude se jednat o reset
-            7'h54: asciiToBits <= 5'h16; // T
+                7'h30: asciiToBits <= 5'h00;
+                7'h31: asciiToBits <= 5'h01;
+                7'h32: asciiToBits <= 5'h02;
+                7'h33: asciiToBits <= 5'h03;
+                7'h34: asciiToBits <= 5'h04;
+                7'h35: asciiToBits <= 5'h05;
+                7'h36: asciiToBits <= 5'h06;
+                7'h37: asciiToBits <= 5'h07;
+                7'h38: asciiToBits <= 5'h08;
+                7'h39: asciiToBits <= 5'h09;
+                7'h61: asciiToBits <= 5'h0a;
+                7'h62: asciiToBits <= 5'h0b;
+                7'h63: asciiToBits <= 5'h0c;
+                7'h64: asciiToBits <= 5'h0d;
+                7'h65: asciiToBits <= 5'h0e;
+                7'h66: asciiToBits <= 5'h0f;
+                7'h52: asciiToBits <= 5'h10; // R
+                7'h57: asciiToBits <= 5'h11; // W
+                7'h41: asciiToBits <= 5'h12; // A
+                7'h53: asciiToBits <= 5'h13; // S - bude se jednat o reset
+                7'h54: asciiToBits <= 5'h16; // T
 
             default:    //other character, are ignored
                         //nebo jako end of word character

@@ -48,3 +48,4 @@ library/Math/HIL/RL/waveform.vcd
 2023/lib/UART/sim/obj_dir/UartRxMon.o
 2023/lib/UART/sim/obj_dir/Vtop_Uart
 2023/lib/UART/sim/waveform.vcd
+2023/wbMaster/sim/verilator/
